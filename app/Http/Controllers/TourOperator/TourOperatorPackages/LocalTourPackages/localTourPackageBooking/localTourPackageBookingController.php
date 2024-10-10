@@ -90,6 +90,7 @@ class localTourPackageBookingController extends Controller
             return back()->withInput()->withErrors($validator);
         }
         $input=$request->all();
+        $localtourPackageBooking=new localTourPackages();
         $localTourPackageBookingRepo=new localTourPackageBookingRepository();
         $localTourPackageBooking=$localTourPackageBookingRepo->storeLocalTourBooking($input,$reference_number);
         return back()->with('localTourPackageBooking',$localTourPackageBooking)->withFlashSuccess('Your request has been submitted. Please relax while waiting for the best response from the tour operator');
