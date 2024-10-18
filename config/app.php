@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'XafariExplore'),
+    'name' => env('APP_NAME', 'XploSafariBook'),
 
     /*
     |--------------------------------------------------------------------------
@@ -236,7 +236,7 @@ return [
         'Active' => HieuLe\Active\Facades\Active::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
 

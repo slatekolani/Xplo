@@ -103,19 +103,4 @@
 @endauth
 
 
-<section class="call-to-action call-to-action-grey pb-4">
-    <div class="container container-with-sidebar">
-        <div class="row">
-            <div class="col-xl-12 p-0">
-                <div class="call-to-action-content ml-4 pt-xl-5 pb-4">
-                    <h2 class="mb-2">Create a life time voyage memory today with <strong><a href="{{route('touristicGame.allTouristicGames')}}">Safari Board Games!</a></strong></h2>
-                </div>
-            </div>
-{{--            <div class="col-xl-3">--}}
-{{--                <div class="call-to-action-btn float-right-xl center mt-1 pt-1 mt-xl-5 pt-xl-4">--}}
-{{--                    <a href="https://themeforest.net/item/porto-admin-responsive-html5-template/8539472" target="_blank" class="btn btn-primary btn-lg mb-3" style="margin-top: -50px"><i class="fas fa-cark mr-1"></i> SHOP BOARD GAMES NOW - $20</a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-        </div>
-    </div>
-</section>
+
