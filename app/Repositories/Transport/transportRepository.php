@@ -3,7 +3,7 @@
 namespace App\Repositories\Transport;
 
 use App\Models\Transport\transport;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

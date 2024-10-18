@@ -3,7 +3,7 @@
 namespace App\Repositories\customerSatisfactionCategory;
 
 use App\Models\customerSatisfactionCategory\customerSatisfactionCategory;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

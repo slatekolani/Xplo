@@ -3,7 +3,7 @@
 namespace App\Repositories\customTourPackages;
 
 use App\Models\TourOperator\customTourBookings\customTourBookings;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

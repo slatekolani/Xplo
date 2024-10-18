@@ -3,7 +3,7 @@
 namespace App\Repositories\tanzaniaRegions\regionCulture;
 
 use App\Models\tanzaniaRegions\regionCulture\tanzaniaRegionCulture;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

@@ -3,7 +3,7 @@
 namespace App\Repositories\TourOperatorPackages\LocalTourPackages\localTourPackageBooking\localTouristReviews;
 
 use App\Models\TourOperator\TourPackages\LocalTourPackages\LocalTourPackageBookings\localTouristReviews\localTouristReviews;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

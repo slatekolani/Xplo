@@ -3,7 +3,7 @@
 namespace App\Repositories\touristReview;
 
 use App\Models\TourOperator\touristReview\touristReview;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

@@ -3,7 +3,7 @@
 namespace App\Repositories\tanzaniaRegions\precautions;
 
 use App\Models\tanzaniaRegions\Precautions\tanzaniaRegionPrecautions;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

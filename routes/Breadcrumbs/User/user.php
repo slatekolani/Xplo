@@ -6,6 +6,8 @@
  * Time: 5:10 PM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('user.profile', function ($breadcrumbs, $user) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(trans('label.profile'), route('user.profile', $user));

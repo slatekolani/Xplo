@@ -20,7 +20,6 @@
     <meta name="author" content="{{ config('env.app.vendor') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{ Html::style(url('img/np_fav.png'), ['rel' => 'stylesheet icon', 'type' => 'image/x-icon']) }}
 
     @stack('before-styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,6 +32,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Playfair+Display:400,700|Roboto:400,700|Lato:400,700|Pacifico&display=swap">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/public/Favicons/favicon_io /apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/public/Favicons/favicon_io /favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/public/Favicons/favicon_io /favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

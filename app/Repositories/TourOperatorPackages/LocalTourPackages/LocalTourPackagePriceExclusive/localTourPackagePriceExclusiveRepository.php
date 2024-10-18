@@ -3,7 +3,7 @@
 namespace App\Repositories\TourOperatorPackages\LocalTourPackages\LocalTourPackagePriceExclusive;
 
 use App\Models\TourOperator\TourPackages\LocalTourPackages\LocalTourpackagePriceExclusive\localTourPackagePriceExclusive;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 
 /**

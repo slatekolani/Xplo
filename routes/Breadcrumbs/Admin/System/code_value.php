@@ -5,6 +5,9 @@
  * Date: 12/27/18
  * Time: 5:21 PM
  */
+
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('code.index', function ($breadcrumbs) {
     $breadcrumbs->parent('admin.system_menu');
     $breadcrumbs->push(trans('label.administrator.system.codes.code'), route('code.index'));

@@ -6,6 +6,8 @@
  * Time: 10:37 AM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('country.index', function ($breadcrumbs) {
     $breadcrumbs->parent('admin.system_menu');
     $breadcrumbs->push(trans('label.country'), route('country.index'));

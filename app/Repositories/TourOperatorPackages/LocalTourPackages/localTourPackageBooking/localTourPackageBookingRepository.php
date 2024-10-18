@@ -6,7 +6,7 @@ use App\Mail\BookingNotification;
 use App\Models\TourOperator\tourOperator;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\LocalTourPackageBookings\localTourPackageBookings;
 use Illuminate\Support\Facades\Mail;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 
 /**

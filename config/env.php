@@ -9,7 +9,7 @@
 return [
     "key" => "PscUNdlxRk8Q3nwM",
     "app" => [
-        "name" => "SafariExplore",
+        "name" => "XploSafariBook",
         "company" => "Expedition & Exploration Innovations | Expedition & Exploration Innovations",
         "vendor" => "Expedition & Exploration Innovations",
         "vendor_web" => "https://www.nextbyte.co.tz",

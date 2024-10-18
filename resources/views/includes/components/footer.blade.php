@@ -92,7 +92,7 @@
                             <p style="color:white">© Copyright {{ \Carbon\Carbon::now()->format('Y') }}. All Rights Reserved.</p>
                         </div>
                         <div class="col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end">
-                            <p style="color: white">Developed  By <a href="https://www.eetechnologiestz.com" style="color:white" target="_blank">Expedition & Exploration Innovations</a></p>
+                            <p style="color: white">Proud product of Expedition & Exploration Innovations</p>
                         </div>
                     </div>
                 </div>

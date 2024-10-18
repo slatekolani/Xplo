@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\Nations;
 
 use App\Models\Nations\nations;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

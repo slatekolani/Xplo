@@ -3,7 +3,7 @@
 namespace App\Repositories\touristicGames;
 
 use App\Models\touristicGames\touristicGame;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

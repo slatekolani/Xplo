@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\Nations\precaution;
 
 use App\Models\Nations\Precaution\nationPrecautions;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\TouristicAttraction\touristAttractionHoneyPoint;
 
 use App\Models\TouristicAttractions\touristicAttractionHoneyPoint\touristicAttractionHoneyPoints;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

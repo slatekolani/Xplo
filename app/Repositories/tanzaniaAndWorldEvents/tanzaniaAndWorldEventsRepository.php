@@ -3,7 +3,7 @@
 namespace App\Repositories\tanzaniaAndWorldEvents;
 
 use App\Models\tanzaniaAndWorldEvents\tanzaniaAndWorldEvents;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

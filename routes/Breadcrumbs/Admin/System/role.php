@@ -6,6 +6,8 @@
  * Time: 10:37 AM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('access.role.index', function ($breadcrumbs) {
     $breadcrumbs->parent('admin.system_menu');
     $breadcrumbs->push(trans('label.administrator.system.access_control.roles_permissions'), route('access.role.index'));

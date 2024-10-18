@@ -3,7 +3,7 @@
 namespace App\Repositories\platformFaq;
 
 use App\Models\platformFaq\platformFaq;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

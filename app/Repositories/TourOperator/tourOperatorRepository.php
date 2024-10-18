@@ -5,7 +5,8 @@ namespace App\Repositories\TourOperator;
 use App\Http\Requests\Request;
 use App\Models\TourOperator\tourOperator;
 use Illuminate\Support\Facades\Validator;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
+
 
 //use Your Model
 

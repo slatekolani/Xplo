@@ -6,6 +6,8 @@
  * Time: 1:18 PM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('system.manage_jobs', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(trans('label.administrator.system.jobs.manage_jobs'), route('system.manage_jobs'));

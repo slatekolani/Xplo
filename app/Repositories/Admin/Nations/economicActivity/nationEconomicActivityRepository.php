@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\Nations\economicActivity;
 
 use App\Models\Nations\economicActivity\nationEconomicActivity;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

@@ -36,7 +36,10 @@ return [
     |
     */
 
-    'files'                                    => base_path('routes/breadcrumbs.php'),
+   'files' => [
+        base_path('routes/breadcrumbs.php'), // Make sure this path is correct
+    ],
+
 
     /*
     |--------------------------------------------------------------------------

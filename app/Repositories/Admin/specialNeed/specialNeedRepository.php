@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\specialNeed;
 
 use App\Models\specialNeed\specialNeed;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

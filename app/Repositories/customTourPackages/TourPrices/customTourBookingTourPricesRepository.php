@@ -4,7 +4,7 @@ namespace App\Repositories\customTourPackages\TourPrices;
 
 use App\Models\TourOperator\customTourBookings\reservations\customTourBookingReservations;
 use App\Models\TourOperator\customTourBookings\tourPrices\customTourBookingTourPrices;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

@@ -2,9 +2,9 @@
 
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 
-Breadcrumbs::register('home', function ($breadcrumbs) {
-    $breadcrumbs->push(trans('label.home'), route('home'));
+// Home breadcrumb
+Breadcrumbs::for('home', function ($trail) {
+    $trail->push(trans('label.home'), route('home'));
 });
-
 
 includeRouteFiles(__DIR__.'/Breadcrumbs/');

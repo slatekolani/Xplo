@@ -3,7 +3,7 @@
 namespace App\Repositories\tourInsuranceTypes;
 
 use App\Models\tourInsuranceTypes\tourInsuranceTypes;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

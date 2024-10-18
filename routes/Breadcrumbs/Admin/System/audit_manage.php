@@ -6,6 +6,8 @@
  * Time: 1:18 PM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 //Breadcrumbs::register('system.audit.index', function ($breadcrumbs) {
 //    $breadcrumbs->parent('admin.system_menu');
 //    $breadcrumbs->push(trans('label.administrator.system.audits.manage_audits'), route('system.audit.index'));

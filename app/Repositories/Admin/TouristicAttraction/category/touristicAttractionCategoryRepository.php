@@ -3,7 +3,7 @@
 namespace App\Repositories\Admin\TouristicAttraction\category;
 
 use App\Models\TouristicAttractions\category\touristicAttractionCategory;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 
 //use Your Model
 

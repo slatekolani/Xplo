@@ -6,6 +6,8 @@
  * Time: 3:55 PM
  */
 
+use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+
 Breadcrumbs::register('workflow.index', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push(trans('label.administrator.system.workflow.settings'), route('workflow.index'));
