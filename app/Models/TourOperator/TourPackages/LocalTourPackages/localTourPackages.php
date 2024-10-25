@@ -306,7 +306,7 @@ class localTourPackages extends BaseModel
         $daysLeft = $startDate->diffInDays($today);
         $sign = ($startDate > $today) ? '+' : '-';
         $formattedDaysLeft = $sign . abs($daysLeft);
-        return $formattedDaysLeft;
+        return '<span class="badge badge-primary">'.$formattedDaysLeft.'</span>';
     }
 
     public function getCountDownDaysForDeletedLocalTourPackageTripLabelAttribute()

@@ -1,4 +1,4 @@
-@extends('layouts.main', ['title' =>'Approved Local Tourist Review ' . $localTourBooking->tourist_name, 'header' => __('Approved Local Tourist Review ' . $localTourBooking->tourist_name)])
+@extends('layouts.main', ['title' =>'Approved Review' , 'header' => __('Approved Review')])
 
 @include('includes.datatable_assets')
 @push('after-styles')

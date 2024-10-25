@@ -10,6 +10,8 @@ Breadcrumbs::register('localTourPackages.index', function ($breadcrumbs,$tourOpe
     $breadcrumbs->push(trans('Local Tour Packages'), route('localTourPackages.index',$tourOperatorUuid));
 });
 
+
+
 Breadcrumbs::register('localTourPackages.recentLocalPackagesIndex', function ($breadcrumbs,$tourOperatorUuid) {
     $breadcrumbs->parent('tourOperator.index');
     $breadcrumbs->push(trans('Recent Posted Local T.P'), route('localTourPackages.recentLocalPackagesIndex',$tourOperatorUuid));

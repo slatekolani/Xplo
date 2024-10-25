@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\TourOperator\reservations\tourOperatorReservation;
-use App\Models\TourOperator\tourOperator;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 
 

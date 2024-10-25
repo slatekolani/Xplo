@@ -685,7 +685,7 @@ class localTourPackagesController extends Controller
             }
         }
 
-        return redirect()->route('localTourPackages.edit', $newLocalTourPackage->uuid)->withFlashSuccess('The local tour package was duplicated successfully! Now edit your tour package...');
+        return redirect()->route('localTourPackages.edit', $newLocalTourPackage->uuid)->withFlashSuccess('The local tour package was duplicated successfully! Now edit your new tour package...');
     }
     public function ActivateOrDeactivateLocalTourPackage(Request $request)
     {

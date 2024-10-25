@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        {{ Form::label('review_message', __("Review Message (max 500 characters"), ['class' => 'required_asterik']) }}
+                                        {{ Form::label('review_message', __("Review Message (max 500 characters)"), ['class' => 'required_asterik']) }}
                                         {{ Form::textarea('review_message',null, ['class' => 'form-control','maxLength'=>'500', 'style'=>'height:150px','autocomplete' => 'off', 'id' => 'review_message', 'required']) }}
                                         {!! $errors->first('review_message', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>

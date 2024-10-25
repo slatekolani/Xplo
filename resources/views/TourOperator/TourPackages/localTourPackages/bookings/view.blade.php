@@ -2,8 +2,10 @@
 @include('includes.validate_assets')
 @section('content')
 
+
     <div class="row">
         <div class="col-md-12">
+            <a href="{{route('localTourBooking.edit',$localTourBooking->uuid)}}" class="btn btn-primary btn-sm" style="margin-bottom:10px">Edit Information</a>
             <div class="row">
                 <div class="card">
                     <div class="card-body">
