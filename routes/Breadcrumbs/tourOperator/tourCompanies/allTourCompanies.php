@@ -5,10 +5,7 @@ use App\Models\TourOperator\tourOperator;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 
 
-Breadcrumbs::register('tourOperator.index', function ($breadcrumbs) {
-    $breadcrumbs->parent('home');
-    $breadcrumbs->push(trans('My Companies'), route('tourOperator.index'));
-});
+
 
 Breadcrumbs::register('tourOperator.verifiedCompaniesIndex', function ($breadcrumbs) {
     $breadcrumbs->parent('tourOperator.index');
@@ -25,15 +22,7 @@ Breadcrumbs::register('tourOperator.deletedTourCompaniesIndex', function ($bread
     $breadcrumbs->push(trans('Deleted Companies'), route('tourOperator.deletedTourCompaniesIndex'));
 });
 
-Breadcrumbs::register('tourOperator.show', function ($breadcrumbs,$tourCompanyUuid) {
-    $breadcrumbs->parent('tourOperator.index',$tourCompanyUuid);
-    $breadcrumbs->push(trans('View Tour Company'), route('tourOperator.show',$tourCompanyUuid));
-});
 
-Breadcrumbs::register('tourOperator.edit', function ($breadcrumbs,$tourCompanyUuid) {
-    $breadcrumbs->parent('tourOperator.show',$tourCompanyUuid);
-    $breadcrumbs->push(trans('Edit Tour Company'), route('tourOperator.edit',$tourCompanyUuid));
-});
 Breadcrumbs::register('tourOperatorReservation.index', function ($breadcrumbs,$tourCompanyUuid) {
     $breadcrumbs->parent('tourOperator.index');
     $breadcrumbs->push(trans('Reservations'), route('tourOperatorReservation.index',$tourCompanyUuid));
