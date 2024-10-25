@@ -18,4 +18,5 @@ Breadcrumbs::register('user.edit', function ($breadcrumbs, $user) {
     $breadcrumbs->parent('user.profile', $user);
     $breadcrumbs->push(trans('label.crud.edit'), route('user.edit', $user));
 });
+
 //

@@ -20,7 +20,7 @@ class SendConfirmationCode extends Notification implements ShouldQueue
      */
     public function __construct($confirmationCode)
     {
-        $this->confirmationCode=$confirmationCode;
+        $this->confirmationCode = $confirmationCode;
     }
 
     /**
@@ -44,7 +44,10 @@ class SendConfirmationCode extends Notification implements ShouldQueue
     { 
         return (new MailMessage)
             ->subject(trans("label.confirmation_code"))
-            ->markdown('emails.user.confirmation_code', ['confirmation_code' => $notifiable->confirmation_code, 'name' => $notifiable->staff()->first()->name]);
+            ->markdown('emails.user.confirmation_code', [
+                'confirmation_code' => $this->confirmationCode, 
+                'name' => $notifiable->staff()->first()->name
+            ]);
     }
 
     /**

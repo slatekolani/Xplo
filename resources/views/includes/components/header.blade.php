@@ -17,8 +17,8 @@
     }
 
     .companyLogo {
-        width: 130px;
-        height: auto;
+        width: 80px;
+        height: 70px;
         transition: transform 0.3s ease;
     }
 

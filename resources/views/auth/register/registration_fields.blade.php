@@ -1,4 +1,4 @@
-
+{{-- 
 <div class="row">
     <div class="col-sm-12" >
         <div class="row" style="justify-content: center">
@@ -97,4 +97,4 @@
             $(".select2").select2();
         });
     </script>
-@endpush
+@endpush --}}

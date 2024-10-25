@@ -3,7 +3,7 @@
 
 Route::group([
 
-    'namespace' => 'TourOperator\TourPackageBookings',
+    'namespace' => 'TourOperator\TourOperatorPackages\InternationalTourPackages\TourPackageBookings',
 
 ], function () {
 

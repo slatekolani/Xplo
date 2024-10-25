@@ -72,7 +72,7 @@
                     {{--Action Links--}}
 
                 </div>
-                @include('TourOperator.TourPackageBookings.ApprovedBookings.get_approved_tour_package_bookings')
+                @include('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.ApprovedBookings.get_approved_tour_package_bookings')
             </section>
         </div>
 

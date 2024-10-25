@@ -1,4 +1,4 @@
-@extends('layouts.main', ['title' => trans('Un approved Tour Package Bookings'), 'header' => trans('Un approved Tour Package Bookings')])
+@extends('layouts.main', ['title' => trans('Unapproved Tour Package Bookings'), 'header' => trans('Unapproved Tour Package Bookings')])
 
 @include('includes.datatable_assets')
 @push('after-styles')
@@ -71,7 +71,7 @@
                     {{--Action Links--}}
 
                 </div>
-                @include('TourOperator.TourPackageBookings.UnApprovedBookings.get_un_approved_tour_package_boookings')
+                @include('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.UnApprovedBookings.get_un_approved_tour_package_boookings')
             </section>
         </div>
 

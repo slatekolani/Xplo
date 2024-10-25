@@ -28,7 +28,7 @@ class RegisterRequest extends Request
             'phone' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            // 'captcha' => 'required|captcha',
+            'captcha' => 'required|captcha',
             'term_check' => 'required',
         ];
 
@@ -40,13 +40,18 @@ class RegisterRequest extends Request
      * @return array
      */
     public function sanitize()
-    {
-        $input = $this->all();
-            $input['email'] = strtolower(trim($input['email']));
-        /*Remove extra whitespace*/
-        $this->replace($input);
-        return $this->all();
+{
+    $input = $this->all();
 
+    // Check if 'email' exists before trying to access it
+    if (isset($input['email'])) {
+        $input['email'] = strtolower(trim($input['email']));
     }
+
+    // Remove extra whitespace
+    $this->replace($input);
+    return $this->all();
+}
+
 
 }

@@ -9,6 +9,7 @@
     </style>
 @endpush
 @section('content')
+
     <div id="notify" style="display: none"></div>
     <div class="row">
         <div class="col-md-4">

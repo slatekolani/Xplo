@@ -32,8 +32,8 @@ Route::get('/verification/{user}', 'Auth\LoginController@verification')->name("a
 Route::get('/redirect-to', 'Auth\LoginController@redirectTo')->name("auth.redirect");
 Route::get('/account/confirm/{token}', 'Auth\ConfirmAccountController@confirm')->name("auth.account.confirm");
 Route::post('/account/confirm/{user}', 'Auth\ConfirmAccountController@confirmAccountCode')->name("auth.account.confirm.code");
-//Route::post('account/confirm/resend/{user}', 'Auth\ConfirmAccountController@sendConfirmationEmail')->name("auth.account.confirm.resend");
-//Route::post('account/confirm/resend/{user}', 'Auth\ConfirmAccountController@sendConfirmationSms')->name("auth.account.confirm.resend.sms");
+Route::post('account/confirm/resend/{user}', 'Auth\ConfirmAccountController@sendConfirmationEmail')->name("auth.account.confirm.resend");
+Route::post('account/confirm/resend/{user}', 'Auth\ConfirmAccountController@sendConfirmationSms')->name("auth.account.confirm.resend.sms");
 Route::get('/forgot_password','Auth\ResetPasswordController@showResetForm')->name('auth.forgot_password');
 Route::post('/reset_password','Auth\ResetPasswordController@resetPassword')->name('auth.reset_password');
 Route::get('/reset_password/{token}','Auth\ResetPasswordController@resetForm')->name('auth.form');

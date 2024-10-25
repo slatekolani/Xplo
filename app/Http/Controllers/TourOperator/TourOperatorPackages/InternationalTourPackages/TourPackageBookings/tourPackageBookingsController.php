@@ -21,7 +21,7 @@ class tourPackageBookingsController extends Controller
     {
         $tourPackage=TourPackages::query()->where('uuid',$tourPackageId)->first();
         $tourPackageBookings=tourPackageBookings::query()->where('tour_package_id',$tourPackage->id)->get();
-        return view('TourOperator.TourPackageBookings.index')
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.index')
             ->with('tourPackage',$tourPackage)
             ->with('tourPackageBookings',$tourPackageBookings);
     }
@@ -29,7 +29,7 @@ class tourPackageBookingsController extends Controller
     {
         $tourPackage=TourPackages::query()->where('uuid',$tourPackageId)->first();
         $tourPackageBookings=tourPackageBookings::query()->where('tour_package_id',$tourPackage->id)->where('status','=','1')->get();
-        return view('TourOperator.TourPackageBookings.ApprovedBookings.index')
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.ApprovedBookings.index')
             ->with('tourPackage',$tourPackage)
             ->with('tourPackageBookings',$tourPackageBookings);
     }
@@ -37,7 +37,7 @@ class tourPackageBookingsController extends Controller
     {
         $tourPackage=TourPackages::query()->where('uuid',$tourPackageId)->first();
         $tourPackageBookings=tourPackageBookings::query()->where('tour_package_id',$tourPackage->id)->where('status','=','0')->get();
-        return view('TourOperator.TourPackageBookings.UnApprovedBookings.index')
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.UnApprovedBookings.index')
             ->with('tourPackage',$tourPackage)
             ->with('tourPackageBookings',$tourPackageBookings);
     }
@@ -45,7 +45,7 @@ class tourPackageBookingsController extends Controller
     {
         $tourPackage=TourPackages::query()->where('uuid',$tourPackageId)->first();
         $tourPackageBookings=tourPackageBookings::onlyTrashed()->where('tour_package_id',$tourPackage->id)->get();
-        return view('TourOperator.TourPackageBookings.deletedBookings.index')
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.deletedBookings.index')
             ->with('tourPackage',$tourPackage)
             ->with('tourPackageBookings',$tourPackageBookings);
     }
@@ -106,7 +106,7 @@ class tourPackageBookingsController extends Controller
     public function show($tourPackageBookingId)
     {
         $tourPackageBooking=tourPackageBookings::query()->where('uuid',$tourPackageBookingId)->first();
-        return view('TourOperator.TourPackageBookings.view')
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.view')
             ->with('tourPackageBooking',$tourPackageBooking);
     }
 
@@ -119,7 +119,7 @@ class tourPackageBookingsController extends Controller
     public function edit($tourPackageBookingId)
     {
         $tourPackageBooking=tourPackageBookings::query()->where('uuid',$tourPackageBookingId)->first();
-        return view('TourOperator.TourPackageBookings.edit')->with('tourPackageBooking',$tourPackageBooking);
+        return view('TourOperator.TourPackages.internationalTourPackages.TourPackageBookings.edit')->with('tourPackageBooking',$tourPackageBooking);
     }
 
     /**

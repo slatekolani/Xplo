@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12" >
             <div class="pull-left" style="margin-bottom: 10px" >
-                <a class ='btn btn-primary btn-sm'  href="#">Edit information</a>
+                <a class ='btn btn-primary btn-sm'  href="{{route('localTourPackages.edit',$localTourPackage->uuid)}}">Edit information</a>
             </div>
         </div>
         <div class="col-md-12">

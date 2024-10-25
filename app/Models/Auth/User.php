@@ -89,10 +89,10 @@ class User extends Authenticatable implements  AuditableContract
     
     public function sendEmailVerificationNotification()
     {
-        $confirmationCode=$this->confirmation_code;
+        $confirmationCode = $this->confirmation_code; // Ensure this is set correctly in the user model
         $this->notify(new \App\Notifications\Auth\SendConfirmationCode($confirmationCode));
-        // $this->notify(new \Illuminate\Auth\Notifications\VerifyEmail);
     }
+    
 
     public function getUserRoleLabelAttribute()
     {
