@@ -3,13 +3,16 @@
 namespace App\Models\TouristicAttractions;
 
 use App\Models\BaseModel\BaseModel;
+use App\Models\specialNeed\specialNeed;
 use App\Models\tanzaniaRegions\tanzaniaRegions;
 use App\Models\TouristicAttractions\category\touristicAttractionCategory;
 use App\Models\TouristicAttractions\FAQ\frequentAskedQuestions;
 use App\Models\TouristicAttractions\touristicAttractionHoneyPoint\touristicAttractionHoneyPoints;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\localTourPackages;
+use App\Months;
 use App\Repositories\Admin\TouristicAttraction\attractionVisitReasonsRepository;
 use App\Repositories\Admin\TouristicAttraction\touristicAttractionVisitAdvicesRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class touristicAttractions extends BaseModel
@@ -96,4 +99,5 @@ class touristicAttractions extends BaseModel
         $touristicAttractionVisitReasons=$touristicAttractionVisitReasonsRepo->updateTouristicAttractionVisitReasons($input,$touristicAttraction);
         return redirect()->back()->with('touristicAttractionVisitReasons',$touristicAttractionVisitReasons);
     }
+   
 }

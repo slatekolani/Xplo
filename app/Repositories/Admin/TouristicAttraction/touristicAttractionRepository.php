@@ -27,12 +27,26 @@ class touristicAttractionRepository extends BaseRepository
         $touristicAttraction->attraction_description=$input['attraction_description'];
         $touristicAttraction->attraction_region=$input['attraction_region'];
         $touristicAttraction->attraction_category=$input['attraction_category'];
-        $touristicAttraction->best_time_of_visit=$input['best_time_of_visit'];
+        $touristicAttraction->establishment_year=$input['establishment_year'];
+        $touristicAttraction->seasonal_variation=$input['seasonal_variation'];
+        $touristicAttraction->flora_fauna=$input['flora_fauna'];
+        $touristicAttraction->attraction_visit_month=$input['attraction_visit_month'];
         $touristicAttraction->basic_information=$input['basic_information'];
-        $touristicAttraction->attraction_details=$input['attraction_details'];
         $touristicAttraction->governing_body=$input['governing_body'];
         $touristicAttraction->website_link=$input['website_link'];
-        $touristicAttraction->attraction_map=$input['attraction_map'];
+        $touristicAttraction->entry_fee_adult_foreigner=$input['entry_fee_adult_foreigner'];
+        $touristicAttraction->entry_fee_child_foreigner=$input['entry_fee_child_foreigner'];
+        $touristicAttraction->entry_fee_child_local=$input['entry_fee_child_local'];
+        $touristicAttraction->entry_fee_adult_local=$input['entry_fee_adult_local'];
+        $touristicAttraction->personal_experience=$input['personal_experience'];
+        if($input['attraction_map'])
+        {
+            $file=$input['attraction_map'];
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->move('public/attractionMaps/',$filename);
+            $touristicAttraction->attraction_map=$filename;
+        }
         if ($input['attraction_image'] && is_array($input['attraction_image'])) {
             $imagePaths = [];
 
@@ -55,24 +69,36 @@ class touristicAttractionRepository extends BaseRepository
         $touristicAttraction->attraction_description=$input['attraction_description'];
         $touristicAttraction->attraction_region=$input['attraction_region'];
         $touristicAttraction->attraction_category=$input['attraction_category'];
-        $touristicAttraction->best_time_of_visit=$input['best_time_of_visit'];
+        $touristicAttraction->establishment_year=$input['establishment_year'];
+        $touristicAttraction->seasonal_variation=$input['seasonal_variation'];
+        $touristicAttraction->flora_fauna=$input['flora_fauna'];
+        $touristicAttraction->attraction_visit_month=$input['attraction_visit_month'];
         $touristicAttraction->basic_information=$input['basic_information'];
-        $touristicAttraction->attraction_details=$input['attraction_details'];
         $touristicAttraction->governing_body=$input['governing_body'];
         $touristicAttraction->website_link=$input['website_link'];
-        $touristicAttraction->attraction_map=$input['attraction_map'];
+        $touristicAttraction->entry_fee_adult_foreigner=$input['entry_fee_adult_foreigner'];
+        $touristicAttraction->entry_fee_child_foreigner=$input['entry_fee_child_foreigner'];
+        $touristicAttraction->entry_fee_child_local=$input['entry_fee_child_local'];
+        $touristicAttraction->entry_fee_adult_local=$input['entry_fee_adult_local'];
+        $touristicAttraction->personal_experience=$input['personal_experience'];
         $input=$request->all();
-        if ($request->hasFile('attraction_image') && is_array($input['attraction_image']))
+        if($input['attraction_map'])
         {
-            $imagePaths=[];
-            foreach($input['attraction_image'] as $image)
-            {
-                $extension=$image->getClientOriginalExtension();
-                $filename=time().'_'.uniqid().'.'.$extension;
+            $file=$input['attraction_map'];
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->move('public/attractionMaps/',$filename);
+            $touristicAttraction->attraction_map=$filename;
+        }
+        if ($input['attraction_image'] && is_array($input['attraction_image'])) {
+            $imagePaths = [];
+            foreach ($input['attraction_image'] as $image) {
+                $extension = $image->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
                 $image->move('public/touristAttraction/', $filename);
-                $imagePaths[]='/touristAttraction/'.$filename;
+                $imagePaths[] = '/touristAttraction/' . $filename;
             }
-            $touristicAttraction->attraction_image=implode(',',$imagePaths);
+            $touristicAttraction->attraction_image = implode(',', $imagePaths);
         }
         $touristicAttraction->save();
         $touristicAttraction->updateTouristicAttractionVisitAdvices($input,$touristicAttraction);

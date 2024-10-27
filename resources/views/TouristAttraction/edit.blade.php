@@ -40,14 +40,39 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        {{ Form::label('best_time_of_visit', __("Best time of visit"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('best_time_of_visit', $touristicAttraction->best_time_of_visit, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'best_time_of_visit', 'required']) }}
-                                        {!! $errors->first('best_time_of_visit', '<span class="badge badge-danger">:message</span>') !!}
+                                    <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            {{ Form::label('establishment_year', __("Year of establishment"), ['class' => 'required_asterik']) }}
+                                            {{ Form::select('establishment_year', $years, $touristicAttraction->establishment_year, ['class' => 'form-control select2', 'autocomplete' => 'off', 'id' => 'establishment_year', 'required']) }}
+                                            {!! $errors->first('establishment_year', '<span class="badge badge-danger">:message</span>') !!}
+                                        </div>
                                     </div>
-                                </div>
 
+                                    <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            {{ Form::label('attraction_region', __("Attraction region"), ['class' => 'required_asterik']) }}
+                                            {{ Form::select('attraction_region', $regions,$touristicAttraction->attraction_region, ['class' => 'form-control select2', 'autocomplete' => 'off', 'id' => 'attraction_region', 'required']) }}
+                                            {!! $errors->first('attraction_region', '<span class="badge badge-danger">:message</span>') !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            {{ Form::label('seasonal_variation', __("Seasonal variation"), ['class' => 'required_asterik']) }}
+                                            {{ Form::textarea('seasonal_variation',$touristicAttraction->seasonal_variation, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'seasonal_variation', 'placeholder'=>'How does the park change throughout the year? Are there specific times for blooming flowers, migration, or wildlife spotting?','style'=>'height:100px','required']) }}
+                                            {!! $errors->first('seasonal_variation', '<span class="badge badge-danger">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            {{ Form::label('flora_fauna', __("Flora & Fauna"), ['class' => 'required_asterik']) }}
+                                            {{ Form::textarea('flora_fauna',$touristicAttraction->flora_fauna, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'flora_fauna', 'placeholder'=>'What are the key plant and animal species in the park? Are there endangered species or unique ecosystems?','style'=>'height:100px','required']) }}
+                                            {!! $errors->first('flora_fauna', '<span class="badge badge-danger">:message</span>') !!}
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('governing_body', __("Governing body"), ['class' => 'required_asterik']) }}
@@ -63,22 +88,16 @@
                                         {!! $errors->first('website_link', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
-                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <div class="form-group">
-                                        {{ Form::label('attraction_region', __("Attraction region"), ['class' => 'required_asterik']) }}
-                                        {{ Form::select('attraction_region', $regions,$touristicAttraction->attraction_region, ['class' => 'form-control select2', 'autocomplete' => 'off', 'id' => 'attraction_region', 'required']) }}
-                                        {!! $errors->first('attraction_region', '<span class="badge badge-danger">:message</span>') !!}
-                                    </div>
-                                </div>
+                               
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('attraction_image', __("Attraction Image"), ['class' => 'required_asterik']) }}
-                                        {{ Form::file('attraction_image[]', ['class' => 'form-control','multiple'=>true, 'autocomplete' => 'off', 'id' => 'attraction_image']) }}
+                                        {{ Form::file('attraction_image[]', ['class' => 'form-control','multiple'=>true, 'autocomplete' => 'off', 'id' => 'attraction_image', 'required']) }}
                                         {!! $errors->first('attraction_image', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
-
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
@@ -87,18 +106,51 @@
                                         {!! $errors->first('basic_information', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
+                                
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
-                                        {{ Form::label('attraction_details', __("Attraction details"), ['class' => 'required_asterik']) }}
-                                        {{ Form::textarea('attraction_details',$touristicAttraction->attraction_details, ['class' => 'form-control','maxLength'=>'1000', 'autocomplete' => 'off', 'id' => 'attraction_details', 'required']) }}
-                                        {!! $errors->first('attraction_details', '<span class="badge badge-danger">:message</span>') !!}
+                                        {{ Form::label('attraction_map', __("Attraction map"), ['class' => 'required_asterik']) }}
+                                        <a href="{{asset('public/attractionMaps/'.$touristicAttraction->attraction_map)}}">Previous Map</a>
+                                        {{ Form::file('attraction_map',null,$touristicAttraction->attraction_map, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'attraction_map', 'required']) }}
+                                        {!! $errors->first('attraction_map', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('attraction_visit_month', __("Best months of visit"), ['class' => 'required_asterik']) }}
+                                        {{ Form::text('attraction_visit_month', $touristicAttraction->attraction_visit_month, ['class' => 'form-control','autocomplete' => 'off', 'id' => 'attraction_visit_month', 'required']) }}
+                                        {!! $errors->first('attraction_visit_month', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('entry_fee_adult_foreigner', __("Entry fee adult foreigner"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('entry_fee_adult_foreigner', $touristicAttraction->entry_fee_adult_foreigner, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'entry_fee_adult_foreigner', 'required']) }}
+                                        {!! $errors->first('entry_fee_adult_foreigner', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
-                                        {{ Form::label('attraction_map', __("Attraction map"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('attraction_map',$touristicAttraction->attraction_map, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'attraction_map', 'required']) }}
-                                        {!! $errors->first('attraction_map', '<span class="badge badge-danger">:message</span>') !!}
+                                        {{ Form::label('entry_fee_child_foreigner', __("Entry fee child foreigner"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('entry_fee_child_foreigner', $touristicAttraction->entry_fee_child_foreigner, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'entry_fee_child_foreigner', 'required']) }}
+                                        {!! $errors->first('entry_fee_child_foreigner', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('entry_fee_child_local', __("Entry fee child local"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('entry_fee_child_local', $touristicAttraction->entry_fee_child_local, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'entry_fee_child_local', 'required']) }}
+                                        {!! $errors->first('entry_fee_child_local', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('entry_fee_adult_local', __("Entry fee adult local"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('entry_fee_adult_local', $touristicAttraction->entry_fee_adult_local, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'entry_fee_adult_local', 'required']) }}
+                                        {!! $errors->first('entry_fee_adult_local', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                             </div>
@@ -171,6 +223,15 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('personal_experience', __("Personal Experience"), ['class' => 'required_asterik']) }}
+                                        {{ Form::textarea('personal_experience', $touristicAttraction->personal_experience, ['class' => 'form-control','autocomplete' => 'off','style'=>'height:100px','placeholder'=>'•	Share your own story or experience visiting the park', 'id' => 'personal_experience', 'required']) }}
+                                        {!! $errors->first('personal_experience', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                             </div>

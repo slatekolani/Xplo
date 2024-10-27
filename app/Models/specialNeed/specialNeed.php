@@ -3,6 +3,7 @@
 namespace App\Models\specialNeed;
 
 use App\Models\BaseModel\BaseModel;
+use App\Models\TouristicAttractions\touristicAttractions;
 use App\Models\TourOperator\TourPackages\InternationalTourPackages\TourPackages;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\localTourPackages;
 use App\Models\TourOperatorsBlogs\tourOperatorsBlogs;
@@ -22,6 +23,7 @@ class specialNeed extends BaseModel
     {
         return $this->belongsToMany(localTourPackages::class);
     }
+  
     public function getSpecialNeedStatusLabelAttribute()
     {
       $status=$this->status;

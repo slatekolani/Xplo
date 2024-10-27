@@ -304,9 +304,16 @@ class localTourPackages extends BaseModel
         $startDate = Carbon::parse($this->safari_start_date);
         $today = Carbon::now();
         $daysLeft = $startDate->diffInDays($today);
-        $sign = ($startDate > $today) ? '+' : '-';
+        $sign = ($startDate > $today) ? '-' : '';
         $formattedDaysLeft = $sign . abs($daysLeft);
-        return '<span class="badge badge-primary">'.$formattedDaysLeft.'</span>';
+        if($formattedDaysLeft<0)
+        {
+            return '<span class="badge badge-primary">'.$formattedDaysLeft. ' days'.'</span>';
+        }
+        else
+        {
+            return '<span class="badge badge-danger">'.$formattedDaysLeft. ' days old'.'</span>';
+        }
     }
 
     public function getCountDownDaysForDeletedLocalTourPackageTripLabelAttribute()
