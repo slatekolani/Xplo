@@ -25,6 +25,8 @@ class CreateTourOperatorsTable extends Migration
             $table->string('instagram_url');
             $table->string('whatsapp_url');
             $table->string('gps_url');
+            $table->string('safariClass');
+            $table->string('agreeCustomBooking');
             $table->string('company_nation');
             $table->string('company_logo');
             $table->string('company_team_image');

@@ -22,6 +22,7 @@ use App\Models\TourOperator\reservations\tourOperatorReservation;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\localTourPackages;
 use App\Models\tourPackageType\tourPackageType;
 use App\Models\TourTypes\tourTypes;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -78,7 +79,7 @@ class TanzaniaController extends Controller
         $tourVisitAdvices=tanzaniaVisitAdvice::query()->where('nation_id',$nation->id)->get();
         $aboutTanzaniaFaqs=tanzaniaFAQ::query()->where('nation_id',$nation->id)->get();
         $localTourPackageReservationsIds=DB::table('local_package_reservation')->pluck('local_tour_package_id');
-        $reservationLocalTourPackages=localTourPackages::query()->whereIn('id',$localTourPackageReservationsIds)->get();
+        $reservationLocalTourPackages=localTourPackages::query()->whereIn('id',$localTourPackageReservationsIds)->where('safari_start_date','>=',Carbon::now())->get();
         $touristicGames=touristicGame::query()->where('status','=',1)->get();
         $reservationTouristicGamesIds=DB::table('reservation_touristic_game')->where('tour_operator_reservation_id')->pluck('touristic_game_id');
         $reservationTouristicGames=touristicGame::query()->whereIn('id',$reservationTouristicGamesIds)->get();

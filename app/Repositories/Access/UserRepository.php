@@ -46,30 +46,32 @@ class UserRepository extends BaseRepository
      * @return mixed
      * Register company, both clearing and forwarding agents and normal company
      */
-    public function create(array $input, $isAdmin=false)
-    {
-        $user = DB::transaction(function () use ($input, $isAdmin) {
-            //Generating a random six digit number
-            $input['confirmation_code'] = mt_rand(100000, 999999);
-            $defaultRole=3;
-            $role = $isAdmin && isset($input['role_id']) ? $input['role_id'] : $defaultRole;
-            $user = $this->query()->create([
-                'username' => $input['username'],
-                'phone' => $input['phone'],
-                'email' => $input['email'],
-                'confirmation_code' => $input['confirmation_code'],
-                'password' => bcrypt($input['password']),
-                'role' => $role
-            ]);
+    public function create(array $input, $isAdmin = false)
+{
+    $user = DB::transaction(function () use ($input, $isAdmin) {
+        // Ensure confirmation code is generated
+        $input['confirmation_code'] = mt_rand(100000, 999999);
 
-            /*Notification*/
-            $this->sendRegistrationNotification($user);
+        // Create the user with the provided role, which is now mandatory
+        $user = $this->query()->create([
+            'username' => $input['username'],
+            'phone' => $input['phone'],
+            'email' => $input['email'],
+            'confirmation_code' => $input['confirmation_code'],
+            'password' => bcrypt($input['password']),
+            'role' => $input['role']  // Use the role provided by user input
+        ]);
 
-            return $user;
-        });
+        // Send registration notification
+        $this->sendRegistrationNotification($user);
+
         return $user;
+    });
 
-    }
+    return $user;
+}
+
+    
 
     /*Send registration notification*/
     public function sendRegistrationNotification(Model $user)

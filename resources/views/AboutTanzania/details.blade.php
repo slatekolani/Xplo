@@ -12,9 +12,10 @@
     <div class="col-md-12">
         <div class="card" style="margin-top: 30px">
             <div class="card-body">
-                <h3 style="text-align: center">
-                    Visit {{$nation->nation_name}} - {{$nation->nation_description}}
+                <h3 style="text-align: center;color:dodgerblue;font-size:30px">
+                     {{$nation->nation_name}}
                 </h3>
+                <p style="text-align: center">{{$nation->nation_description}}</p>
                 <div class="nav-container">
                     <ul class="nav flex-nowrap mb-3" style="width: auto" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -107,7 +108,7 @@
                         <div class="tab-content" id="nav-tabContent">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>General view</h3>
+                                    <h3 style="color: dodgerblue">General view</h3>
                                     <div class="row">
                                         @forelse($touristicAttractions as $touristicAttraction)
                                             <div class="col-md-4" style="margin-top: 15px">
@@ -342,7 +343,7 @@
                     <div class="tab-pane fade" id="pills-tourReservations" role="tabpanel" aria-labelledby="pills-tourReservations-tab">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Reservations included in Local Safaris </h3>
+                                <h3 style="color:dodgerblue">Reservations included in Local Safaris </h3>
                                 <div class="row">
                                     @forelse($reservationLocalTourPackages as $reservationLocalTourPackage)
                                         @forelse($reservationLocalTourPackage->localTourPackageReservations as $localTourPackageReservation)

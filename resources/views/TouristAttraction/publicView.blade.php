@@ -7,21 +7,18 @@
                 <div class="card" style="margin-top: 30px">
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
-                            <h3>Exploration enthusiasts,
-                                Visit {{$touristicAttraction->attraction_name}} today. </h3>
+                            <h3 style="color: dodgerblue;font-size:30px">
+                                 {{$touristicAttraction->attraction_name}}... 
+                                </h3>
                         </div>
+                        <p style="text-align: center;color:black">{{$touristicAttraction->attraction_description}}</p>
+
 
                         <div class="tab-pane" id="pills-touristAttraction" role="tabpanel" aria-labelledby="pills-touristAttraction-tab">
                             <div class="nav-container">
                                 <ul class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" style="color: dodgerblue" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="true">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="color: dodgerblue" id="nav-basicInformation-tab" data-toggle="tab" href="#nav-basicInformation" role="tab" aria-controls="nav-basicInformation" aria-selected="false">Basic information</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="color: dodgerblue" id="nav-detail-tab" data-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">More detail</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" style="color: dodgerblue" id="nav-honeyPoints-tab" data-toggle="tab" href="#nav-honeyPoints" role="tab" aria-controls="nav-honeyPoints" aria-selected="false">Honey points</a>
@@ -47,17 +44,13 @@
                                     <li class="nav-item">
                                         <a class="nav-link" style="color: dodgerblue" id="nav-Gallery-tab" data-toggle="tab" href="#nav-Gallery" role="tab" aria-controls="nav-Gallery" aria-selected="false">Gallery</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="color: dodgerblue" id="nav-googleMap-tab" data-toggle="tab" href="#nav-googleMap" role="tab" aria-controls="nav-googleMap" aria-selected="false">Google map</a>
-                                    </li>
+                                   
                                 </ul>
                             </div>
                         </div>
 
                         <div class="tab-content" id="nav-tabContent">
                             @include('TouristAttraction.publicView.about')
-                            @include('TouristAttraction.publicView.basicInformation')
-                            @include('TouristAttraction.publicView.detail')
                             @include('TouristAttraction.honeyPoints.publicView.honeyPoints')
                             @include('TouristAttraction.publicView.visitReason')
                             @include('TouristAttraction.publicView.advice')
@@ -66,7 +59,6 @@
                             @include('TouristAttraction.publicView.attractionRules')
                             @include('TouristAttraction.publicView.FAQ')
                             @include('TouristAttraction.publicView.gallery')
-                            @include('TouristAttraction.publicView.googleMap')
                         </div>
                     </div>
                 </div>

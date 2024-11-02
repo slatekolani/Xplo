@@ -18,9 +18,10 @@ class CreateTanzaniaRegionsTable extends Migration
             $table->string('region_name');
             $table->string('region_icon_image');
             $table->string('economic_activity');
-            $table->string('region_size');
-            $table->string('population');
-            $table->string('climatic_condition');
+            $table->decimal('region_size',12,2);
+            $table->decimal('population',12,2);
+            $table->longText('climatic_condition');
+            $table->longText('transport_nature');
             $table->string('region_description');
             $table->string('region_history');
             $table->longText('region_map');

@@ -16,22 +16,39 @@
                             <img src="{{ asset('public/TourOperatorsLogos/' . $tourOperator->company_logo) }}"
                                  alt="Company Logo"
                                  style="height: 70px; width: 70px; border-radius:50%;object-fit: cover;" loading="lazy">
-                            <h3 style="font-family: 'Lobster', cursive; font-size: 25px;">{{$tourOperator->company_name}}</h3>
+                            <h3 style="font-family: 'Lobster', cursive; font-size: 25px;color:dodgerblue">{{$tourOperator->company_name}}</h3>
                         </div>
                         <p>"{{$tourOperator->about_company}}"</p>
                         <p><b>Year established</b>: {{date('jS M Y',strtotime($tourOperator->established_date))}}</p>
                         <p><b>Years of experience</b>: {{$tourOperator->TourCompanyYearsOfExperienceLabel}} years</p>
                         <p><b>Total employees</b>: {{$tourOperator->total_employees}} employees</p>
-
+                        <p><b>Safari Class</b>:
+                            @if ($tourOperator->safariClass == 'bothLocalAndInternationalTours')
+                                <span>Offers both<a href="#"> Local and International Safari's</a></span>
+                            @elseif ($tourOperator->safariClass == 'localTours')
+                                <span>Offers <a href="#">Local Safari's</a> Only</span>
+                            @elseif ($tourOperator->safariClass == 'internationalTours')
+                                <span>Offers <a href="#">International Safari's</a> Only</span>
+                            @endif
+                        </p>
+                        <p><b>Offering custom Safari's?</b>
+                            @if ($tourOperator->agreeCustomBooking == 'Yes')
+                                <span>Yes, <span style="color:dodgerblue">{{ $tourOperator->company_name }}</span>
+                                    offers custom safari's</span>
+                            @elseif($tourOperator->agreeCustomBooking == 'No')
+                                <span>No, <span style="color:dodgerblue">{{ $tourOperator->company_name }}</span>
+                                    does not offer custom safari's</span>
+                            @endif
+                        </p>
                         <div style="display: flex">
 
                             <p><b>Country</b>:
-                                <a href="{{route('Tanzania.show',$nation->uuid)}}">
-                                    <img
-                                        src="{{ asset('public/nationFlags/' . \App\Models\Nations\nations::find($tourOperator->company_nation)->nation_flag)}}"
+                                <a href="{{ route('Tanzania.show', $nation->uuid) }}">
+                                    <img src="{{ asset('public/nationFlags/' . $tourOperator->nation->nation_flag) }}"
                                         alt="Tanzania flag"
-                                        style="height: 20px; width: 20px; border-radius:50%;object-fit: cover;" loading="lazy">
-                                    {{\App\Models\Nations\nations::find($tourOperator->company_nation)->nation_name}} &rightsquigarrow;
+                                        style="height: 20px; width: 20px; border-radius:50%;object-fit: cover;"
+                                        loading="lazy">
+                                    {{ $tourOperator->nation->nation_name }} &rightsquigarrow;
                                 </a>
                             </p>
                         </div>
@@ -78,16 +95,43 @@
                             <div class="text-center">
                                 <a href="{{ route('tourOperator.publicView', $tourOperator->uuid) }}" class="btn btn-primary btn-sm">Packages posted &blacktriangleright;</a>
                             </div>
-                            <div class="text-center">
-                                <a href="{{ route('customTourBookings.create', $tourOperator->uuid) }}" class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour &blacktriangleright;</a>
+                            @if ($tourOperator->agreeCustomBooking == 'Yes')
+                            <div class="row">
+                                <div class="text-center">
+                                    <a href="{{ route('customTourBookings.create', $tourOperator->uuid) }}"
+                                        class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour
+                                        &blacktriangleright;</a>
+                                </div>
                             </div>
+                        @else
+                            <div class="row">
+                                <div class="text-center">
+                                    <a onclick="alert('Whoops! It appears this tour company does not support custom tours');"
+                                        class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour
+                                        &blacktriangleright;</a>
+                                </div>
+                            </div>
+                        @endif
                         </div>
                         <div class="d-flex justify-content-center">
-                            <a href="{{$tourOperator->instagram_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram-new--v1"/></a>
-                            <a href="{{$tourOperator->whatsapp_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="whatsapp--v1"/></a>
-                            <a href=mailto:"{{$tourOperator->email_address}}" target="_black"> <img width="30" height="30" src="https://img.icons8.com/fluency/48/email-open.png" alt="email-open"/></a>
-                            <a href="{{$tourOperator->gps_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/google-maps-new.png" alt="google-maps-new"/></a>
-                            <a href=tel:"{{$tourOperator->phone_number}}"><img width="30" height="30" src="https://img.icons8.com/color/48/phone.png" alt="phone"/></a>
+                            <a href="{{ $tourOperator->instagram_url }}" target="_blank" class="mx-2">
+                                <i class="fab fa-instagram fa-2x" style="color: #E4405F;"></i>
+                            </a>
+                            <a href="{{ $tourOperator->whatsapp_url }}" target="_blank" class="mx-2">
+                                <i class="fab fa-whatsapp fa-2x" style="color: #25D366;"></i>
+                            </a>
+                            <a href="mailto:{{ $tourOperator->email_address }}" target="_blank" class="mx-2">
+                                <i class="fas fa-envelope fa-2x" style="color: #007BFF;"></i>
+                            </a>
+                            <a href="{{ $tourOperator->gps_url }}" target="_blank" class="mx-2">
+                                <i class="fas fa-map-marker-alt fa-2x" style="color: #EA4335;"></i>
+                            </a>
+                            <a href="{{ $tourOperator->website_url }}" target="_blank" class="mx-2">
+                                <i class="fas fa-globe fa-2x" style="color: #007BFF;"></i>
+                            </a>
+                            <a href="tel:{{ $tourOperator->phone_number }}" class="mx-2">
+                                <i class="fas fa-phone fa-2x" style="color: #34B7F1;"></i>
+                            </a>
                         </div>
 
                     </div>

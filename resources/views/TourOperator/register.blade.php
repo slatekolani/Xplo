@@ -44,7 +44,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('region', __("Company headquarter region"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('region',null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'region','maxLength'=>'15', 'required']) }}
+                                        {{ Form::select('region',$regionsOfOperations,null, ['class' => 'form-control select2', 'autocomplete' => 'off', 'id' => 'region', 'required']) }}
                                         {!! $errors->first('region', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
@@ -73,9 +73,26 @@
 
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
-                                        {{ Form::label('about_company', __("About company"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('about_company',null, ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder'=>'quality service is what we offer','maxLength'=>'100','id' => 'about_company', 'required']) }}
+                                        {{ Form::label('about_company', __("Company short description"), ['class' => 'required_asterik']) }}
+                                        {{ Form::text('about_company',null, ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder'=>'eg. We provide services to take you higher!','maxLength'=>'100','id' => 'about_company', 'required']) }}
                                         {!! $errors->first('about_company', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                {{ Form::label('role', __("Do you accept custom bookings?"), ['class' => 'required_asterik']) }}
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" name="agreeCustomBooking" id="Yes" value="Yes">
+                                                    <label for="agreeCustomBooking" class="form-check-label">Yes</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input" name="agreeCustomBooking" id="No" value="No">
+                                                    <label for="agreeCustomBooking" class="form-check-label">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -208,9 +225,32 @@
                                                 {!! $errors->first('insurance_types_offered', '<span class="badge badge-danger">:message</span>') !!}
                                             </div>
                                         </div>
+                                        <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{ Form::label('role', __("What safari do you provide?"), ['class' => 'required_asterik']) }}
+                                                        <div class="form-check">
+                                                            <input type="radio" class="form-check-input" name="safariClass" id="localTours" value="localTours">
+                                                            <label for="localTours" class="form-check-label">Local Safari Tours</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input type="radio" class="form-check-input" name="safariClass" id="internationalTours" value="internationalTours">
+                                                            <label for="internationalTours" class="form-check-label">International Safari Tours</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input type="radio" class="form-check-input" name="safariClass" id="bothLocalAndInternationalTours" value="bothLocalAndInternationalTours">
+                                                            <label for="bothLocalAndInternationalTours" class="form-check-label">Both International & Local Tours</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
+                            
                             <br>
                             <div class="row">
                                 <div class="col-md-6">

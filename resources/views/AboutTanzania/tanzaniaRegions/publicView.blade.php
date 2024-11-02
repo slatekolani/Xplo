@@ -8,8 +8,9 @@
                 <div class="card">
                     <div class="card-body" style="background-color: rgba(255,255,255,0.85)">
                         <div class="d-flex justify-content-center">
-                            <h3>Exploration enthusiasts, Visit {{$tanzaniaRegion->region_name}} today. </h3>
+                            <h3 style="color: dodgerblue;font-size:30px">{{$tanzaniaRegion->region_name}}</h3>
                         </div>
+                        <p style="text-align: center;color:black">{{$tanzaniaRegion->region_description}}</p>
                         <div class="tab-pane" id="pills-touristAttraction" role="tabpanel" aria-labelledby="pills-touristAttraction-tab">
                             <div class="nav-container">
                                 <ul class="nav nav-tabs flex-nowrap" id="nav-tab" role="tablist">
@@ -37,12 +38,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link" style="color: dodgerblue" id="nav-FAQ-tab" data-toggle="tab" href="#nav-FAQ" role="tab" aria-controls="nav-FAQ" aria-selected="false">FAQ's</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="color: dodgerblue" id="nav-touristicGames-tab" data-toggle="tab" href="#nav-touristicGames" role="tab" aria-controls="nav-touristicGames" aria-selected="false">Touristic games</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" style="color: dodgerblue" id="nav-googleMap-tab" data-toggle="tab" href="#nav-googleMap" role="tab" aria-controls="nav-googleMap" aria-selected="false">Google Map</a>
-                                    </li>
+                              
                                     <li class="nav-item">
                                         <a class="nav-link" style="color: dodgerblue"  id="nav-Gallery-tab" data-toggle="tab" href="#nav-Gallery" role="tab" aria-controls="nav-Gallery" aria-selected="false">Gallery</a>
                                     </li>
@@ -60,8 +56,6 @@
                             @include('AboutTanzania.tanzaniaRegions.publicView.culture')
                             @include('AboutTanzania.tanzaniaRegions.publicView.FAQ')
                             @include('AboutTanzania.tanzaniaRegions.publicView.gallery')
-                            @include('AboutTanzania.tanzaniaRegions.publicView.googleMap')
-                            @include('AboutTanzania.tanzaniaRegions.publicView.touristicGames')
                         </div>
                     </div>
                 </div>

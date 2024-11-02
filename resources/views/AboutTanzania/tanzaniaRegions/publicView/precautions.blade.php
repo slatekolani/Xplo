@@ -3,19 +3,22 @@
     <div class="row">
         <div class="col-md-12">
             @forelse($tanzaniaRegionPrecautions as $tanzaniaRegionPrecaution)
-                    <div class="panel panel-default" style="border: 2px solid #ddd; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                        <div class="panel-heading" style="background-color: #f8f9fa; padding: 10px; border-bottom: 1px solid #ddd; border-radius: 8px 8px 0 0;">
-                            <div class="panel-title">
-                                <h5 style="font-size:20px;font-weight: bold; color: #007bff;">&star;{{$tanzaniaRegionPrecaution->precaution_title}}</h5>
-                            </div>
-                        </div>
-                        <div class="panel-body" style="padding: 15px;">
-                            <p style="font-size: 15px; color: #555;">{{$tanzaniaRegionPrecaution->precaution_description}}</p>
-                        </div>
+                <div class="card mb-4 shadow-sm border-0">
+                    <div class="card-header bg-light d-flex align-items-center border-bottom-0 rounded-top">
+                        <h5 class="mb-0 text-primary">&bullet; {{ $tanzaniaRegionPrecaution->precaution_title }}</h5>
                     </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-0" style="font-size: 15px;">
+                            {{ $tanzaniaRegionPrecaution->precaution_description }}
+                        </p>
+                    </div>
+                </div>
             @empty
-                <p>Whoops! We have yet to publish the precautions, or we might be experiencing an error. Please wait while our personnel is working on it</p>
+                <div class="alert alert-info text-center" role="alert">
+                    Whoops! We have yet to publish the precautions, or we might be experiencing an error. Please wait while our personnel is working on it.
+                </div>
             @endforelse
         </div>
     </div>
+    
 </div>

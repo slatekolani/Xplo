@@ -144,6 +144,7 @@
                         Local Safari's & Tours
                     </a>
                     <div class="dropdown-menu" aria-labelledby="localSafariDropdown">
+                        <a class="dropdown-item" href="{{route('localTourPackage.allLocalTourPackages')}}">All Local Trips</a>
                         <a class="dropdown-item" href="#">Day Trips</a>
                         <a class="dropdown-item" href="#">Weekend Getaways</a>
                         <a class="dropdown-item" href="#">Week-long Adventures</a>
@@ -152,16 +153,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tourOperator.allTourOperators') }}">Tour Operators</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="internationalSafariDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        International Safari's & Tours
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="internationalSafariDropdown">
-                        <a class="dropdown-item" href="#">African Safaris</a>
-                        <a class="dropdown-item" href="#">European Tours</a>
-                        <a class="dropdown-item" href="#">Asian Adventures</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Travel Education</a>
                 </li>
+                
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Others

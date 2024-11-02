@@ -87,7 +87,7 @@ class tourOperatorController extends Controller
             'company_name'=>'required|string',
             'email_address'=>'required|email',
             'region'=>'required|string|max:15',
-            'postal_code'=>'required|numeric|max:10',
+            'postal_code'=>'required|numeric|max:999999',
             'phone_number'=>'required|regex:/^[0-9]{10}$/',
             'established_date'=>'required|string',
             'total_employees'=>'required|string',
@@ -98,6 +98,8 @@ class tourOperatorController extends Controller
             'instagram_url'=>'required|url',
             'whatsapp_url'=>'required|url',
             'gps_url'=>'required|url',
+            'safariClass'=>'required',
+            'agreeCustomBooking'=>'required',
             'company_logo'=>'required|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:1000,max_width:1000',
             'company_team_image'=>'required|mimes:jpg,jpeg,png|max:2048|dimensions:max_height=1000,max_width=1000',
             'verification_certificate'=>'required|mimes:pdf|max:2048',
@@ -142,16 +144,16 @@ class tourOperatorController extends Controller
             ->take(3)
             ->get();
         $nation=nations::query()->where('status','=',1)->first();
-        $localTourPackageReservationsIds=DB::table('local_package_reservation')->pluck('tour_operator_reservation_id');
-        $localTourPackageReservations=tourOperatorReservation::with('localTourPackage')
+        $localTourPackageReservationsIds=DB::table('local_package_reservation')->pluck('local_tour_package_id');
+        $reservationLocalTourPackages=localTourPackages::query()
             ->whereIn('id',$localTourPackageReservationsIds)
+            ->where('safari_start_date','>=',Carbon::now())
             ->take(3)
-            ->inRandomOrder()
             ->get();
         return view('TourOperator.publicView')
             ->with('nation',$nation)
             ->with('totalLocalTouristReviews',$totalLocalTouristReviews)
-            ->with('localTourPackageReservations',$localTourPackageReservations)
+            ->with('reservationLocalTourPackages',$reservationLocalTourPackages)
             ->with('localTouristReviews',$localTouristReviews)
             ->with('localTourPackages',$localTourPackages)
             ->with('tourOperator',$tourOperator);
@@ -225,6 +227,8 @@ class tourOperatorController extends Controller
             'instagram_url'=>'required|url',
             'whatsapp_url'=>'required|url',
             'gps_url'=>'required|url',
+            'safariClass'=>'required',
+            'agreeCustomBooking'=>'required',
             'company_logo'=>'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:1000,max_width:1000',
             'company_team_image'=>'nullable|mimes:jpg,jpeg,png|max:2048|dimensions:max_height=1000,max_width=1000',
             'verification_certificate'=>'nullable|mimes:pdf|max:2048',

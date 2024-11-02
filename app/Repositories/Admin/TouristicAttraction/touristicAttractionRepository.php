@@ -82,7 +82,7 @@ class touristicAttractionRepository extends BaseRepository
         $touristicAttraction->entry_fee_adult_local=$input['entry_fee_adult_local'];
         $touristicAttraction->personal_experience=$input['personal_experience'];
         $input=$request->all();
-        if($input['attraction_map'])
+        if($request->hasFile('attraction_map') && $input['attraction_map'])
         {
             $file=$input['attraction_map'];
             $extension=$file->getClientOriginalExtension();
@@ -90,16 +90,20 @@ class touristicAttractionRepository extends BaseRepository
             $file->move('public/attractionMaps/',$filename);
             $touristicAttraction->attraction_map=$filename;
         }
-        if ($input['attraction_image'] && is_array($input['attraction_image'])) {
+
+        if ($request->hasFile('attraction_image') && is_array($input['attraction_image'])) {
             $imagePaths = [];
+
             foreach ($input['attraction_image'] as $image) {
                 $extension = $image->getClientOriginalExtension();
                 $filename = time() . '_' . uniqid() . '.' . $extension;
                 $image->move('public/touristAttraction/', $filename);
+
                 $imagePaths[] = '/touristAttraction/' . $filename;
             }
             $touristicAttraction->attraction_image = implode(',', $imagePaths);
         }
+        
         $touristicAttraction->save();
         $touristicAttraction->updateTouristicAttractionVisitAdvices($input,$touristicAttraction);
         $touristicAttraction->updateTouristicAttractionVisitReasons($input,$touristicAttraction);

@@ -48,7 +48,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('region_size', __("Region size"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('region_size', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'region_size', 'required']) }}
+                                        {{ Form::number('region_size', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'region_size', 'required']) }}
                                         {!! $errors->first('region_size', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('population', __("Population"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('population', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'population', 'required']) }}
+                                        {{ Form::number('population', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'population', 'required']) }}
                                         {!! $errors->first('population', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('climatic_condition', __("Climate condition"), ['class' => 'required_asterik']) }}
-                                        {{ Form::text('climatic_condition', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'climatic_condition', 'required']) }}
+                                        {{ Form::textarea('climatic_condition', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'climatic_condition', 'style'=>'height:100px','required']) }}
                                         {!! $errors->first('climatic_condition', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
@@ -92,6 +92,13 @@
                                         {{ Form::label('other_economic_activities', __("Economic activities"), ['class' => 'required_asterik']) }}
                                         {{ Form::select('other_economic_activities[]',$nationEconomicActivities, null, ['class' => 'form-control select2', 'multiple','autocomplete' => 'off','id' => 'other_economic_activities', 'required']) }}
                                         {!! $errors->first('other_economic_activities', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('transport_nature', __("Transport Nature of the region"), ['class' => 'required_asterik']) }}
+                                        {{ Form::textarea('transport_nature', null, ['class' => 'form-control', 'autocomplete' => 'off','id' => 'transport_nature', 'style'=>'height:100px','required']) }}
+                                        {!! $errors->first('transport_nature', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                             </div>

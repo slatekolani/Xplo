@@ -268,6 +268,14 @@
                                                  src="{{ asset('public/localSafariBlogImages/'.$localTourPackage->safari_poster) }}"
                                                  style="width: 100%; height: 200px; object-fit: cover; filter: contrast(120%)" loading="lazy">
                                             <div class="card-img-overlay">
+                                                <p class="card-text card-text-white" style="font-size: 1.5rem; font-weight: bold; position: absolute; top: 0; right: 0; padding: 1rem;">
+                                                    @if ($localTourPackage->CountDownDaysForLocalTourPackageTripLabel >= 0)
+
+                                                    <span class="badge badge-primary badge-pill badge-sm">Upcoming</span>
+                                                @else
+                                                    <span class="badge badge-danger badge-pill badge-sm">Expired</span>
+                                                @endif
+                                                </p>
                                                 <p class="card-text card-text-white" style="font-size: 1.5rem; font-weight: bold; position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;">
                                                     {{$localTourPackage->touristicAttraction->attraction_name }}<br>
                                                     <span style="font-family: 'Montserrat', sans-serif;font-weight: normal;font-size: 1rem">{{$localTourPackage->safari_description}}</span>
@@ -276,29 +284,30 @@
                                         </a>
                                         <div class="card-body" style="position: relative; z-index: 2;">
                                             @if ($localTourPackage->CountDownDaysForLocalTourPackageTripLabel >= 0)
-                                                <p><span class="badge badge-success badge-pill">{{ abs($localTourPackage->CountDownDaysForLocalTourPackageTripLabel) }} days left</span></p>
+
+                                            <p>{!! ($localTourPackage->CountDownDaysForLocalTourPackageTripLabel) !!} ~ Book Now! A lifetime experience awaits...</p>
                                             @else
-                                                <span class="badge badge-danger badge-pill">The tour has expired.</span>
+                                                <span class="badge badge-danger badge-pill">Expired</span>
                                             @endif
-                                            <h5 class="card-title" style="font-size: 14px;font-weight: bold">A {{$localTourPackage->tourPackageType->tour_package_type_name}} special for {{$localTourPackage->tanzaniaAndWorldEvent->event_name}}</h5>
+                                            <h5 class="card-title" style="font-size: 14px">A {{$localTourPackage->tourPackageType->tour_package_type_name}} special for {{$localTourPackage->tanzaniaAndWorldEvent->event_name}}...</h5>
                                             <div style="display: flex">
-                                                <h5 class="card-title" style="font-size: 14px;font-weight: bold;">&starf; {{$localTourPackage->tourType->tour_type_name}}</h5>
-                                                <h5 class="card-title" style="font-size: 14px;font-weight: bold;margin-left: 50px">&starf; Seats left: <span class="badge badge-danger badge-pill">{{number_format($localTourPackage->TotalSpacesRemainedLabel)}} / {{ number_format($localTourPackage->maximum_travellers) }} seats</span></h5>
+                                                <h5 class="card-title" style="font-size: 14px;font-weight: bold;color:#ffd700">&starf; {{$localTourPackage->tourType->tour_type_name}}</h5>
+                                                <h5 class="card-title" style="font-size: 14px;font-weight: bold;margin-left: 50px"> <i class="fas fa-users" style="color: red"></i> <span style="font-size: 13px;color:red">{{number_format($localTourPackage->TotalSpacesRemainedLabel)}} / {{ number_format($localTourPackage->maximum_travellers) }} seats</span></h5>
                                             </div>
 
                                             <p class="card-text" style="font-size: 14px;margin-bottom: 8px">
                                                 <b>Local</b>:
-                                                T shs{{ number_format($localTourPackage->trip_price_adult_tanzanian) }}
-                                                /Adult -
-                                                T shs{{ number_format($localTourPackage->trip_price_child_tanzanian) }}
-                                                /child
+                                                Tshs {{ number_format($localTourPackage->trip_price_adult_tanzanian) }}
+                                                <span style="color: dodgerblue">/Adult</span> ~
+                                                Tshs {{ number_format($localTourPackage->trip_price_child_tanzanian) }}
+                                                <span style="color: dodgerblue">/child</span>
                                             </p>
                                             <p class="card-text" style="font-size: 14px;">
                                                 <b>Foreigner</b>:
-                                                T shs {{ number_format($localTourPackage->trip_price_adult_foreigner) }}
-                                                /Adult -
-                                                T shs {{ number_format($localTourPackage->trip_price_child_foreigner) }}
-                                                /child
+                                                Tshs {{ number_format($localTourPackage->trip_price_adult_foreigner) }}
+                                                <span style="color: dodgerblue">/Adult</span> ~
+                                                Tshs {{ number_format($localTourPackage->trip_price_child_foreigner) }}
+                                                <span style="color: dodgerblue">/child</span>
                                             </p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <a href="{{route('localTourPackage.view',$localTourPackage->uuid)}}" class="btn btn-primary">View Details</a>

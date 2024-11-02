@@ -81,6 +81,7 @@
     margin-bottom:100px;
 }
 
+
 @media (max-width: 768px) {
     .page-content {
         margin-top: 150px;

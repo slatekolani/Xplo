@@ -15,7 +15,9 @@ class CreateLocalTouristReviewsTable extends Migration
     {
         Schema::create('local_tourist_review', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('review_message');
+            $table->longText('review_company');
+            $table->longText('review_attraction');
+            $table->unsignedTinyInteger('rating');
             $table->unsignedBigInteger('local_tour_booking_id');
             $table->unsignedBigInteger('local_tour_package_id');
             $table->unsignedBigInteger('tour_operator_id');

@@ -28,6 +28,7 @@ class tanzaniaRegionsRepository extends BaseRepository
         $tanzaniaRegion->region_size=$input['region_size'];
         $tanzaniaRegion->population=$input['population'];
         $tanzaniaRegion->climatic_condition=$input['climatic_condition'];
+        $tanzaniaRegion->transport_nature=$input['transport_nature'];
         $tanzaniaRegion->region_description=$input['region_description'];
         $tanzaniaRegion->region_map=$input['region_map'];
         $tanzaniaRegion->region_history=$input['region_history'];
@@ -56,6 +57,7 @@ class tanzaniaRegionsRepository extends BaseRepository
         $tanzaniaRegion->region_size=$input['region_size'];
         $tanzaniaRegion->population=$input['population'];
         $tanzaniaRegion->climatic_condition=$input['climatic_condition'];
+        $tanzaniaRegion->transport_nature=$input['transport_nature'];
         $tanzaniaRegion->region_map=$input['region_map'];
         $tanzaniaRegion->region_description=$input['region_description'];
         $tanzaniaRegion->region_history=$input['region_history'];

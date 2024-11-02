@@ -1,16 +1,19 @@
 <div class="tab-pane fade" id="nav-visitReason" role="tabpanel" aria-labelledby="nav-visitReason-tab">
     @forelse($touristicAttractionVisitReasons as $touristicAttractionVisitReason)
-        <div class="panel panel-default" style="border: 2px solid #ddd; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <div class="panel-heading" style="background-color: #f8f9fa; padding: 10px; border-bottom: 1px solid #ddd; border-radius: 8px 8px 0 0;">
-                <div class="panel-title">
-                    <h3>{{$touristicAttractionVisitReason->reason_title}}</h3>
-                </div>
+        <div class="card mb-4 shadow-sm border-0">
+            <div class="card-header bg-light d-flex align-items-center border-bottom-0 rounded-top">
+                <h4 class="mb-0 text-primary">&bullet;{{ $touristicAttractionVisitReason->reason_title }}</h4>
             </div>
-            <div class="panel-body" style="padding: 15px;">
-                <span>{{$touristicAttractionVisitReason->reason_description}}</span>
+            <div class="card-body">
+                <p class="text-muted mb-0">
+                    <i class="fas fa-angle-right text-secondary me-1"></i>
+                    {{ $touristicAttractionVisitReason->reason_description }}
+                </p>
             </div>
         </div>
     @empty
-        <span>No Reasons have been Listed Yet.</span>
+        <div class="alert alert-info text-center" role="alert">
+            No reasons have been listed yet.
+        </div>
     @endforelse
 </div>

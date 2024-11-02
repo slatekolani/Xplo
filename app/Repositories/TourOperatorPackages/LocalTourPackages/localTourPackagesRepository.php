@@ -32,6 +32,8 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage->trip_price_child_foreigner=$input['trip_price_child_foreigner'];
         $localTourPackage->safari_start_date=$input['safari_start_date'];
         $localTourPackage->safari_end_date=$input['safari_end_date'];
+        $localTourPackage->payment_deadline=$input['payment_deadline'];
+        $localTourPackage->package_range=$input['package_range'];
         $localTourPackage->maximum_travellers=$input['maximum_travellers'];
         $localTourPackage->phone_number=$input['phone_number'];
         $localTourPackage->email_address=$input['email_address'];
@@ -74,6 +76,7 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage->saveLocalTourPackageCollectionStops($input,$localTourPackage);
         $localTourPackage->saveLocalTourPackageRequirements($input,$localTourPackage);
     }
+
     public function updateLocalTourPackage($input,$request,$localTourPackageUuid)
     {
         $localTourPackage=localTourPackages::query()->where('uuid',$localTourPackageUuid)->first();
@@ -85,6 +88,8 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage->trip_price_child_foreigner=$input['trip_price_child_foreigner'];
         $localTourPackage->safari_start_date=$input['safari_start_date'];
         $localTourPackage->safari_end_date=$input['safari_end_date'];
+        $localTourPackage->payment_deadline=$input['payment_deadline'];
+        $localTourPackage->package_range=$input['package_range'];
         $localTourPackage->maximum_travellers=$input['maximum_travellers'];
         $localTourPackage->phone_number=$input['phone_number'];
         $localTourPackage->email_address=$input['email_address'];

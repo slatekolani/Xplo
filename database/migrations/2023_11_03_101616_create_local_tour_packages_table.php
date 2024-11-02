@@ -25,6 +25,8 @@ class CreateLocalTourPackagesTable extends Migration
             $table->decimal('trip_price_child_foreigner',15,2);
             $table->string('safari_start_date');
             $table->string('safari_end_date');
+            $table->string('payment_deadline');
+            $table->string('package_range');
             $table->string('phone_number');
             $table->string('email_address');
             $table->longText('discount_offered');

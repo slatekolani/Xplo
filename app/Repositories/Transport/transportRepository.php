@@ -23,12 +23,14 @@ class transportRepository extends BaseRepository
     public function storeTransport(array $input)
     {
         $transport=new transport();
+        $transport->transport_icon=$input['transport_icon'];
         $transport->transport_name=$input['transport_name'];
         $transport->save();
     }
     public function updateTransport(array $input, $transport)
     {
         $transport=transport::query()->where('uuid',$transport)->first();
+        $transport->transport_icon=$input['transport_icon'];
         $transport->transport_name=$input['transport_name'];
         $transport->save();
     }

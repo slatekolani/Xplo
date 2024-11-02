@@ -124,12 +124,16 @@ class localTourPackages extends BaseModel
     {
         $localTourPackageSpecialNeedIds=DB::table('local_package_special_need')->where('local_tour_package_id',$this->id)->pluck('special_need_id');
         $localTourPackageSpecialNeeds=specialNeed::whereIn('id',$localTourPackageSpecialNeedIds)->get();
-        $label=[];
+        $specialNeeds=[];
         foreach ($localTourPackageSpecialNeeds as $localTourPackageSpecialNeed)
         {
-            array_push($label,$localTourPackageSpecialNeed->special_need_name);
+            $specialNeeds[]=
+            [
+                'special_need_name'=>$localTourPackageSpecialNeed->special_need_name,
+                'special_need_icon'=>$localTourPackageSpecialNeed->special_need_icon,
+            ];
         }
-        return implode(',',$label);
+        return $specialNeeds;
     }
     public function getLocalTourPackageTransport(array $input, Model $localTourPackage)
     {
@@ -149,12 +153,15 @@ class localTourPackages extends BaseModel
     {
      $localTourPackageTransportIds=DB::table('local_package_transport')->where('local_tour_package_id',$this->id)->pluck('transport_id');
      $localTourPackageTransports=transport::whereIn('id',$localTourPackageTransportIds)->get();
-     $label=[];
+     $transports=[];
      foreach($localTourPackageTransports as $localTourPackageTransport)
      {
-         array_push($label,$localTourPackageTransport->transport_name);
+        $transports[]=[
+            'transport_icon'=>$localTourPackageTransport->transport_icon,
+            'transport_name'=>$localTourPackageTransport->transport_name,
+        ];
      }
-     return implode(',',$label);
+     return $transports;
     }
     public function getLocalTourPackageCustomerSatisfaction(array $input,Model $localTourPackage)
     {
@@ -254,7 +261,14 @@ class localTourPackages extends BaseModel
                 return '<span class="badge badge-danger">Inactive</span>';
                 break;
             case 1:
-                return '<span class="badge badge-success">Active</span>';
+                if($this->safari_start_date <= Carbon::now())
+                {
+                    return '<span class="badge badge-danger">Expired</span>';
+                }
+                else{
+                    return '<span class="badge badge-success">Active</span>';
+                }
+                
                 break;
             default:
                 return '<span class="badge badge-danger">Inactive</span>';
@@ -309,6 +323,23 @@ class localTourPackages extends BaseModel
         if($formattedDaysLeft<0)
         {
             return '<span class="badge badge-primary">'.$formattedDaysLeft. ' days'.'</span>';
+        }
+        else
+        {
+            return '<span class="badge badge-danger">'.$formattedDaysLeft. ' days old'.'</span>';
+        }
+    }
+
+    public function getCountDownDaysForLocalTourPackagePaymentLabelAttribute()
+    {
+        $paymentDeadline = Carbon::parse($this->payment_deadline);
+        $today = Carbon::now();
+        $daysLeft = $paymentDeadline->diffInDays($today);
+        $sign = ($paymentDeadline > $today) ? '-' : '';
+        $formattedDaysLeft = $sign . abs($daysLeft);
+        if($formattedDaysLeft<0)
+        {
+            return '<span class="badge badge-warning">'.$formattedDaysLeft. ' days'.'</span>';
         }
         else
         {

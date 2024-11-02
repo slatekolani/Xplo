@@ -1,59 +1,156 @@
 <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-    <div class="col-md-12" style="margin-top: 15px">
-        <a href="#" style="text-decoration: none; position: relative; display: block;">
-                        <div class="panel-title">
-                            <h3>{{$touristicAttraction->attraction_name}}</h3>
-                        </div>
-                    <div class="panel-body" style="padding: 15px;">
-                        <span>{{$touristicAttraction->attraction_description}}</span>
-                    </div>
-                    <div class="row">
-                        @forelse(explode(',', $touristicAttraction->attraction_image) as $image)
-                            <div class="gallery-item">
-                                <a data-fancybox="gallery" href="{{ asset('public/'.$image) }}">
-                                    <img src="{{ asset('public/'.$image) }}" loading="lazy" alt="Gallery Image">
-                                </a>
-                            </div>
-                        @empty
-                            <p>No image found!</p>
-                        @endforelse
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" style="margin-left: 10px;margin-top: 10px">
-                            <h3>History of {{$touristicAttraction->attraction_name}}</h3>
-                            <span>{{$touristicAttraction->basic_information}}</span>
-                        </div>
-                    </div>
-
-            <div class="table-responsive" style="overflow-x: auto;">
-                <table class="table" style="color: black; min-width: 600px;">
-                    <thead>
-                    <tr>
-                        <th>Best visit time</th>
-                        <th>Attraction category</th>
-                        <th>Region found</th>
-                        <th>Governing body</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{$touristicAttraction->best_time_of_visit}}</td>
-                        <td>{{$touristicAttraction->touristicAttractionCategory->attraction_category}}</td>
-                        <td>
-                            <a href="{{route('tanzaniaRegion.publicView',$touristicAttraction->tanzaniaRegion->uuid)}}" class="attraction-link" data-toggle="tooltip" data-placement="top" data-attraction-id="{{ $touristicAttraction->attraction_region }}" style="color: dodgerblue" title="{{ $touristicAttraction->tanzaniaRegion->region_description }}">
-                                {{$touristicAttraction->tanzaniaRegion->region_name }} &rightsquigarrow;
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{$touristicAttraction->website_link}}" target="_blank">
-                                {{$touristicAttraction->governing_body}} &rightsquigarrow;
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="container-fluid attraction-details">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">{{ $touristicAttraction->attraction_name }}</h2>
+                <p style="color:#ffd700;font-size:15px"><i>"{{ $touristicAttraction->attraction_description }}"</i></p>
             </div>
+            
+            <!-- Featured Image Section -->
+            <div class="card-body">
+                <div class="row mb-4 justify-content-center">
+                    <div class="col-md-12">
+                        @php
+                            $images = explode(',', $touristicAttraction->attraction_image);
+                            $featuredImage = $images[0] ?? null; // Use the first image as featured
+                        @endphp
+                        @if($featuredImage)
+                            <div class="featured-image-wrapper text-center">
+                                <img src="{{ asset('public/'.$featuredImage) }}" 
+                                     class="img-fluid rounded shadow-lg" 
+                                     alt="{{ $touristicAttraction->attraction_name }} Featured Image" 
+                                     style="max-height: 400px; object-fit: cover; width: 100%;">
+                            </div>
+                        @else
+                            <p class="alert alert-info">No featured image available for this attraction</p>
+                        @endif
+                    </div>
+                </div>
+    
+    
+                {{-- Key Information Grid --}}
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="card h-100 border-light">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: dodgerblue">Basic Information</h5>
+                                <p> ~ {{ $touristicAttraction->basic_information }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card h-100 border-light">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: dodgerblue">Seasonal Variation</h5>
+                                <p> ~ {{ $touristicAttraction->seasonal_variation }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card h-100 border-light">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: dodgerblue">Flora & Fauna</h5>
+                                <p> ~ {{ $touristicAttraction->flora_fauna }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                {{-- Image Gallery --}}
+                <div class="row mt-4 image-gallery">
+                    @forelse($images as $image)
+                        <div class="col-md-6 col-sm-6 mb-6">
+                            <a href="{{ asset('public/'.$image) }}" data-fancybox="gallery" data-caption="{{ $touristicAttraction->attraction_name }}">
+                                <img src="{{ asset('public/'.$image) }}" 
+                                     class="img-fluid rounded shadow-sm" 
+                                     loading="lazy" 
+                                     alt="{{ $touristicAttraction->attraction_name }} Gallery Image">
+                            </a>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="alert alert-info">No images available for this attraction</p>
+                        </div>
+                    @endforelse
+                </div>
+    
+                {{-- Additional Details Table --}}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h4 class="mb-0">Attraction Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Attraction Category</th>
+                                            <td>{{ $touristicAttraction->touristicAttractionCategory->attraction_category }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Region</th>
+                                            <td>
+                                                <a href="{{ route('tanzaniaRegion.publicView', $touristicAttraction->tanzaniaRegion->uuid) }}" 
+                                                   class="text-primary" 
+                                                   title="{{ $touristicAttraction->tanzaniaRegion->region_description }}">
+                                                    {{ $touristicAttraction->tanzaniaRegion->region_name }} &#8594;
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Governing Body</th>
+                                            <td>
+                                                <a href="{{ $touristicAttraction->website_link }}" 
+                                                   target="_blank" 
+                                                   class="text-primary">
+                                                    {{ $touristicAttraction->governing_body }} &#8594;
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Year</th>
+                                            <td>{{ $year }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Best Visit Month</th>
+                                            <td>{{ $touristicAttraction->attraction_visit_month }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Entry Fee (Foreign Adult)</th>
+                                            <td>Tshs {{ number_format($touristicAttraction->entry_fee_adult_foreigner) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Entry Fee (Foreign Child)</th>
+                                            <td>Tshs {{ number_format($touristicAttraction->entry_fee_child_foreigner) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Entry Fee (Local Adult)</th>
+                                            <td>Tshs {{ number_format($touristicAttraction->entry_fee_adult_local) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Entry Fee (Local Child)</th>
+                                            <td>Tshs {{ number_format($touristicAttraction->entry_fee_child_local) }}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        </a>
+                <div class="col-md-12">
+                    <div class="card h-100 border-light">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: dodgerblue">Personal Experience</h5>
+                            <p> ~ {{ $touristicAttraction->personal_experience }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+    
 </div>

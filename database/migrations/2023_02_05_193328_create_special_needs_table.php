@@ -16,6 +16,7 @@ class CreateSpecialNeedsTable extends Migration
         Schema::create('special_needs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('special_need_name')->index();
+            $table->string('special_need_icon');
             $table->string('status')->default(0);
             $table->string('uuid',100)->unique();
             $table->softDeletes();

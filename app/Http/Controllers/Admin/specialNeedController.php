@@ -41,6 +41,7 @@ class specialNeedController extends Controller
     {
         $validator=Validator::make($request->all(),[
             'special_need_name'=>'required',
+            'special_need_icon'=>'required',
         ]);
         if ($validator->fails())
         {
@@ -84,6 +85,14 @@ class specialNeedController extends Controller
      */
     public function update(Request $request, $specialNeed)
     {
+        $validator=Validator::make($request->all(),[
+            'special_need_name'=>'required',
+            'special_need_icon'=>'required',
+        ]);
+        if ($validator->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
         $input=$request->all();
         $specialNeedRepo=new specialNeedRepository();
         $special_need=$specialNeedRepo->updateSpecialNeed($input,$specialNeed);

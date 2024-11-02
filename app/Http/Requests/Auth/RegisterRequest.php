@@ -29,6 +29,7 @@ class RegisterRequest extends Request
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'captcha' => 'required|captcha',
+            'role'=>'required',
             'term_check' => 'required',
         ];
 

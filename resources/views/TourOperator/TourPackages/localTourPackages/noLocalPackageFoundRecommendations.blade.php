@@ -12,7 +12,7 @@
 
         <div class="card" style="padding-top: 30px">
             <div class="card-body">
-                <p style="padding-left: 20px;padding-top:40px;background-color: rgba(30,144,255,0.2)">Unfortunately, it
+                <p  class="alert alert-danger d-flex align-items-center" role="alert" style="border-radius: 8px;" style="padding-left: 20px;border-left: 2px solid gold" style="padding-left: 20px;padding-top:40px">Unfortunately, it
                     appears that our tour operators have not yet posted the package you are looking for. However, here
                     is a list of tour operators operating in the region. Please check their profiles to choose the one
                     that can take you to your desired attraction</p>
@@ -55,7 +55,15 @@
                             </p>
                             <p><b>Years of experience</b>: {{$tourOperatorOperatingAround->TourCompanyYearsOfExperienceLabel}}years</p>
                             <p><b>Total employees</b>: {{$tourOperatorOperatingAround->total_employees}} employees</p>
-
+                            <p><b>Safari Class</b>:
+                                @if ($tourOperator->safariClass == 'bothLocalAndInternationalTours')
+                                    <span>Offers both<a href="#"> Local and International Safari's</a></span>
+                                @elseif ($tourOperator->safariClass == 'localTours')
+                                    <span>Offers <a href="#">Local Safari's</a> Only</span>
+                                @elseif ($tourOperator->safariClass == 'internationalTours')
+                                    <span>Offers <a href="#">International Safari's</a> Only</span>
+                                @endif
+                            </p>
                             <div style="display: flex">
                                 <p><b>Country</b>:
                                     <a href="{{route('Tanzania.show',$nation->uuid)}}">
@@ -114,12 +122,24 @@
                             </div>
 
                             <div class="d-flex justify-content-center">
-                                <a href="{{$tourOperatorOperatingAround->instagram_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram-new--v1"/></a>
-                                <a href="{{$tourOperatorOperatingAround->whatsapp_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/whatsapp--v1.png"alt="whatsapp--v1"/></a>
-                                <a href=mailto:"{{$tourOperatorOperatingAround->email_address}}" target="_black"> <img width="30" height="30" src="https://img.icons8.com/fluency/48/email-open.png" alt="email-open"/></a>
-                                <a href="{{$tourOperatorOperatingAround->gps_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/google-maps-new.png" alt="google-maps-new"/></a>
-                                <a href="{{$tourOperatorOperatingAround->website_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/fluency/48/domain.png" alt="domain"/></a>
-                                <a href=tel:"{{$tourOperatorOperatingAround->phone_number}}"><img width="30" height="30" src="https://img.icons8.com/color/48/phone.png" alt="phone"/></a>
+                                <a href="{{$tourOperator->instagram_url}}" target="_blank" class="mx-2">
+                                    <i class="fab fa-instagram fa-2x" style="color: #E4405F;"></i>
+                                </a>
+                                <a href="{{$tourOperator->whatsapp_url}}" target="_blank" class="mx-2">
+                                    <i class="fab fa-whatsapp fa-2x" style="color: #25D366;"></i>
+                                </a>
+                                <a href="mailto:{{$tourOperator->email_address}}" target="_blank" class="mx-2">
+                                    <i class="fas fa-envelope fa-2x" style="color: #007BFF;"></i>
+                                </a>
+                                <a href="{{$tourOperator->gps_url}}" target="_blank" class="mx-2">
+                                    <i class="fas fa-map-marker-alt fa-2x" style="color: #EA4335;"></i>
+                                </a>
+                                <a href="{{$tourOperator->website_url}}" target="_blank" class="mx-2">
+                                    <i class="fas fa-globe fa-2x" style="color: #007BFF;"></i>
+                                </a>
+                                <a href="tel:{{$tourOperator->phone_number}}" class="mx-2">
+                                    <i class="fas fa-phone fa-2x" style="color: #34B7F1;"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

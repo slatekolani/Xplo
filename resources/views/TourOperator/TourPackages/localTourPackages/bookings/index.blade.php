@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-body">
                     <span>Safari To: <a href="{{route('touristicAttraction.show',$localTourPackage->touristicAttraction->uuid)}}" class="attraction-link" data-toggle="tooltip" data-placement="top" data-attraction-id="{{ $localTourPackage->safari_name }}" style="color: dodgerblue" title="{{$localTourPackage->touristicAttraction->attraction_description }} - {{$localTourPackage->touristicAttraction->basic_information }} ">{{$localTourPackage->touristicAttraction->attraction_name }}</a> - </span>
-                    <span>Countdown Days For Tour : {{$localTourPackage->CountDownDaysForLocalTourPackageTripLabel}}</span>
+                    <span>Countdown Days For Tour : {!! $localTourPackage->CountDownDaysForLocalTourPackageTripLabel !!}</span>
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ class CreateTransportsTable extends Migration
     {
         Schema::create('transports', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('transport_icon');
             $table->string('transport_name');
             $table->string('uuid',100)->unique();
             $table->string('status')->default(0);

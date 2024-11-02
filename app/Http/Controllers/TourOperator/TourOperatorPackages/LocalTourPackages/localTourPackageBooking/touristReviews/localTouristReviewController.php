@@ -65,22 +65,27 @@ class localTouristReviewController extends Controller
      */
     public function store(Request $request)
     {
-        $validator=Validator::make($request->all(),[
-            'review_message'=>'required|max:500|string',
-            'local_tour_booking_id'=>'required',
-            'local_tour_package_id'=>'required',
-            'tour_operator_id'=>'required',
-        ]);
-        if ($validator->fails())
-        {
-            return back()->withInput()->withErrors($validator);
-        }
-        $input=$request->all();
-        $localTouristReviewRepo=new localTouristReviewRepository();
-        $localTouristReview=$localTouristReviewRepo->storeLocalTouristReview($input);
-        return back()->withFlashSuccess('Much appreciation for your support to this tour operator. Your review was submitted successfully.')
-            ->with('localTouristReview',$localTouristReview);
+    $validator = Validator::make($request->all(), [
+        'review_company' => 'required|max:500|string',
+        'review_attraction' => 'required|max:500|string',
+        'local_tour_booking_id' => 'required',
+        'local_tour_package_id' => 'required',
+        'tour_operator_id' => 'required',
+        'rating' => 'required|integer|min:1|max:5',
+    ]);
+
+    if ($validator->fails()) {
+        return back()->withInput()->withErrors($validator);
     }
+
+    $input = $request->all();
+    $localTouristReviewRepo = new localTouristReviewRepository();
+    $localTouristReview = $localTouristReviewRepo->storeLocalTouristReview($input);
+
+    return back()->withFlashSuccess('Much appreciation for your support to this tour operator. Your review was submitted successfully.')
+        ->with('localTouristReview', $localTouristReview);
+    }
+
 
     /**
      * Display the specified resource.

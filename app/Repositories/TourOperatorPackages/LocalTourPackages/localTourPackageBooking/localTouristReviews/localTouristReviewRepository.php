@@ -23,11 +23,14 @@ class localTouristReviewRepository extends BaseRepository
 
     public function storeLocalTouristReview($input)
     {
-        $localTouristReview=new localTouristReviews();
-        $localTouristReview->review_message=$input['review_message'];
-        $localTouristReview->tour_operator_id=$input['tour_operator_id'];
-        $localTouristReview->local_tour_package_id=$input['local_tour_package_id'];
-        $localTouristReview->local_tour_booking_id=$input['local_tour_booking_id'];
+        $localTouristReview = new localTouristReviews();
+        $localTouristReview->review_company = $input['review_company'];
+        $localTouristReview->review_attraction = $input['review_attraction'];
+        $localTouristReview->tour_operator_id = $input['tour_operator_id'];
+        $localTouristReview->local_tour_package_id = $input['local_tour_package_id'];
+        $localTouristReview->local_tour_booking_id = $input['local_tour_booking_id'];
+        $localTouristReview->rating = $input['rating'];
         $localTouristReview->save();
     }
+    
 }

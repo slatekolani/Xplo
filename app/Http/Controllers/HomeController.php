@@ -16,6 +16,7 @@ use App\Models\TourOperator\TourPackages\LocalTourPackages\localTourPackages;
 use App\Models\tourPackageType\tourPackageType;
 use App\Models\TourTypes\tourTypes;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -41,26 +42,33 @@ class HomeController extends Controller
             ->where('safari_start_date','>=',Carbon::now())
             ->orderBy('created_at','desc')
             ->take(3)
+            ->inRandomOrder()
             ->get();
         $localTourPackageReservationsIds=DB::table('local_package_reservation')->pluck('local_tour_package_id');
         $reservationLocalTourPackages=localTourPackages::query()
             ->whereIn('id',$localTourPackageReservationsIds)
+            ->where('safari_start_date','>=',Carbon::now())
             ->take(3)
+            ->inRandomOrder()
             ->get();
         $touristicAttractions=touristicAttractions::query()
             ->where('status','=',1)
             ->orderBy('id','desc')
             ->take(3)
+            ->inRandomOrder()
             ->get();
         $regions=tanzaniaRegions::query()
             ->where('status','=',1)
             ->orderBy('id','desc')
             ->take(3)
+            ->inRandomOrder()
             ->get();
         $cultures=tanzaniaRegionCulture::query()
             ->with('tanzaniaRegion')
             ->orderBy('id','desc')
-            ->take(3)->get();
+            ->take(3)
+            ->inRandomOrder()
+            ->get();
         $nation=nations::query()->where('status','=',1)->first();
         $touristicGames=touristicGame::query()->where('status','=',1)->orderBy('id','DESC')->get();
         $events=tanzaniaAndWorldEvents::query()->where('status','=',1)->orderBy('id','DESC')->get();

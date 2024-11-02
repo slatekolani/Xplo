@@ -60,6 +60,9 @@ class touristicAttractionController extends Controller
     public function show($touristicAttractionId)
     {
         $touristicAttraction=touristicAttractions::query()->with('tanzaniaRegion')->where('uuid',$touristicAttractionId)->first();
+        $years=range(date('Y'),1900);
+        $establishmentYear=$touristicAttraction->establishment_year;
+        $year=$years[$establishmentYear];
         $attractionId=$touristicAttraction->id;
         $spottedTourOperatorsId=DB::table('operator_touristic_attraction')->where('touristic_attraction_id',$attractionId)->pluck('tour_operator_id')->toArray();
         $spottedTourOperatorsList=tourOperator::whereIn('id',$spottedTourOperatorsId)->with('nation')->where('status','=',1)->take(3)->get();
@@ -72,6 +75,7 @@ class touristicAttractionController extends Controller
         $touristicAttractionRules=touristicAttractionRules::query()->orderBy('id')->get();
         return view('TouristAttraction.publicView')
             ->with('nation',$nation)
+            ->with('year',$year)
             ->with('touristicAttractionRules',$touristicAttractionRules)
             ->with('touristicAttractionVisitReasons',$touristicAttractionVisitReasons)
             ->with('touristicAttractionHoneyPoints',$touristicAttractionHoneyPoints)

@@ -84,6 +84,7 @@ class localTourPackagesController extends Controller
      */
     public function create($tourOperatorId)
     {
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
         $tourOperator=tourOperator::query()->where('uuid',$tourOperatorId)->first();
         $touristicAttractions=touristicAttractions::query()->where('status','=',1)->pluck('attraction_name','id');
         $specialNeeds=specialNeed::query()->where('status','=',1)->pluck('special_need_name','id');
@@ -93,12 +94,14 @@ class localTourPackagesController extends Controller
         $tourTypeOffered=tourTypes::query()->where('status','=',1)->pluck('tour_type_name','id');
         $customerSatisfactionCategory=customerSatisfactionCategory::query()->pluck('customer_satisfaction_name','id');
         $reservations=tourOperatorReservation::query()->where('tour_operator_id',$tourOperator->id)->pluck('reservation_name','id');
+
         return view('TourOperator.TourPackages.localTourPackages.create')
             ->with('reservations',$reservations)
             ->with('touristicAttractions',$touristicAttractions)
             ->with('specialNeeds',$specialNeeds)
             ->with('transports',$transports)
             ->with('events',$events)
+            ->with('package_range',$package_range)
             ->with('customerSatisfactionCategory',$customerSatisfactionCategory)
             ->with('tourPackageTypes',$tourPackageTypes)
             ->with('tourTypeOffered',$tourTypeOffered)
@@ -169,6 +172,8 @@ class localTourPackagesController extends Controller
             'trip_price_adult_foreigner'=>'required|numeric',
             'safari_start_date'=>'required',
             'safari_end_date'=>'required',
+            'payment_deadline'=>'required',
+            'package_range'=>'required',
             'maximum_travellers'=>'required|numeric',
             'phone_number'=>'required|regex:/^[0-9]{10}$/',
             'email_address'=>'required|email',
@@ -232,7 +237,10 @@ class localTourPackagesController extends Controller
 
     public function publicView($localTourPackageId)
     {
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
         $localTourPackage=localTourPackages::query()->with('tourOperator','tourPackageType','tanzaniaAndWorldEvent','touristicAttraction')->where('uuid',$localTourPackageId)->first();
+        $localTourPackagePackageRangeId = $localTourPackage->package_range;
+        $localTourPackagePackageRangeName = $package_range[$localTourPackagePackageRangeId] ?? 'Unknown Plan';
         $similarLocalTourPackages=localTourPackages::query()->where('safari_name',$localTourPackage->safari_name)->where('safari_start_date','>=',Carbon::now())->take(4)->get();
         $localTouristReviews=localTouristReviews::query()->with('localTourPackageBooking')->where('tour_operator_id',$localTourPackage->tour_operator_id)->take(1)->get();
         $totalLocalTouristReviews=localTouristReviews::query()->with('localTourPackageBooking')->where('tour_operator_id',$localTourPackage->tour_operator_id)->count();
@@ -265,6 +273,7 @@ class localTourPackagesController extends Controller
             ->with('safariAreaPreferenceReservations',$safariAreaPreferenceReservations)
             ->with('localTourPackageCustomerSatisfactions',$localTourPackageCustomerSatisfactions)
             ->with('nation',$nation)
+            ->with('localTourPackagePackageRangeName',$localTourPackagePackageRangeName)
             ->with('attractionHoneyPoints',$attractionHoneyPoints)
             ->with('reservationTouristicGames',$reservationTouristicGames)
             ->with('touristicGames',$touristicGames)
@@ -301,6 +310,7 @@ class localTourPackagesController extends Controller
      */
     public function edit($localTourPackageUuid)
     {
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
         $localTourPackage=localTourPackages::query()->where('uuid',$localTourPackageUuid)->first();
         $touristicAttractions=touristicAttractions::query()->where('status','=',1)->pluck('attraction_name','id');
         $specialNeeds=specialNeed::query()->where('status','=',1)->pluck('special_need_name','id');
@@ -332,6 +342,7 @@ class localTourPackagesController extends Controller
             ->with('reservationIds',$reservationIds)
             ->with('transports',$transports)
             ->with('transportIds',$transportIds)
+            ->with('package_range',$package_range)
             ->with('events',$events)
             ->with('customerSatisfactionCategory',$customerSatisfactionCategory)
             ->with('customerSatisfactionCategoryIds',$customerSatisfactionCategoryIds)
@@ -359,6 +370,8 @@ class localTourPackagesController extends Controller
             'trip_price_adult_foreigner'=>'required|numeric',
             'safari_start_date'=>'required',
             'safari_end_date'=>'required',
+            'payment_deadline'=>'required',
+            'package_range'=>'required',
             'maximum_travellers'=>'required|numeric',
             'phone_number'=>'required|regex:/^[0-9]{10}$/',
             'email_address'=>'required|email',
@@ -747,6 +760,7 @@ class localTourPackagesController extends Controller
             ->addColumn('safari_end_date', function ($localTourPackages){
                 return $localTourPackages->safari_end_date;
             })
+        
             ->addColumn('activate_or_deactivate_local_tourPackage',function($localTourPackages){
                 $btn='<label class="switch{{$localTourPackages->status}}">
                           <input type="checkbox">

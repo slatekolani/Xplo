@@ -44,6 +44,8 @@ class tourOperatorRepository extends BaseRepository
         $tourOperatorCompany->about_company=$input['about_company'];
         $tourOperatorCompany->support_time_range=$input['support_time_range'];
         $tourOperatorCompany->region=$input['region'];
+        $tourOperatorCompany->safariClass=$input['safariClass'];
+        $tourOperatorCompany->agreeCustomBooking=$input['agreeCustomBooking'];
         $tourOperatorCompany->postal_code=$input['postal_code'];
         $tourOperatorCompany->users_id=auth()->user()->id;
         if($input['company_logo'])
@@ -106,6 +108,8 @@ class tourOperatorRepository extends BaseRepository
         $tourOperatorCompany->company_nation=$input['company_nation'];
         $tourOperatorCompany->support_time_range=$input['support_time_range'];
         $tourOperatorCompany->about_company=$input['about_company'];
+        $tourOperatorCompany->safariClass=$input['safariClass'];
+        $tourOperatorCompany->agreeCustomBooking=$input['agreeCustomBooking'];
         $tourOperatorCompany->region=$input['region'];
         $tourOperatorCompany->postal_code=$input['postal_code'];
         $tourOperatorCompany->users_id=auth()->user()->id;

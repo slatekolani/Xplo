@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\Payment\InvoiceCreator;
+use App\Models\TourOperator\tourOperator;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        
+       
     }
 
 
@@ -41,4 +42,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+  
 }

@@ -4,6 +4,7 @@ namespace App\Models\tanzaniaRegions;
 
 use App\Models\BaseModel\BaseModel;
 use App\Models\Nations\economicActivity\nationEconomicActivity;
+use App\Models\Nations\nations;
 use App\Models\tanzaniaRegions\Precautions\tanzaniaRegionPrecautions;
 use App\Models\tanzaniaRegions\regionCulture\tanzaniaRegionCulture;
 use App\Models\tanzaniaRegions\tanzaniaRegionFAQ\tanzaniaRegionFAQ;
@@ -24,6 +25,10 @@ class tanzaniaRegions extends BaseModel
     public function customTourBooking()
     {
        return $this->belongsTo(customTourBookings::class);
+    }
+    public function Nation()
+    {
+        return $this->belongsTo(nations::class);
     }
     public function tourOperatorReservation()
     {

@@ -92,7 +92,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('attraction_image', __("Attraction Image"), ['class' => 'required_asterik']) }}
-                                        {{ Form::file('attraction_image[]', ['class' => 'form-control','multiple'=>true, 'autocomplete' => 'off', 'id' => 'attraction_image', 'required']) }}
+                                        {{ Form::file('attraction_image[]', ['class' => 'form-control','multiple'=>true, 'autocomplete' => 'off', 'id' => 'attraction_image']) }}
                                         {!! $errors->first('attraction_image', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                     <div class="form-group">
                                         {{ Form::label('attraction_map', __("Attraction map"), ['class' => 'required_asterik']) }}
                                         <a href="{{asset('public/attractionMaps/'.$touristicAttraction->attraction_map)}}">Previous Map</a>
-                                        {{ Form::file('attraction_map',null,$touristicAttraction->attraction_map, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'attraction_map', 'required']) }}
+                                        {{ Form::file('attraction_map',null,$touristicAttraction->attraction_map, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'attraction_map']) }}
                                         {!! $errors->first('attraction_map', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>

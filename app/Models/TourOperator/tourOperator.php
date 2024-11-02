@@ -33,13 +33,13 @@ use Illuminate\Support\Facades\Log;
 class tourOperator extends BaseModel
 {
     use SoftDeletes;
-    protected $table='tour_operator';
-    protected $guarded=['uuid'];
-    protected $dates=['deleted_at'];
+    protected $table = 'tour_operator';
+    protected $guarded = ['uuid'];
+    protected $dates = ['deleted_at'];
 
     public function nation()
     {
-        return $this->belongsTo(nations::class,'company_nation');
+        return $this->belongsTo(nations::class, 'company_nation');
     }
     public function User()
     {
@@ -114,25 +114,24 @@ class tourOperator extends BaseModel
     }
     public function tourOperatorSafariAreaPreferences()
     {
-        return $this->belongsToMany(tourOperator::class,'operator_touristic_attraction','tour_operator_id','touristic_attraction_id')->withTimestamps();
+        return $this->belongsToMany(tourOperator::class, 'operator_touristic_attraction', 'tour_operator_id', 'touristic_attraction_id')->withTimestamps();
     }
     public function tourOperatorRegionsOfOperations()
     {
-        return $this->belongsToMany(tourOperator::class,'operator_tanzania_region','tour_operator_id','tanzania_region_id')->withTimestamps();
+        return $this->belongsToMany(tourOperator::class, 'operator_tanzania_region', 'tour_operator_id', 'tanzania_region_id')->withTimestamps();
     }
     public function tourOperatorTourInsuranceTypes()
     {
-        return $this->belongsToMany(tourOperator::class,'operator_insurance_type','tour_operator_id','tour_insurance_type_id')->withTimestamps();
+        return $this->belongsToMany(tourOperator::class, 'operator_insurance_type', 'tour_operator_id', 'tour_insurance_type_id')->withTimestamps();
     }
     public function getCompanyLogoLabelAttribute()
     {
-        return url('public/TourOperatorsLogos/'.$this->company_logo);
+        return url('public/TourOperatorsLogos/' . $this->company_logo);
     }
     public function getTourCompanyStatusLabelAttribute()
     {
-        $status=$this->status;
-        switch ($status)
-        {
+        $status = $this->status;
+        switch ($status) {
             case 0:
                 return '<span class="badge badge-warning">Inactive</span>';
                 break;
@@ -143,67 +142,76 @@ class tourOperator extends BaseModel
     }
     public function getTourCompanyButtonActionsLabelAttribute()
     {
-        $status=$this->status;
-        switch ($status)
-        {
+        $status = $this->status;
+        switch ($status) {
             case 0:
                 return "<select name='action' class='action_select'>
                             <option value=''>Select</option>
-                            <option data-route='".route('tourOperator.show',$this->uuid)."' value='2'>View</option>
-                            <option data-route='".route('tourOperator.edit',$this->uuid)."' value='2'>Edit</option>
-                            <option data-route='".route('tourOperator.delete',$this->uuid)."' value='1'>Delete</option>
+                            <option data-route='" . route('tourOperator.show', $this->uuid) . "' value='2'>View</option>
+                            <option data-route='" . route('tourOperator.edit', $this->uuid) . "' value='2'>Edit</option>
+                            <option data-route='" . route('tourOperator.delete', $this->uuid) . "' value='1'>Delete</option>
                         </select>";
-                 break;
-            case 1:
-                return "<select name='action' class='action_select'>
-                            <option value=''>Select</option>
-                            <option data-route='".route('tourOperator.show',$this->uuid)."' value='2'>View</option>
-                            <option data-route='".route('tourOperator.edit',$this->uuid)."' value='2'>Edit</option>
-                            <option data-route='".route('tourOperatorReservation.index',$this->uuid)."' value='2'>Reservations</option>
-                            <option data-route='".route('tourPackages.index',$this->uuid)."' value='2'>International tour packages</option>
-                            <option data-route='".route('localTourPackages.index',$this->uuid)."' value='2'>Local tour packages</option>
-                            <option data-route='".route('customTourBookings.index',$this->uuid)."' value='2'>Custom tour bookings</option>
-                            <option data-route='".route('tourOperator.delete',$this->uuid)."' value='1'>Delete</option>
-                         </select>";
                 break;
+            case 1:
+                $options = "<select name='action' class='action_select'>
+                <option value=''>Select</option>
+                <option data-route='" . route('tourOperator.show', $this->uuid) . "' value='2'>View</option>
+                <option data-route='" . route('tourOperator.edit', $this->uuid) . "' value='2'>Edit</option>
+                <option data-route='" . route('tourOperatorReservation.index', $this->uuid) . "' value='2'>Reservations</option>";
+            
+            if ($this->agreeCustomBooking == "Yes") {
+                $options .= "<option data-route='" . route('customTourBookings.index', $this->uuid) . "' value='2'>Custom tour bookings</option>";
+            }
+            
+            if ($this->safariClass == "bothLocalAndInternationalTours") {
+                $options .= "<option data-route='" . route('tourPackages.index', $this->uuid) . "' value='2'>International tour packages</option>
+                             <option data-route='" . route('localTourPackages.index', $this->uuid) . "' value='2'>Local tour packages</option>";
+            } elseif ($this->safariClass == "internationalTours") {
+                $options .= "<option data-route='" . route('tourPackages.index', $this->uuid) . "' value='2'>International tour packages</option>";
+            } elseif ($this->safariClass == "localTours") {
+                $options .= "<option data-route='" . route('localTourPackages.index', $this->uuid) . "' value='2'>Local tour packages</option>";
+            }
+            
+            $options .= "<option data-route='" . route('tourOperator.delete', $this->uuid) . "' value='1'>Delete</option>
+            </select>";
+            
+            return $options;
+            
         }
     }
     public function getButtonActionsForDeletedTourCompaniesLabelAttribute()
     {
         return "<select name='action' class='action_select'>
                     <option value=''>Select</option>
-                    <option data-route='".route('tourOperator.showDeletedTourCompany',$this->uuid)."' value='3'>View</option>
-                    <option data-route='".route('tourOperator.restoreDeletedTourCompany',$this->uuid)."' value='1'>Restore</option>
-                    <option data-route='".route('tourOperator.forceDeleteTourCompany',$this->uuid)."' value='2'>Delete completely</option>
+                    <option data-route='" . route('tourOperator.showDeletedTourCompany', $this->uuid) . "' value='3'>View</option>
+                    <option data-route='" . route('tourOperator.restoreDeletedTourCompany', $this->uuid) . "' value='1'>Restore</option>
+                    <option data-route='" . route('tourOperator.forceDeleteTourCompany', $this->uuid) . "' value='2'>Delete completely</option>
                 </select>";
     }
 
     public function getTourCompanyButtonActionsAsAdminLabelAttribute()
     {
-        $status=$this->status;
-        switch ($status)
-        {
+        $status = $this->status;
+        switch ($status) {
             case 0:
-                $btn='<a href="'.route('tourOperator.delete',$this->uuid).'" class="btn btn-danger btn-sm">Delete</a>';
+                $btn = '<a href="' . route('tourOperator.delete', $this->uuid) . '" class="btn btn-danger btn-sm">Delete</a>';
                 return $btn;
                 break;
             case 1:
-                $btn='<a href="'.route('tourOperator.delete',$this->uuid).'" class="btn btn-danger btn-sm">Delete</a>';
-                $btn=$btn.'<a href="'.route('tourPackages.index',$this->uuid).'" class="btn btn-primary btn-sm">Tour Packages</a>';
-                $btn=$btn.'<a href="'.route('customTourBookings.index',$this->uuid).'" class="btn btn-primary btn-sm">Custom Bookings</a>';
+                $btn = '<a href="' . route('tourOperator.delete', $this->uuid) . '" class="btn btn-danger btn-sm">Delete</a>';
+                $btn = $btn . '<a href="' . route('tourPackages.index', $this->uuid) . '" class="btn btn-primary btn-sm">Tour Packages</a>';
+                $btn = $btn . '<a href="' . route('customTourBookings.index', $this->uuid) . '" class="btn btn-primary btn-sm">Custom Bookings</a>';
                 return $btn;
                 break;
         }
     }
     public function getTourOperatorSafariAreaPreferences(array $input, Model $tourOperatorCompany)
     {
-        $tourOperatorSafariAreaPreferencesArray=[];
-        foreach ($input as $key =>$value)
-        {
-            switch ($key)
-            {
+        $tourOperatorSafariAreaPreferencesArray = [];
+        foreach ($input as $key => $value) {
+            switch ($key) {
                 case 'safari_area_preferences':
-                    $tourOperatorSafariAreaPreferencesArray=$value;
+                    $tourOperatorSafariAreaPreferencesArray = $value;
                     break;
             }
         }
@@ -211,13 +219,11 @@ class tourOperator extends BaseModel
     }
     public function getTourOperatorRegionsOfOperations(array $input, Model $tourOperatorCompany)
     {
-        $tourOperatorRegionsOfOperationsArray=[];
-        foreach ($input as $key =>$value)
-        {
-            switch ($key)
-            {
+        $tourOperatorRegionsOfOperationsArray = [];
+        foreach ($input as $key => $value) {
+            switch ($key) {
                 case 'regions_of_operation':
-                    $tourOperatorRegionsOfOperationsArray=$value;
+                    $tourOperatorRegionsOfOperationsArray = $value;
                     break;
             }
         }
@@ -225,13 +231,11 @@ class tourOperator extends BaseModel
     }
     public function getTourOperatorTourInsuranceTypes(array $input, Model $tourOperatorCompany)
     {
-        $tourOperatorTourInsuranceTypesArray=[];
-        foreach ($input as $key =>$value)
-        {
-            switch ($key)
-            {
+        $tourOperatorTourInsuranceTypesArray = [];
+        foreach ($input as $key => $value) {
+            switch ($key) {
                 case 'insurance_types_offered':
-                    $tourOperatorTourInsuranceTypesArray=$value;
+                    $tourOperatorTourInsuranceTypesArray = $value;
                     break;
             }
         }
@@ -239,30 +243,28 @@ class tourOperator extends BaseModel
     }
     public function getTourOperatorSafariPreferencesLabelAttribute()
     {
-        $tourOperatorSafariPreferenceId=DB::table('operator_touristic_attraction')->where('tour_operator_id',$this->id)->pluck('touristic_attraction_id');
-        $tourOperatorSafariPreferences=touristicAttractions::whereIn('id',$tourOperatorSafariPreferenceId)->get();
-        $safaris=[];
-        foreach ($tourOperatorSafariPreferences as $tourOperatorSafariPreference)
-        {
-            $safaris[]=[
-                'name'=>$tourOperatorSafariPreference->attraction_name,
-                'description'=>$tourOperatorSafariPreference->attraction_description,
-                'uuid'=>$tourOperatorSafariPreference->uuid,
+        $tourOperatorSafariPreferenceId = DB::table('operator_touristic_attraction')->where('tour_operator_id', $this->id)->pluck('touristic_attraction_id');
+        $tourOperatorSafariPreferences = touristicAttractions::whereIn('id', $tourOperatorSafariPreferenceId)->get();
+        $safaris = [];
+        foreach ($tourOperatorSafariPreferences as $tourOperatorSafariPreference) {
+            $safaris[] = [
+                'name' => $tourOperatorSafariPreference->attraction_name,
+                'description' => $tourOperatorSafariPreference->attraction_description,
+                'uuid' => $tourOperatorSafariPreference->uuid,
             ];
         }
         return $safaris;
     }
     public function getTourOperatorTourInsuranceTypesLabelAttribute()
     {
-        $tourOperatorTourInsuranceTypeId=DB::table('operator_insurance_type')->where('tour_operator_id',$this->id)->pluck('tour_insurance_type_id');
-        $tourOperatorTourInsuranceTypes=tourInsuranceTypes::whereIn('id',$tourOperatorTourInsuranceTypeId)->get();
-        $insurance=[];
-        foreach ($tourOperatorTourInsuranceTypes as $tourOperatorTourInsuranceType)
-        {
-           $insurance[] =[
-               'name'=>$tourOperatorTourInsuranceType->tour_insurance_name,
-               'description'=>$tourOperatorTourInsuranceType->tour_insurance_description,
-           ];
+        $tourOperatorTourInsuranceTypeId = DB::table('operator_insurance_type')->where('tour_operator_id', $this->id)->pluck('tour_insurance_type_id');
+        $tourOperatorTourInsuranceTypes = tourInsuranceTypes::whereIn('id', $tourOperatorTourInsuranceTypeId)->get();
+        $insurance = [];
+        foreach ($tourOperatorTourInsuranceTypes as $tourOperatorTourInsuranceType) {
+            $insurance[] = [
+                'name' => $tourOperatorTourInsuranceType->tour_insurance_name,
+                'description' => $tourOperatorTourInsuranceType->tour_insurance_description,
+            ];
         }
         return $insurance;
     }
@@ -285,150 +287,150 @@ class tourOperator extends BaseModel
 
     public function getTotalInternationalTourPackagesPostedLabelAttribute()
     {
-        $totalInternationalTourPackages=TourPackages::query()->where('tour_operator_id',$this->id)->count();
+        $totalInternationalTourPackages = TourPackages::query()->where('tour_operator_id', $this->id)->count();
         return $totalInternationalTourPackages;
     }
 
     public function getTotalLocalTourPackagesPostedLabelAttribute()
     {
-        $totalLocalTourPackages=localTourPackages::query()->where('tour_operator_id',$this->id)->count();
+        $totalLocalTourPackages = localTourPackages::query()->where('tour_operator_id', $this->id)->count();
         return $totalLocalTourPackages;
     }
     public function getTotalRecentInternationalTourPackagesPostedLabelAttribute()
     {
-        $totalRecentInternationalTourPackages=TourPackages::query()->where('tour_operator_id',$this->id)->whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->count();
+        $totalRecentInternationalTourPackages = TourPackages::query()->where('tour_operator_id', $this->id)->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         return $totalRecentInternationalTourPackages;
     }
     public function getTotalRecentLocalTourPackagesPostedLabelAttribute()
     {
-        $totalRecentLocalTourPackages=localTourPackages::query()->where('tour_operator_id',$this->id)->whereBetween('created_at',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->count();
+        $totalRecentLocalTourPackages = localTourPackages::query()->where('tour_operator_id', $this->id)->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         return $totalRecentLocalTourPackages;
     }
     public function getTotalVerifiedInternationalTourPackagesPostedLabelAttribute()
     {
-        $totalVerifiedInternationalTourPackages=TourPackages::query()->where('tour_operator_id',$this->id)->where('status','=',1)->count();
+        $totalVerifiedInternationalTourPackages = TourPackages::query()->where('tour_operator_id', $this->id)->where('status', '=', 1)->count();
         return $totalVerifiedInternationalTourPackages;
     }
 
     public function getTotalVerifiedLocalTourPackagesPostedLabelAttribute()
     {
-        $totalVerifiedLocalTourPackages=localTourPackages::query()->where('tour_operator_id',$this->id)->where('status','=',1)->count();
+        $totalVerifiedLocalTourPackages = localTourPackages::query()->where('tour_operator_id', $this->id)->where('status', '=', 1)->count();
         return $totalVerifiedLocalTourPackages;
     }
 
     public function getTotalUnVerifiedInternationalTourPackagesPostedLabelAttribute()
     {
-        $totalUnVerifiedInternationalTourPackages=TourPackages::query()->where('tour_operator_id',$this->id)->where('status','=',0)->count();
+        $totalUnVerifiedInternationalTourPackages = TourPackages::query()->where('tour_operator_id', $this->id)->where('status', '=', 0)->count();
         return $totalUnVerifiedInternationalTourPackages;
     }
 
     public function getTotalUnVerifiedLocalTourPackagesPostedLabelAttribute()
     {
-        $totalUnVerifiedLocalTourPackages=localTourPackages::query()->where('tour_operator_id',$this->id)->where('status','=',0)->count();
+        $totalUnVerifiedLocalTourPackages = localTourPackages::query()->where('tour_operator_id', $this->id)->where('status', '=', 0)->count();
         return $totalUnVerifiedLocalTourPackages;
     }
 
     public function getTotalInternationalNearToursLabelAttribute()
     {
-        $internationalNearTours=TourPackages::query()->where('tour_operator_id',$this->id)->whereBetween('safari_start_date',[carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->count();
+        $internationalNearTours = TourPackages::query()->where('tour_operator_id', $this->id)->whereBetween('safari_start_date', [carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
         return $internationalNearTours;
     }
 
     public function getTotalLocalNearToursLabelAttribute()
     {
-        $startOfDay=Carbon::now()->startOfDay();
-        $endOfDay=Carbon::now()->addDays(40)->endOfDay();
-        $localNearTours=localTourPackages::query()->where('tour_operator_id',$this->id)->whereBetween('safari_start_date',[$startOfDay,$endOfDay])->count();
+        $startOfDay = Carbon::now()->startOfDay();
+        $endOfDay = Carbon::now()->addDays(40)->endOfDay();
+        $localNearTours = localTourPackages::query()->where('tour_operator_id', $this->id)->whereBetween('safari_start_date', [$startOfDay, $endOfDay])->count();
         return $localNearTours;
     }
 
     public function getTotalInternationalExpiredTourPackagesLabelAttribute()
     {
-        $internationalTourPackagesExpired=DB::table('tour_package')->where('tour_operator_id',$this->id)->where('safari_start_date','<=',[Carbon::now()])->count();
+        $internationalTourPackagesExpired = DB::table('tour_package')->where('tour_operator_id', $this->id)->where('safari_start_date', '<=', [Carbon::now()])->count();
         return $internationalTourPackagesExpired;
     }
 
     public function getTotalLocalExpiredTourPackagesLabelAttribute()
     {
-        $localTourPackagesExpired=DB::table('local_tour_package')->where('tour_operator_id',$this->id)->where('safari_start_date','<=',[Carbon::now()])->count();
+        $localTourPackagesExpired = DB::table('local_tour_package')->where('tour_operator_id', $this->id)->where('safari_start_date', '<=', [Carbon::now()])->count();
         return $localTourPackagesExpired;
     }
+  
     public function getTotalInternationalDeletedTourPackagesLabelAttribute()
     {
-        $internationalTourPackagesDeleted=TourPackages::onlyTrashed()->where('tour_operator_id',$this->id)->count();
+        $internationalTourPackagesDeleted = TourPackages::onlyTrashed()->where('tour_operator_id', $this->id)->count();
         return $internationalTourPackagesDeleted;
     }
 
     public function getTotalLocalDeletedTourPackagesLabelAttribute()
     {
-        $localTourPackagesDeleted=localTourPackages::onlyTrashed()->where('tour_operator_id',$this->id)->count();
+        $localTourPackagesDeleted = localTourPackages::onlyTrashed()->where('tour_operator_id', $this->id)->count();
         return $localTourPackagesDeleted;
     }
 
     public function getTotalCustomTourBookingsLabelAttribute()
     {
-        $totalCustomTourBookings=customTourBookings::query()->where('tour_operator_id',$this->id)->count();
+        $totalCustomTourBookings = customTourBookings::query()->where('tour_operator_id', $this->id)->count();
         return $totalCustomTourBookings;
     }
     public function getTotalApprovedCustomTourBookingsLabelAttribute()
     {
-        $totalApprovedCustomTourBookings=customTourBookings::query()->where('tour_operator_id',$this->id)->where('status','=',1)->count();
+        $totalApprovedCustomTourBookings = customTourBookings::query()->where('tour_operator_id', $this->id)->where('status', '=', 1)->count();
         return $totalApprovedCustomTourBookings;
     }
     public function getTotalUnApprovedCustomTourBookingsLabelAttribute()
     {
-        $totalUnApprovedCustomTourBookings=customTourBookings::query()->where('tour_operator_id',$this->id)->where('status','=',0)->count();
+        $totalUnApprovedCustomTourBookings = customTourBookings::query()->where('tour_operator_id', $this->id)->where('status', '=', 0)->count();
         return $totalUnApprovedCustomTourBookings;
     }
     public function getTotalRecentCustomTourBookingsLabelAttribute()
     {
-        $totalRecentCustomTourBookings=customTourBookings::query()->where('tour_operator_id',$this->id)->whereBetween('created_at',[Carbon::now()->startOfWeek(),Carbon::now()->endOfWeek()])->count();
+        $totalRecentCustomTourBookings = customTourBookings::query()->where('tour_operator_id', $this->id)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
         return $totalRecentCustomTourBookings;
     }
     public function getTotalNearCustomToursLabelAttribute()
     {
-        $startOfDay=Carbon::now()->startOfDay();
-        $endOfDay=Carbon::now()->addDays(40)->endOfDay();
-        $totalNearCustomTours=customTourBookings::query()->where('tour_operator_id',$this->id)->whereBetween('start_date',[$startOfDay,$endOfDay])->count();
+        $startOfDay = Carbon::now()->startOfDay();
+        $endOfDay = Carbon::now()->addDays(40)->endOfDay();
+        $totalNearCustomTours = customTourBookings::query()->where('tour_operator_id', $this->id)->whereBetween('start_date', [$startOfDay, $endOfDay])->count();
         return $totalNearCustomTours;
     }
     public function getTotalExpiredCustomTourBookingsLabelAttribute()
     {
-        $totalExpiredCustomTourBookings=customTourBookings::query()->where('tour_operator_id',$this->id)->where('start_date','<=',Carbon::now())->count();
+        $totalExpiredCustomTourBookings = customTourBookings::query()->where('tour_operator_id', $this->id)->where('start_date', '<=', Carbon::now())->count();
         return $totalExpiredCustomTourBookings;
     }
     public function getTotalRetrievedDeletedCustomBookingsLabelAttribute()
     {
-        $totalRetrievedDeletedCustomBookings=customTourBookings::onlyTrashed()->where('tour_operator_id',$this->id)->count();
+        $totalRetrievedDeletedCustomBookings = customTourBookings::onlyTrashed()->where('tour_operator_id', $this->id)->count();
         return $totalRetrievedDeletedCustomBookings;
     }
 
     public function getTourCompanyYearsOfExperienceLabelAttribute()
     {
-        $establishedYear=Carbon::parse($this->established_date);
-        $todayYear=Carbon::now();
-        $yearsOfExperience=$todayYear->diffInYears($establishedYear);
+        $establishedYear = Carbon::parse($this->established_date);
+        $todayYear = Carbon::now();
+        $yearsOfExperience = $todayYear->diffInYears($establishedYear);
         return $yearsOfExperience;
     }
     public function getTotalTourOperatorReservationsLabelAttribute()
     {
-        $tourOperatorReservations=tourOperatorReservation::query()->where('tour_operator_id',$this->id)->count();
+        $tourOperatorReservations = tourOperatorReservation::query()->where('tour_operator_id', $this->id)->count();
         return $tourOperatorReservations;
     }
     public function getApprovedTourOperatorReservationsLabelAttribute()
     {
-        $approvedTourOperatorReservations=tourOperatorReservation::query()->where('tour_operator_id',$this->id)->where('status','=',1)->count();
+        $approvedTourOperatorReservations = tourOperatorReservation::query()->where('tour_operator_id', $this->id)->where('status', '=', 1)->count();
         return $approvedTourOperatorReservations;
     }
     public function getUnapprovedTourOperatorReservationsLabelAttribute()
     {
-        $unapprovedTourOperatorReservations=tourOperatorReservation::query()->where('tour_operator_id',$this->id)->where('status','=',0)->count();
+        $unapprovedTourOperatorReservations = tourOperatorReservation::query()->where('tour_operator_id', $this->id)->where('status', '=', 0)->count();
         return $unapprovedTourOperatorReservations;
     }
     public function getDeletedTourOperatorReservationsLabelAttribute()
     {
-        $deletedTourOperatorReservations=tourOperatorReservation::onlyTrashed()->where('tour_operator_id',$this->id)->count();
+        $deletedTourOperatorReservations = tourOperatorReservation::onlyTrashed()->where('tour_operator_id', $this->id)->count();
         return $deletedTourOperatorReservations;
     }
-
 }

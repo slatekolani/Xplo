@@ -49,6 +49,20 @@
                                 </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
+                                        {{ Form::label('package_range', __("What is the duration from purchase to travel date for your package?"), ['class' => 'required_asterik']) }}
+                                        {{ Form::select('package_range',$package_range,$localTourPackage->package_range, ['class' => 'form-control select2', 'autocomplete' => 'off', 'id' => 'package_range', 'required']) }}
+                                        {!! $errors->first('package_range', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-group">
+                                        {{ Form::label('free_of_charge_age', __("Free of charge age below?"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('free_of_charge_age', $localTourPackage->free_of_charge_age, ['class' => 'form-control','autocomplete' => 'off', 'id' => 'free_of_charge_age', 'required']) }}
+                                        {!! $errors->first('free_of_charge_age', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div> 
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
                                         {{ Form::label('safari_start_date', __("Safari start date"), ['class' => 'required_asterik']) }}
                                         {{ Form::date('safari_start_date', $localTourPackage->safari_start_date, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'safari_start_date', 'required']) }}
                                         {!! $errors->first('safari_start_date', '<span class="badge badge-danger">:message</span>') !!}
@@ -59,6 +73,13 @@
                                         {{ Form::label('safari_end_date', __("Safari end date"), ['class' => 'required_asterik']) }}
                                         {{ Form::date('safari_end_date', $localTourPackage->safari_end_date, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'safari_end_date', 'required']) }}
                                         {!! $errors->first('safari_end_date', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('payment_deadline', __("Payment Deadline"), ['class' => 'required_asterik']) }}
+                                        {{ Form::date('payment_deadline', $localTourPackage->payment_deadline, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'payment_deadline', 'required']) }}
+                                        {!! $errors->first('payment_deadline', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                             </div>
@@ -338,13 +359,7 @@
                                                 {!! $errors->first('discount_offered', '<span class="badge badge-danger">:message</span>') !!}
                                             </div>
                                         </div>
-                                        <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <div class="form-group">
-                                                {{ Form::label('free_of_charge_age', __("Free of charge age below?"), ['class' => 'required_asterik']) }}
-                                                {{ Form::number('free_of_charge_age', $localTourPackage->free_of_charge_age, ['class' => 'form-control','autocomplete' => 'off', 'id' => 'free_of_charge_age', 'required']) }}
-                                                {!! $errors->first('free_of_charge_age', '<span class="badge badge-danger">:message</span>') !!}
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

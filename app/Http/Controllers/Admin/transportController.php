@@ -41,6 +41,7 @@ class transportController extends Controller
     {
         $validator=Validator::make($request->all(),[
             'transport_name'=>'required',
+            'transport_icon'=>'required',
         ]);
         if ($validator->fails())
         {
@@ -84,6 +85,14 @@ class transportController extends Controller
      */
     public function update(Request $request, $transport)
     {
+        $validator=Validator::make($request->all(),[
+            'transport_name'=>'required',
+            'transport_icon'=>'required',
+        ]);
+        if ($validator->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
         $input=$request->all();
         $transportRepo=new transportRepository();
         $transport_name=$transportRepo->updateTransport($input,$transport);

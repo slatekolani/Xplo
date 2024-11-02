@@ -8,11 +8,23 @@
                     style="width: 100%; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); margin-top: 50px;"
                     loading="lazy">
 
-                <div class="d-flex justify-content-center">
-                    <a href="{{route('customTourBookings.create',$localTourPackage->tourOperator->uuid)}}"
-                       class="btn btn-primary btn-sm text-center" style="margin-top: 20px;">Request custom tour
-                        &blacktriangleright;</a>
-                </div>
+                    @if ($localTourPackage->tourOperator->agreeCustomBooking == 'Yes')
+                    <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+                        <div class="text-center">
+                            <a href="{{ route('customTourBookings.create', $localTourPackage->tourOperator->uuid) }}"
+                                class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour
+                                &blacktriangleright;</a>
+                        </div>
+                    </div>
+                @else
+                    <div class="row" style="margin-top: 20px;margin-bottom: 20px">
+                        <div class="text-center">
+                            <a onclick="alert('Whoops! It appears this tour company does not support custom tours');"
+                                class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour
+                                &blacktriangleright;</a>
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <div class="col-md-6" style="margin-top: 20px">
@@ -20,12 +32,30 @@
                     <img src="{{ asset('public/TourOperatorsLogos/' . $localTourPackage->tourOperator->company_logo) }}"
                          alt="Company Logo"
                          style="height: 70px; width: 70px; border-radius:50%;object-fit: cover;" loading="lazy">
-                    <h3 style="font-family: 'Lobster', cursive; font-size: 25px;">{{$localTourPackage->tourOperator->company_name}}</h3>
+                    <h3 style="font-family: 'Lobster', cursive; font-size: 25px;color:dodgerblue">{{$localTourPackage->tourOperator->company_name}}</h3>
                 </div>
                 <p>"{{$localTourPackage->tourOperator->about_company}}"</p>
                 <p><b>Year established</b>: {{date('jS M Y',strtotime($localTourPackage->tourOperator->established_date))}}</p>
                 <p><b>Years of experience</b>: {{$localTourPackage->tourOperator->TourCompanyYearsOfExperienceLabel}} years</p>
                 <p><b>Total employees</b>: {{$localTourPackage->tourOperator->total_employees}} employees</p>
+                <p><b>Safari Class</b>:
+                    @if ($localTourPackage->tourOperator->safariClass == 'bothLocalAndInternationalTours')
+                        <span>Offers both<a href="#"> Local and International Safari's</a></span>
+                    @elseif ($localTourPackage->tourOperator->safariClass == 'localTours')
+                        <span>Offers <a href="#">Local Safari's</a> Only</span>
+                    @elseif ($localTourPackage->tourOperator->safariClass == 'internationalTours')
+                        <span>Offers <a href="#">International Safari's</a> Only</span>
+                    @endif
+                </p>
+                <p><b>Offering custom Safari's?</b>
+                    @if ($localTourPackage->tourOperator->agreeCustomBooking == 'Yes')
+                        <span>Yes, <span style="color:dodgerblue">{{ $localTourPackage->tourOperator->company_name }}</span>
+                            offers custom safari's</span>
+                    @elseif($localTourPackage->tourOperator->agreeCustomBooking == 'No')
+                        <span>No, <span style="color:dodgerblue">{{ $localTourPackage->tourOperator->company_name }}</span>
+                            does not offer custom safari's</span>
+                    @endif
+                </p>
                 <div style="display: flex">
 
                     <p><b>Country</b>:
@@ -73,11 +103,24 @@
                     </a>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a href="{{$localTourPackage->tourOperator->instagram_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="instagram-new--v1"/></a>
-                    <a href="{{$localTourPackage->tourOperator->whatsapp_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="whatsapp--v1"/></a>
-                    <a href=mailto:"{{$localTourPackage->tourOperator->email_address}}" target="_black"> <img width="30" height="30" src="https://img.icons8.com/fluency/48/email-open.png" alt="email-open"/></a>
-                    <a href="{{$localTourPackage->tourOperator->gps_url}}" target="_blank"><img width="30" height="30" src="https://img.icons8.com/color/48/google-maps-new.png" alt="google-maps-new"/></a>
-                    <a href=tel:"{{$localTourPackage->tourOperator->phone_number}}"><img width="30" height="30" src="https://img.icons8.com/color/48/phone.png" alt="phone"/></a>
+                    <a href="{{ $localTourPackage->tourOperator->instagram_url }}" target="_blank" class="mx-2">
+                        <i class="fab fa-instagram fa-2x" style="color: #E4405F;"></i>
+                    </a>
+                    <a href="{{ $localTourPackage->tourOperator->whatsapp_url }}" target="_blank" class="mx-2">
+                        <i class="fab fa-whatsapp fa-2x" style="color: #25D366;"></i>
+                    </a>
+                    <a href="mailto:{{ $localTourPackage->tourOperator->email_address }}" target="_blank" class="mx-2">
+                        <i class="fas fa-envelope fa-2x" style="color: #007BFF;"></i>
+                    </a>
+                    <a href="{{ $localTourPackage->tourOperator->gps_url }}" target="_blank" class="mx-2">
+                        <i class="fas fa-map-marker-alt fa-2x" style="color: #EA4335;"></i>
+                    </a>
+                    <a href="{{ $localTourPackage->tourOperator->website_url }}" target="_blank" class="mx-2">
+                        <i class="fas fa-globe fa-2x" style="color: #007BFF;"></i>
+                    </a>
+                    <a href="tel:{{ $localTourPackage->tourOperator->phone_number }}" class="mx-2">
+                        <i class="fas fa-phone fa-2x" style="color: #34B7F1;"></i>
+                    </a>
                 </div>
 
             </div>
@@ -138,19 +181,27 @@
                             <a href="{{route('localTourPackage.view',$tourOperatorLocalTourPackage->uuid)}}" style="text-decoration: none; position: relative; display: block;">
                                 <img class="card-img-top"
                                      src="{{ asset('public/localSafariBlogImages/'.$tourOperatorLocalTourPackage->safari_poster) }}"
-                                     style="height: auto; width: 100%; filter: contrast(120%)" loading="lazy">
+                                     style="width: 100%; height: 200px; object-fit: cover; filter: contrast(120%)" loading="lazy">
                                 <div class="card-img-overlay">
+                                    <p class="card-text card-text-white" style="font-size: 1.5rem; font-weight: bold; position: absolute; top: 0; right: 0; padding: 1rem;">
+                                        @if ($tourOperatorLocalTourPackage->CountDownDaysForLocalTourPackageTripLabel >= 0)
+
+                                        <span class="badge badge-primary badge-pill badge-sm">Upcoming</span>
+                                    @else
+                                        <span class="badge badge-danger badge-pill badge-sm">Expired</span>
+                                    @endif
+                                    </p>
                                     <p class="card-text card-text-white" style="font-size: 1.5rem; font-weight: bold; position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;">
-                                        {{ $tourOperatorLocalTourPackage->touristicAttraction->attraction_name }}<br>
-                                        <span style="font-family: 'Montserrat', sans-serif;font-weight: normal;font-size: 1rem">{{$tourOperatorLocalTourPackage->safari_description}}</span>
+                                        {{$tourOperatorLocalTourPackage->touristicAttraction->attraction_name }}<br>
+                                        <span style="font-family: 'Montserrat', sans-serif;font-weight: normal;font-size: 1rem">{{$localTourPackage->safari_description}}</span>
                                     </p>
                                 </div>
                             </a>
                             <div class="card-body" style="position: relative; z-index: 2;">
                                 @if ($tourOperatorLocalTourPackage->CountDownDaysForLocalTourPackageTripLabel >= 0)
-                                    <p><span class="badge badge-success badge-pill">{{ number_format(abs($tourOperatorLocalTourPackage->CountDownDaysForLocalTourPackageTripLabel)) }} days left</span></p>
+                                <p>{!! ($tourOperatorLocalTourPackage->CountDownDaysForLocalTourPackageTripLabel) !!} ~ Book Now! A lifetime experience awaits...</p>
                                 @else
-                                    <span class="badge badge-danger badge-pill">The tour has expired.</span>
+                                <span class="badge badge-danger badge-pill">Expired</span>
                                 @endif
                                 <h5 class="card-title" style="font-size: 14px;font-weight: bold">A {{$tourOperatorLocalTourPackage->tourPackageType->tour_package_type_name}} special for {{$tourOperatorLocalTourPackage->tanzaniaAndWorldEvent->event_name}}</h5>
                                 <div style="display: flex">
@@ -160,17 +211,17 @@
 
                                 <p class="card-text" style="font-size: 14px;margin-bottom: 8px">
                                     <b>Local</b>:
-                                    T shs{{ number_format($tourOperatorLocalTourPackage->trip_price_adult_tanzanian) }}
-                                    /Adult -
-                                    T shs{{ number_format($tourOperatorLocalTourPackage->trip_price_child_tanzanian) }}
-                                    /child
+                                    Tshs {{ number_format($localTourPackage->trip_price_adult_tanzanian) }}
+                                    <span style="color: dodgerblue">/Adult</span> ~
+                                    Tshs {{ number_format($localTourPackage->trip_price_child_tanzanian) }}
+                                    <span style="color: dodgerblue">/child</span>
                                 </p>
                                 <p class="card-text" style="font-size: 14px;">
                                     <b>Foreigner</b>:
-                                    T shs {{ number_format($tourOperatorLocalTourPackage->trip_price_adult_foreigner) }}
-                                    /Adult -
-                                    T shs {{ number_format($tourOperatorLocalTourPackage->trip_price_child_foreigner) }}
-                                    /child
+                                    Tshs {{ number_format($localTourPackage->trip_price_adult_foreigner) }}
+                                    <span style="color: dodgerblue">/Adult</span> ~
+                                    Tshs {{ number_format($localTourPackage->trip_price_child_foreigner) }}
+                                    <span style="color: dodgerblue">/child</span>
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="{{route('localTourPackage.view',$tourOperatorLocalTourPackage->uuid)}}" class="btn btn-primary">View Details</a>

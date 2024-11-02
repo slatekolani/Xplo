@@ -41,6 +41,7 @@ class touristicAttractionsController extends Controller
         $regions = tanzaniaRegions::query()->where('status', '=', 1)->pluck('region_name', 'id');
         $attractionCategory = touristicAttractionCategory::query()->pluck('attraction_category', 'id');
         $years = range(date('Y'), 1900);
+        dd($years);
         return view('TouristAttraction.create')
             ->with('attractionCategory', $attractionCategory)
             ->with('regions', $regions)
@@ -185,8 +186,8 @@ class touristicAttractionsController extends Controller
             'entry_fee_child_local' => 'required|numeric',
             'entry_fee_adult_local' => 'required|numeric',
             'personal_experience' => 'required|string|max:500',
-            'attraction_map' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:2000,max_width:2000',
-            'attraction_image.*' => 'required|mimes:png,jpg,jpeg|max:5120|dimensions:max_height:2000,max_width:2000',
+            'attraction_map' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:2000,max_width:2000',
+            'attraction_image.*' => 'nullable|mimes:png,jpg,jpeg|max:5120|dimensions:max_height:2000,max_width:2000',
         ]);
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator);

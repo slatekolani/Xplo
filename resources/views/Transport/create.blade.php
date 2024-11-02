@@ -15,6 +15,13 @@
                             <div class="row">
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
+                                        {{ Form::label('transport_icon', __("Transport Icon"), ['class' => 'required_asterik']) }}
+                                        {{ Form::text('transport_icon', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'transport_icon', 'required']) }}
+                                        {!! $errors->first('transport_icon', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
                                         {{ Form::label('transport_name', __("Transport name"), ['class' => 'required_asterik']) }}
                                         {{ Form::text('transport_name', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'transport_name', 'required']) }}
                                         {!! $errors->first('transport_name', '<span class="badge badge-danger">:message</span>') !!}

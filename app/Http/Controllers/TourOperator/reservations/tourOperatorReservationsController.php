@@ -11,6 +11,7 @@ use App\Models\TourOperator\reservations\tourOperatorReservation;
 use App\Models\TourOperator\tourOperator;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\localTourPackages;
 use App\Repositories\TourOperator\reservations\tourOperatorReservationRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -128,6 +129,7 @@ class tourOperatorReservationsController extends Controller
         $localTourPackageReservationsIds=DB::table('local_package_reservation')->pluck('local_tour_package_id');
         $reservationLocalTourPackages=localTourPackages::query()
             ->whereIn('id',$localTourPackageReservationsIds)
+            ->where('safari_start_date','>=',Carbon::now())
             ->inRandomOrder()
             ->paginate(15);
         return view('TourOperator.reservation.allReservations')

@@ -7,6 +7,7 @@ use App\Models\aboutTanzania\tanzaniaVisitAdvice\tanzaniaVisitAdvice;
 use App\Models\BaseModel\BaseModel;
 use App\Models\Nations\economicActivity\nationEconomicActivity;
 use App\Models\Nations\Precaution\nationPrecautions;
+use App\Models\tanzaniaRegions\tanzaniaRegions;
 use App\Models\TouristicAttractions\touristicAttractionRules\touristicAttractionRules;
 use App\Models\TourOperator\tourOperator;
 use App\Repositories\Admin\Nations\economicActivity\nationEconomicActivityRepository;
@@ -23,6 +24,10 @@ class nations extends BaseModel
     public function getNationFlagLabelAttribute()
     {
         return url('public/nationFlags/',$this->nation_flag);
+    }
+    public function tanzaniaRegions()
+    {
+        return $this->hasMany(tanzaniaRegions::class);
     }
     public function tourOperator()
     {
