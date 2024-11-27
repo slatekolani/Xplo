@@ -17,7 +17,7 @@ class CreateTanzaniaAndWorldEventsTable extends Migration
             $table->bigIncrements('id');
             $table->string('event_name');
             $table->longText('event_description');
-            $table->string('event_date');
+            $table->string('event_date')->nullable();
             $table->string('uuid',100);
             $table->string('status')->default(0);
             $table->softDeletes();

@@ -35,14 +35,17 @@ class localTourPackageBookingRepository extends BaseRepository
         $localTourBooking->total_number_local_adult=$input['total_number_local_adult'];
         $localTourBooking->collection_station=$input['collection_station'];
         $localTourBooking->message=$input['message'];
+        $localTourBooking->payment_mode=$input['payment_mode'];
         $localTourBooking->special_attention=$input['special_attention'];
-        $localTourBooking->reservation_id = $input['reservation_id'];
+        $localTourBooking->reservation_id = $input['reservation_id']??null;
+        $localTourBooking->accept_terms = $input['accept_terms'];
+        $localTourBooking->payment_agreement=$input['payment_agreement'];
         $localTourBooking->tour_operator_id=$input['tour_operator_id'];
         $localTourBooking->reference_number=$reference_number;
         $localTourBooking->total_free_of_charge_children=$input['total_free_of_charge_children'];
         $localTourBooking->local_tour_package_id=$input['local_tour_package_id'];
         $localTourBooking->save();
-           // Send message to user about new booking made
+           // Send message to the tour operator about new booking made
            $tourOperator=tourOperator::find($input['tour_operator_id']);
            $data=[
             'tourist_name'=>$input['tourist_name'],
@@ -67,10 +70,12 @@ class localTourPackageBookingRepository extends BaseRepository
         $localTourBooking->total_number_local_adult=$input['total_number_local_adult'];
         $localTourBooking->collection_station=$input['collection_station'];
         $localTourBooking->message=$input['message'];
+        $localTourBooking->payment_mode=$input['payment_mode'];
         $localTourBooking->special_attention=$input['special_attention'];
-        $localTourBooking->reservation_id = $input['reservation_id'];
+        $localTourBooking->reservation_id = $input['reservation_id']??null;
         $localTourBooking->tour_operator_id=$input['tour_operator_id'];
-        $localTourBooking->discount=$input['discount'];
+        $localTourBooking->accept_terms=$input['accept_terms'];
+        $localTourBooking->payment_agreement=$input['payment_agreement'];
         $localTourBooking->total_free_of_charge_children=$input['total_free_of_charge_children'];
         $localTourBooking->local_tour_package_id=$input['local_tour_package_id'];
         $localTourBooking->save();

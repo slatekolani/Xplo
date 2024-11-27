@@ -23,14 +23,17 @@ class tourTypesRepository extends BaseRepository
     public function storeTourType(array $input)
     {
         $tourType=new tourTypes();
+        $tourType->rating=$input['rating'];
         $tourType->tour_type_name=$input['tour_type_name'];
+        $tourType->tour_type_description=$input['tour_type_description'];
         $tourType->save();
     }
     public function updateTourType(array $input, $tourType)
     {
-        $tour_type=tourTypes::query()->where('uuid',$tourType)->first();
-        $tour_type->tour_type_name=$input['tour_type_name'];
-        $tour_type->save();
-
+        $tourType=tourTypes::query()->where('uuid',$tourType)->first();
+        $tourType->rating=$input['rating'];
+        $tourType->tour_type_name=$input['tour_type_name'];
+        $tourType->tour_type_description=$input['tour_type_description'];
+        $tourType->save();
     }
 }

@@ -10,6 +10,9 @@ use App\Models\tourInsuranceTypes\tourInsuranceTypes;
 use App\Models\TouristicAttractions\touristicAttractions;
 use App\Models\TourOperator\customTourBookings\customTourBookings;
 use App\Models\TourOperator\reservations\tourOperatorReservation;
+use App\Models\TourOperator\TourCompanyLocalToursGoals\packageSegmentation\localTourGoalsPackageSegmentation;
+use App\Models\TourOperator\TourCompanyLocalToursGoals\projectedRevenue\localTourGoalsProjectedRevenue;
+use App\Models\TourOperator\TourCompanyLocalToursGoals\tourCompanyLocalToursGoals;
 use App\Models\TourOperator\TourPackages\InternationalTourPackages\TourPackageAccommodations\tourPackageAccommodations;
 use App\Models\TourOperator\TourPackages\InternationalTourPackages\TourPackageActivities\tourPackageActivities;
 use App\Models\TourOperator\TourPackages\InternationalTourPackages\TourPackageBookings\tourPackageBookings;
@@ -37,6 +40,18 @@ class tourOperator extends BaseModel
     protected $guarded = ['uuid'];
     protected $dates = ['deleted_at'];
 
+    public function localTourGoalsPackageSegmentation()
+    {
+        return $this->hasMany(localTourGoalsPackageSegmentation::class); 
+    }
+    public function localTourGoalsProjectedRevenue()
+    {
+        return $this->hasMany(localTourGoalsProjectedRevenue::class);
+    }
+    public function tourCompanyLocalToursGoals()
+    {
+        return $this->hasMany(tourCompanyLocalToursGoals::class);
+    }
     public function nation()
     {
         return $this->belongsTo(nations::class, 'company_nation');
@@ -157,6 +172,7 @@ class tourOperator extends BaseModel
                 <option value=''>Select</option>
                 <option data-route='" . route('tourOperator.show', $this->uuid) . "' value='2'>View</option>
                 <option data-route='" . route('tourOperator.edit', $this->uuid) . "' value='2'>Edit</option>
+                <option data-route='" . route('tourCompanyLocalToursGoals.index', $this->uuid) . "' value='2'>Company Analytics</option>
                 <option data-route='" . route('tourOperatorReservation.index', $this->uuid) . "' value='2'>Reservations</option>";
             
             if ($this->agreeCustomBooking == "Yes") {

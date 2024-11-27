@@ -17,6 +17,9 @@ Route::group([
         Route::get('/localSafariAttractionCategory/{attractionCategoryUuid}', 'localTourPackagesController@localSafariAttractionCategory')->name('localSafariAttractionCategory');
         Route::get('/filterLocalTourPackages', 'localTourPackagesController@filterLocalTourPackages')->name('filterLocalTourPackages');
         Route::get('/noLocalSafariFound/{touristicAttractionUuid}', 'localTourPackagesController@noLocalSafariFound')->name('noLocalSafariFound');
+        Route::get('/spotLocalTourPackagePlans/{localTourPackageRangeId}', 'localTourPackagesController@spotLocalTourPackagePlans')->name('spotLocalTourPackagePlans');
+        Route::get('/TripKind/{trip_kind_name}', 'localTourPackagesController@TripKind')->name('TripKind');
+
     });
 
 

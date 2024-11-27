@@ -11,6 +11,10 @@
     @guest
         <div class="card" style="padding-top: 10px">
             <div class="card-body">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Tanzania's Local Tour Packages</h2>
+                    <p style="color:#ffd700;font-size:15px"><i>"Gateway to nature"</i></p>
+                </div>
                 @php
 //                    $selectedMonth = isset($selectedMonth) ? $selectedMonth : null;
 //                    or

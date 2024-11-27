@@ -75,6 +75,53 @@
     .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
+.nav-icons {
+        display: flex;
+        align-items: center;
+        margin-left: 1rem;
+    }
+
+    .nav-icons a {
+        color: white;
+        margin: 0 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .nav-icons a:hover {
+        color: #ffd700;
+    }
+
+    .btn-signup {
+        background-color: transparent;
+        border: white;
+        border-radius: 10px;
+        color: white !important;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        font-weight: 500;
+        margin-left: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-signup:hover {
+        background-color: #fff;
+        color: dodgerblue !important;
+        text-decoration: none;
+    }
+
+    @media (max-width: 991px) {
+        .nav-icons {
+            margin: 1rem 0;
+            justify-content: center;
+           
+        }
+        
+        .btn-signup {
+            margin: 1rem 0;
+            display: block;
+            text-align: center;
+        }
+    }
 
     @media (max-width: 991px) {
         .navbar-collapse {
@@ -145,17 +192,15 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="localSafariDropdown">
                         <a class="dropdown-item" href="{{route('localTourPackage.allLocalTourPackages')}}">All Local Trips</a>
-                        <a class="dropdown-item" href="#">Day Trips</a>
-                        <a class="dropdown-item" href="#">Weekend Getaways</a>
-                        <a class="dropdown-item" href="#">Week-long Adventures</a>
+                        <a class="dropdown-item" href="{{ route('localTourPackage.TripKind', ['trip_kind_name' => 'dayAdventure']) }}">Day Trips</a>
+                        <a class="dropdown-item" href="{{route('localTourPackage.TripKind', ['trip_kind_name' => 'weekendGateway'])}}">Weekend Getaways</a>
+                        <a class="dropdown-item" href="{{route('localTourPackage.TripKind', ['trip_kind_name' => 'weekLongAdventure'])}}">Week-long Adventures</a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tourOperator.allTourOperators') }}">Tour Operators</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Travel Education</a>
-                </li>
+                
                 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -164,7 +209,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('touristicGame.allTouristicGames') }}">Touristic games</a>
                         <a class="dropdown-item" href="{{ route('platformFaq.publicView') }}">FAQ</a>
-                        <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+                        <a class="dropdown-item" href="{{route('travelEducation.publicView')}}">Travel Education</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" style="color: #ffd700">Bon Voyage...</a>
                     </div>
@@ -174,9 +219,18 @@
                 <input class="form-control mr-sm-2" type="search" id="form1" name="search" placeholder="Travel destination?" aria-label="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <div class="nav-icons">
+                <a href="#" title="Favorites"><i class="fas fa-heart" style="font-size: 20px"></i></a>
+                <a href="#" title="Cart"><i class="fas fa-shopping-cart" style="font-size: 20px"></i></a>
+                <a href="#" title="Reading List"><i class="fas fa-book" style="font-size: 20px"></i></a>
+                <a href="{{ route('register') }}" class="btn-signup">Register</a>
+                <a href="{{ route('login') }}" class="btn-signup">Log In</a>
+            </div>
         </div>
+        
     </div>
 </nav>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 @endguest
@@ -203,6 +257,11 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('user.profile', access()->user()) }}">
                             <i class="fas fa-user"></i> @lang('label.my_profile')
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-briefcase"></i> Manual
                         </a>
                     </li>
                     <li>

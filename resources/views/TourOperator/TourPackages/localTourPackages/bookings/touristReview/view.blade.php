@@ -15,7 +15,15 @@
                             </tr>
                             <tr>
                                 <th>Review Message</th>
-                                <td>{{$localTouristReview->review_message}}</td>
+                                <td>{{$localTouristReview->review_company}}</td>
+                            </tr>
+                            <tr>
+                                <th>Review Message</th>
+                                <td>{{$localTouristReview->review_attraction}}</td>
+                            </tr>
+                            <tr>
+                                <th>Review rating</th>
+                                <td>{{$localTouristReview->rating}}</td>
                             </tr>
                             <tr>
                                 <th>Review Status</th>

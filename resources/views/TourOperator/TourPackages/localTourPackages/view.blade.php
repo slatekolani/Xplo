@@ -26,40 +26,60 @@
                                 <td>{{$localTourPackage->phone_number}}</td>
                             </tr>
                             <tr>
+                                <th>Trip Kind</th>
+                                <td>{{$localTourPackage->trip_kind}}</td>
+                            </tr>
+                            <tr>
+                                <th>Package range</th>
+                                <td>{{$package_range[$localTourPackage->package_range]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Free of charge age</th>
+                                <td>{{$localTourPackage->free_of_charge_age}} yrs</td>
+                            </tr>
+                            <tr>
+                                <th>Payment Deadline</th>
+                                <td>{{ date('jS M Y', strtotime($localTourPackage->payment_deadline))}}</td>
+                            </tr>
+                            <tr>
                                 <th>Email address</th>
                                 <td>{{$localTourPackage->email_address}}</td>
                             </tr>
                             <tr>
                                 <th>Maximum travellers</th>
-                                <td>{{$localTourPackage->maximum_travellers}}</td>
+                                <td>{{$localTourPackage->maximum_travellers}} people</td>
                             </tr>
                             <tr>
                                 <th>Trip price adult residents</th>
-                                <td>{{number_format($localTourPackage->trip_price_adult_tanzanian)}}</td>
+                                <td>T Shs {{number_format($localTourPackage->trip_price_adult_tanzanian)}}</td>
                             </tr>
                             <tr>
                                 <th>Trip price child residents</th>
-                                <td>{{number_format($localTourPackage->trip_price_child_tanzanian)}}</td>
+                                <td>T Shs {{number_format($localTourPackage->trip_price_child_tanzanian)}}</td>
                             </tr>
                             <tr>
                                 <th>Trip price adult foreigner</th>
-                                <td>{{number_format($localTourPackage->trip_price_adult_foreigner)}}</td>
+                                <td>T Shs {{number_format($localTourPackage->trip_price_adult_foreigner)}}</td>
                             </tr>
                             <tr>
                                 <th>Trip price child foreigner</th>
-                                <td>{{number_format($localTourPackage->trip_price_child_foreigner)}}</td>
+                                <td>T Shs {{number_format($localTourPackage->trip_price_child_foreigner)}}</td>
                             </tr>
                             <tr>
                                 <th>Safari start date</th>
-                                <td>{{$localTourPackage->safari_start_date}}</td>
+                                <td>{{date('jS M Y',strtotime($localTourPackage->safari_start_date))}}</td>
                             </tr>
                             <tr>
                                 <th>Safari end date</th>
-                                <td>{{$localTourPackage->safari_end_date}}</td>
+                                <td>{{date('jS M Y',strtotime($localTourPackage->safari_end_date))}}</td>
                             </tr>
                             <tr>
-                                <th>targeted event</th>
+                                <th>Targeted event</th>
                                 <td>{{$localTourPackage->tanzaniaAndWorldEvent->event_name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Travel age range</th>
+                                <td>{{$localTourPackage->travel_age_range}}</td>
                             </tr>
                             <tr>
                                 <th>Tour package type</th>
@@ -105,11 +125,35 @@
                             </tr>
                             <tr>
                                 <th>Special needs supported</th>
-                                <td>{{$localTourPackage->LocalTourPackageSpecialNeedsLabel}}</td>
+                                <td>
+                                    @forelse ($localTourPackage->LocalTourPackageSpecialNeedsLabel as $specialNeeds)
+                                    <i class="{{$specialNeeds['special_need_icon']}}" style="font-size:20px;color:dodgerblue"></i> {{$specialNeeds['special_need_name']}}
+                                    @empty
+                                    No Special attention listed!  
+                                    @endforelse
+                                </td>
                             </tr>
                             <tr>
                                 <th>Transport used</th>
-                                <td>{{$localTourPackage->LocalTourPackageTransportsLabel}}</td>
+                                <td>
+                                    @forelse ($localTourPackage->LocalTourPackageTransportsLabel as $transports)
+                                    <i class="{{$transports['transport_icon']}}" style="font-size:20px;color:dodgerblue"></i> {{ $transports['transport_name'] }}
+                                    @empty
+                                    No transport listed!  
+                                    @endforelse
+                                </td>   
+                            </tr>
+                            <tr>
+                                <th>Customer Satisfaction Category</th>
+                                <td>
+                                    @forelse ($localTourPackage->LocalTourPackageCustomerSatisfactionLabel as $customerSatisfactions)
+                                        &rightarrow;<span style="font-weight:bolder">{{ $customerSatisfactions['customer_satisfaction_name'] }}</span>
+                                        &dot;&dot;<span style="color: dodgerblue">{{ $customerSatisfactions['customer_satisfaction_description'] }}</span>
+                                    @empty
+                                    
+                                    @endforelse
+                                </td>
+                                
                             </tr>
                             <tr>
                                 <th>Collection stops</th>
@@ -117,7 +161,7 @@
                             @forelse($localTourPackageCollectionStops as $localTourPackageCollectionStop)
                                 <tr>
                                     <td>{{$localTourPackageCollectionStop->collection_stop_name}}</td>
-                                    <td>{{$localTourPackageCollectionStop->collection_stop_price}}</td>
+                                    <td>T Shs {{$localTourPackageCollectionStop->collection_stop_price}}</td>
                                     <td>{{$localTourPackageCollectionStop->pick_up_time}}</td>
                                 </tr>
                             @empty
@@ -126,8 +170,41 @@
                                 </tr>
                             @endforelse
                             <tr>
+                                <th>Reservation Included in this safari</th>
+                                <td>
+                                    @forelse ($localTourPackage->LocalTourPackageReservationsLabel as $reservations)
+                                        {{$reservations['reservation_name']}} ~ 
+                                        {{$reservations['reservation_capacity']}} ~ 
+                                        <a href="{{$reservations['reservation_url']}}">{{$reservations['reservation_url']}}</a>                                
+                                    @empty
+                                        <p>No Reservation Listed!</p>
+                                    @endforelse
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <th>Number of views expected</th>
+                                <td>{{$localTourPackage->number_of_views_expecting}} Views</td>
+                            </tr>
+                            <tr>
+                                <th>Starting Payment Percent</th>
+                                <td>{{$localTourPackage->payment_start_percent}}%</td>
+                            </tr>
+                            <tr>
+                                <th>Cancellation Due Date</th>
+                                <td>{{date('jS M Y',strtotime($localTourPackage->cancellation_due_date))}}</td>
+                            </tr>
+                            <tr>
                                 <th>Discount</th>
-                                <td>{{$localTourPackage->discount_offered}}</td>
+                                <td>{{$localTourPackage->discount_offered}}%</td>
+                            </tr>
+                            <tr>
+                                <th>Cancellation Policy</th>
+                                <td>{{$localTourPackage->cancellation_policy}}</td>
+                            </tr>
+                            <tr>
+                                <th>Emergency Handling </th>
+                                <td>{{$localTourPackage->emergency_handling}}</td>
                             </tr>
                             <tr>
                                 <th>Status</th>
@@ -146,5 +223,6 @@
         </div>
     </div>
 @endsection
+
 
 

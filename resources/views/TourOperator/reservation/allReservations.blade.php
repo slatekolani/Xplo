@@ -12,7 +12,13 @@
                     <div class="card-body" style="background-color: rgba(255,255,255,0.85)">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 style="color: dodgerblue">Reservations included in Local Safaris</h3>
+                                <div class="card-header bg-primary text-white">
+                                    <h2 class="mb-0">All Reservations</span></h2>
+                                    <p style="color:#ffd700;font-size:15px"><i>"Reservations included in Local Safaris."</i></p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h3 style="color: dodgerblue"></h3>
                                 <div class="row">
                                     @forelse($reservationLocalTourPackages as $reservationLocalTourPackage)
                                         @forelse($reservationLocalTourPackage->localTourPackageReservations as $localTourPackageReservation)

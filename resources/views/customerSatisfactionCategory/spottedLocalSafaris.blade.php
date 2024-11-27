@@ -5,14 +5,17 @@
     @php
         $messageDisplayed=false;
     @endphp
-    <div class="col-md-12">
         <div class="row">
-            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 style="color: dodgerblue"> Local Safari's offering {{$customerSatisfaction->customer_satisfaction_name}}</h3>
+                                <div class="card-header bg-primary text-white">
+                                    <h2 class="mb-0">{{$customerSatisfaction->customer_satisfaction_name}}</h2>
+                                    <p style="color:#ffd700;font-size:15px"><i>"Local Safari's offering {{$customerSatisfaction->customer_satisfaction_name}}"</i></p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="row">
                                     @forelse($localTourPackages as $localTourPackage)
                                         @if($localTourPackage->tourOperator->status==1)
@@ -92,9 +95,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
-    </div>
 @endsection
 
 

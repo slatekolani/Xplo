@@ -1,18 +1,18 @@
+ 
 <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
     <div class="container-fluid attraction-details">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
+        <div class="card shadow-sm mb-12">
+            <div class="card-header bg-primary text-white heading2">
                 <h2 class="mb-0">{{ $touristicAttraction->attraction_name }}</h2>
                 <p style="color:#ffd700;font-size:15px"><i>"{{ $touristicAttraction->attraction_description }}"</i></p>
             </div>
             
             <!-- Featured Image Section -->
-            <div class="card-body">
-                <div class="row mb-4 justify-content-center">
+                <div class="row mb-4 justify-content-center" style="margin-top: 5px">
                     <div class="col-md-12">
                         @php
                             $images = explode(',', $touristicAttraction->attraction_image);
-                            $featuredImage = $images[0] ?? null; // Use the first image as featured
+                            $featuredImage = $images[0] ?? null;
                         @endphp
                         @if($featuredImage)
                             <div class="featured-image-wrapper text-center">
@@ -149,7 +149,6 @@
                     </div>
                 </div>
 
-            </div>
         </div>
     </div>
     

@@ -165,6 +165,7 @@ class localTourPackagesController extends Controller
         $validator=Validator::make($request->all(),[
             'safari_name'=>'required|string',
             'safari_description'=>'required|string',
+            'trip_kind'=>'required',
             'safari_poster'=>'required|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:2000,max_width:2000',
             'trip_price_adult_tanzanian'=>'required|numeric',
             'trip_price_child_tanzanian'=>'required|numeric',
@@ -173,11 +174,19 @@ class localTourPackagesController extends Controller
             'safari_start_date'=>'required',
             'safari_end_date'=>'required',
             'payment_deadline'=>'required',
+            'travel_age_range'=>'required|string',
+            'number_of_views_expecting'=>'required|numeric',
+            'payment_start_percent'=>'required|numeric',
+            'cancellation_percent'=>'required|numeric',
+            'cancellation_due_date'=>'required',
+            'cancellation_policy'=>'required|max:200',
             'package_range'=>'required',
             'maximum_travellers'=>'required|numeric',
             'phone_number'=>'required|regex:/^[0-9]{10}$/',
             'email_address'=>'required|email',
-            'discount_offered'=>'required|string|max:300',
+            'discount_offered'=>'required',
+            'number_of_people_for_discount'=>'required|numeric',
+            'payment_start_percent_deadline'=>'required',
             'targeted_event'=>'required',
             'free_of_charge_age'=>'required|numeric',
             'tour_package_type_name'=>'required',
@@ -204,6 +213,7 @@ class localTourPackagesController extends Controller
      */
     public function show($localTourPackageUuid)
     {
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
         $localTourPackage=localTourPackages::query()->where('uuid',$localTourPackageUuid)->first();
         $localTourPackageActivities=localTourPackageActivities::query()->where('local_tour_package_id',$localTourPackage->id)->get();
         $localTourPackageRequirements=localTourPackageRequirements::query()->where('local_tour_package_id',$localTourPackage->id)->get();
@@ -216,6 +226,7 @@ class localTourPackagesController extends Controller
             ->with('localTourPackageCollectionStops',$localTourPackageCollectionStops)
             ->with('localTourPackagePriceExclusives',$localTourPackagePriceExclusives)
             ->with('localTourPackageRequirements',$localTourPackageRequirements)
+            ->with('package_range',$package_range)
             ->with('localTourPackage',$localTourPackage);
     }
     public function viewDeleted($localTourPackageUuId)
@@ -264,6 +275,7 @@ class localTourPackagesController extends Controller
         $localTourPackageSupportedSpecialNeeds=specialNeed::query()->whereIn('id',$localTourPackageSupportedSpecialNeedIds)->pluck('special_need_name');
         $attractionId=$localTourPackage->safari_name;
         $attractionHoneyPoints=touristicAttractionHoneyPoints::query()->where('id',$attractionId)->get();
+        // Consider this...
         localTourPackageTotalViews::create([
             'ip_address' => request()->ip(),
             'local_tour_package_id' => $localTourPackage->id,
@@ -289,6 +301,16 @@ class localTourPackagesController extends Controller
             ->with('localTourPackageRequirements',$localTourPackageRequirements)
             ->with('localTourPackage',$localTourPackage);
     }
+    public function TripKind($trip_kind_name)
+    {
+        $localTourPackages=localTourPackages::query()->where('trip_kind',$trip_kind_name)
+        ->where('safari_start_date','>=',Carbon::now())
+        ->inRandomOrder()
+        ->paginate(12);
+        return view('TourOperator.TourPackages.localTourPackages.tripKind.view')
+        ->with('trip_kind_name',$trip_kind_name)
+        ->with('localTourPackages',$localTourPackages);
+    }
     public function localSafariAttractionCategory($attractionCategoryUuid)
     {
         $touristicAttractionCategories=touristicAttractionCategory::query()->orderBy('id','DESC')->get();
@@ -300,6 +322,19 @@ class localTourPackagesController extends Controller
             ->with('touristicAttractionCategories',$touristicAttractionCategories)
             ->with('touristicAttractions',$touristicAttractions)
             ->with('attractionCategory',$attractionCategory);
+    }
+    public function spotLocalTourPackagePlans($localTourPackageRangeId)
+    {
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
+        $localTourPackagePackageRangeName = $package_range[$localTourPackageRangeId] ?? 'Unknown Plan';
+        $localTourPackages=localTourPackages::query()->where('package_range',$localTourPackageRangeId)
+        ->where('safari_start_date','>=',Carbon::now())
+            ->inRandomOrder()
+            ->paginate(12);
+        return view('TourOperator.TourPackages.localTourPackages.packagePlans.view')
+            ->with('localTourPackagePackageRangeName',$localTourPackagePackageRangeName)
+            ->with('localTourPackages',$localTourPackages)
+            ->with('package_range',$package_range);
     }
 
     /**
@@ -363,6 +398,7 @@ class localTourPackagesController extends Controller
         $validator=Validator::make($request->all(),[
             'safari_name'=>'required|string',
             'safari_description'=>'required|string',
+            'trip_kind'=>'required',
             'safari_poster' => 'nullable|sometimes|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:2000,max_width:2000',
             'trip_price_adult_tanzanian'=>'required|numeric',
             'trip_price_child_tanzanian'=>'required|numeric',
@@ -371,16 +407,24 @@ class localTourPackagesController extends Controller
             'safari_start_date'=>'required',
             'safari_end_date'=>'required',
             'payment_deadline'=>'required',
+            'travel_age_range'=>'required|string',
+            'number_of_views_expecting'=>'required|numeric',
+            'payment_start_percent'=>'required|numeric',
+            'cancellation_percent'=>'required|numeric',
+            'cancellation_due_date'=>'required',
+            'cancellation_policy'=>'required|max:200',
             'package_range'=>'required',
             'maximum_travellers'=>'required|numeric',
             'phone_number'=>'required|regex:/^[0-9]{10}$/',
             'email_address'=>'required|email',
-            'discount_offered'=>'required|string|max:300',
+            'discount_offered'=>'required',
+            'number_of_people_for_discount'=>'required|numeric',
+            'payment_start_percent_deadline'=>'required',
             'targeted_event'=>'required',
+            'free_of_charge_age'=>'required|numeric',
             'tour_package_type_name'=>'required',
             'local_tour_type'=>'required',
             'emergency_handling'=>'required|string|max:300',
-            'free_of_charge_age'=>'required|numeric',
             'transport_used_images.*'=>'nullable|sometimes|mimes:jpg,png,jpeg|max:5120|dimensions:max_height:2000,max_width:2000',
         ]);
         if ($validator->fails())

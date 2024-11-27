@@ -3,10 +3,14 @@
 @section('content')
 
     <div class="row">
+        
         <div class="col-md-12">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">TANZANIA TOUR OPERATORS</h2>
+                    <p style="color:#ffd700;font-size:15px"><i>"Certified by <a href="#" style="color: white">TATO (Tanzania Association of Tour Operators)</a>"</i></p>
+                 </div>
             <div class="card">
                 <div class="card-body">
-                    <h3 style="color: dodgerblue">TANZANIA TOUR OPERATORS</h3>
                     @forelse($tourOperators as $tourOperator)
                         <div class="card h-100 border-primary card-with-gradient">
                             <div class="row">

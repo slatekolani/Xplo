@@ -44,7 +44,9 @@ class tanzaniaAndWorldEventsController extends Controller
         $validator=Validator::make($request->all(),[
             'event_name'=>'required',
             'event_description'=>'required|max:300',
-            'event_date'=>'required',
+            'event_date'=>'nullable',
+            'event_image'=>'required|mimes:jpg,jpeg,png|max:2048|dimensions:max_height=1000,max_width=1000',
+
         ]);
         if ($validator->fails())
         {
@@ -52,7 +54,7 @@ class tanzaniaAndWorldEventsController extends Controller
         }
         $input=$request->all();
         $eventRepo=new tanzaniaAndWorldEventsRepository();
-        $event=$eventRepo->storeEvent($input);
+        $event=$eventRepo->storeEvent($input,$request);
         return redirect()->route('event.index')->with('event',$event)->withFlashSuccess('Event uploaded successfully');
     }
 
@@ -104,8 +106,10 @@ class tanzaniaAndWorldEventsController extends Controller
         $validator=Validator::make($request->all(),
         [
             'event_name'=>'required',
-            'event_date'=>'required',
+            'event_date'=>'nullable',
             'event_description'=>'required|max:300',
+            'event_image'=>'nullable|mimes:jpg,jpeg,png|max:2048|dimensions:max_height=1000,max_width=1000',
+
         ]);
         if ($validator->fails())
         {
@@ -113,7 +117,7 @@ class tanzaniaAndWorldEventsController extends Controller
         }
         $input=$request->all();
         $eventRepo=new tanzaniaAndWorldEventsRepository();
-        $event=$eventRepo->updateEvent($input,$eventId);
+        $event=$eventRepo->updateEvent($input,$eventId,$request);
         return redirect()->route('event.index')
             ->with('event',$event)
             ->withFlashSuccess('Event updated successfully!');

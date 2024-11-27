@@ -2,12 +2,13 @@
 @include('includes.validate_assets')
 @section('content')
 
-    <div class="col-md-12">
         <div class="row">
-            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h3 style="color: dodgerblue"> Tour Operators offering {{$insuranceType->tour_insurance_name}}</h3>
+                            <div class="card-header bg-primary text-white">
+                                <h2 class="mb-0"> {{$insuranceType->tour_insurance_name}}</h2>
+                                <p style="color:#ffd700;font-size:15px"><i>"Tour Operators Offering {{$insuranceType->tour_insurance_name}}"</i></p>
+                            </div>
                         @forelse($spottedTourOperatorsList as $spottedTourOperatorList)
                             <div class="row" style="border: 1px solid gainsboro;margin-top: 10px">
                                 <div class="col-md-6">
@@ -160,9 +161,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
-    </div>
 @endsection
 
 @push('after-scripts')

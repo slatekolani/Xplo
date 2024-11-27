@@ -3,7 +3,7 @@
 @include('includes.validate_assets')
 @section('content')
 
-    {{ Form::open(['route'=>'tourPackageType.store', 'autocomplete' => 'off','method' => 'post', 'class' => 'needs-validation', 'novalidate']) }}
+    {{ Form::open(['enctype="multipart/form-data"','route'=>'tourPackageType.store', 'autocomplete' => 'off','method' => 'post', 'class' => 'needs-validation', 'novalidate']) }}
     @csrf
     <section>
         <div class="row" style="margin: auto">
@@ -13,6 +13,13 @@
                         <div class="col-md-12">
                             <p>{{ getLanguageBlock('lang.auth.mandatory-field') }}</p>
                             <div class="row">
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('tour_package_type_image', __("Tour package type image"), ['class' => 'required_asterik']) }}
+                                        {{ Form::file('tour_package_type_image', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'tour_package_type_image', 'required']) }}
+                                        {!! $errors->first('tour_package_type_image', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('tour_package_type_name', __("Tour package type"), ['class' => 'required_asterik']) }}

@@ -100,7 +100,7 @@
     <div class="row" style="overflow-x: scroll">
         <div id="notify" style="display: none"></div>
         <div class="col-md-12">
-            <section class="card card-primary mb-4" style="width:160%;background-color:rgba(255,255,255,0.85)">
+            <section class="card card-primary mb-4" style="width:250%;background-color:rgba(255,255,255,0.85)">
                 <div class="card-actions">
                     {{--Action Links--}}
 

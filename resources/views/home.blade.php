@@ -27,6 +27,7 @@
                                 Serengeti with its Great Migration to the enchanting Zanzibar Archipelago, our country
                                 offers an unforgettable blend of wildlife, landscapes, and cultural heritage. Join us
                                 for an experience that leaves a lasting impression on your heart.</p>
+                                
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
@@ -66,40 +67,12 @@
                             </div>
                         </div>
 
-                        <div class="scroll-container">
-                            <a href="{{route('tourOperatorReservation.allReservations')}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">Reservations</button></a>
-                            @forelse($events as $event)
-                                <a href="{{route('event.spotLocalSafaris',$event->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$event->event_name}}</button></a>
-                                @empty
-                            @endforelse
-
-                            @forelse($tourPackageTypes as $tourPackageType)
-                                    <a href="{{route('tourPackageType.spotLocalSafaris',$tourPackageType->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$tourPackageType->tour_package_type_name}}</button></a>
-                                @empty
-                            @endforelse
-
-                                @forelse($customerSatisfactionCategories as $customerSatisfactionCategory)
-                                        <a href="{{route('customerSatisfactionCategory.spotLocalSafaris',$customerSatisfactionCategory->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$customerSatisfactionCategory->customer_satisfaction_name}}</button></a>
-                                     @empty
-                                 @endforelse
-
-                                @forelse($tourTypes as $tourType)
-                                        <a href="{{route('tourType.spotLocalSafaris',$tourType->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$tourType->tour_type_name}}</button></a>
-                                     @empty
-                                 @endforelse
-
-                                @forelse($touristicGames as $touristicGame)
-                                        <a href="{{route('touristicGame.publicView',$touristicGame->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$touristicGame->game_name}}</button></a>
-                                     @empty
-                                 @endforelse
-                            @forelse($touristicAttractionCategories as $touristicAttractionCategory)
-                                <a href="{{route('localTourPackage.localSafariAttractionCategory',$touristicAttractionCategory->uuid)}}"><button class="btn btn-outline-primary" style="border-radius: 20px; border-color: gainsboro;">{{$touristicAttractionCategory->attraction_category}}</button></a>
-                            @empty
-                            @endforelse
-
-                        </div>
+                        
                     </div>
                 </div>
+
+                
+                
                 <div class="row">
                     <div class="col-md-12">
                         <h3>Natural beauty </h3>

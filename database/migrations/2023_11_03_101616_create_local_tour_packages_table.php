@@ -16,6 +16,7 @@ class CreateLocalTourPackagesTable extends Migration
         Schema::create('local_tour_package', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('safari_name');
+            $table->string('trip_kind');
             $table->string('safari_description');
             $table->string('safari_poster');
             $table->decimal('maximum_travellers');
@@ -25,6 +26,11 @@ class CreateLocalTourPackagesTable extends Migration
             $table->decimal('trip_price_child_foreigner',15,2);
             $table->string('safari_start_date');
             $table->string('safari_end_date');
+            $table->string('travel_age_range');
+            $table->string('number_of_views_expecting');
+            $table->string('payment_start_percent');
+            $table->string('cancellation_due_date');
+            $table->string('cancellation_policy');
             $table->string('payment_deadline');
             $table->string('package_range');
             $table->string('phone_number');

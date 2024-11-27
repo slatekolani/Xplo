@@ -1,6 +1,5 @@
 <div class="tab-pane fade" id="nav-Gallery" role="tabpanel" aria-labelledby="nav-Gallery-tab">
     <div class="row" style="margin-top: 30px">
-        <div class="col-md-12">
             <div class="col-md-10" style="margin-top: 10px">
                 <div class="col-md-12">
                     <div class="gallery-row">
@@ -28,7 +27,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
 </div>

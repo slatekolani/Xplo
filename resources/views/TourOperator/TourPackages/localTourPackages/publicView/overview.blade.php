@@ -2,15 +2,35 @@
         <a href="{{ route('touristicAttraction.show', $localTourPackage->touristicAttraction->uuid) }}"
             class="attraction-link" data-toggle="tooltip" data-placement="top"
             data-attraction-id="{{ $localTourPackage->touristicAttraction->id }}"
-            style="color: dodgerblue;font-weight: bold;font-size: 15px"
-            title="{{ $localTourPackage->touristicAttraction->attraction_description }}">{{ $localTourPackage->touristicAttraction->attraction_name }}
-            &rightsquigarrow;</a>
+            style="color: dodgerblue; font-weight: bold; font-size: 15px"
+            title="{{ $localTourPackage->touristicAttraction->attraction_description }}">
+            <i class="fas fa-map-marker-alt"></i> {{ $localTourPackage->touristicAttraction->attraction_name }}
+            &rightsquigarrow;
+        </a>
         <h5 class="card-title" style="font-size: 14px;font-weight: bold"></h5>
         <p>{{ $localTourPackage->safari_description }}</p>
+        @switch($localTourPackage->trip_kind)
+            @case('dayAdventure')
+                <p><a href="{{route('localTourPackage.TripKind',$localTourPackage->trip_kind)}}" title="Trip conducted normal days">Day Adventure</a></p>
+            @break
+
+            @case('weekendGateway')
+                <p><a href="{{route('localTourPackage.TripKind',$localTourPackage->trip_kind)}}" title="Trip to be conducted on weekend">Weekend Gateway</a></p>
+            @break
+
+            @case('weekLongAdventure')
+                <p><a href="{{route('localTourPackage.TripKind',$localTourPackage->trip_kind)}}" title="Trip to be conducted in a weekly timeframe">Week Long Adventure</a></p>
+            @break
+        @endswitch
+
+
 
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Safari targeted audience & event</h5>
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-bullseye" style="color: dodgerblue; margin-right: 8px;"></i>
+            Safari targeted audience & event
+        </h5>
+
         <p>An <a href="{{ route('tourPackageType.spotLocalSafaris', $localTourPackage->tourPackageType->uuid) }}"
                 class="event-link" data-toggle="tooltip" data-placement="top"
                 data-attraction-id="{{ $localTourPackage->tourPackageType->id }}" style="color: dodgerblue"
@@ -24,10 +44,16 @@
         </p>
         <p>Children below the age of <b style="color: dodgerblue">{{ $localTourPackage->free_of_charge_age }}</b> are
             not charged for this safari.</p>
+        <p>The age range for this safari is <b style="color: dodgerblue">{{ $localTourPackage->travel_age_range }}</b>,
+            except for children under {{ $localTourPackage->free_of_charge_age }}, who require intensive care and are
+            free of charge.</p>
 
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Safari capability</h5>
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-cogs" style="color: green; margin-right: 8px;"></i>
+            Safari capability
+        </h5>
+
         <p>This safari can accommodate only <span
                 class="badge badge-success badge-pill">{{ number_format($localTourPackage->maximum_travellers) }}
                 travellers</span></p>
@@ -38,14 +64,18 @@
             <p class="d-inline">Seats Left: <span
                     class="badge badge-danger badge-pill">{{ number_format($localTourPackage->TotalSpacesRemainedLabel) }}
                     seats left</span></p>
-        </div>
+        </div><br><br>
 
 
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Safari Dates</h5>
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-calendar" style="color: dodgerblue; margin-right: 8px;"></i>
+            Safari Dates
+        </h5>
+
         <p>Starts from <b>{{ date('jS M Y', strtotime($localTourPackage->safari_start_date)) }}</b> to
-            <b>{{ date('jS M Y', strtotime($localTourPackage->safari_end_date)) }}</b></p>
+            <b>{{ date('jS M Y', strtotime($localTourPackage->safari_end_date)) }}</b>
+        </p>
         @if ($localTourPackage->CountDownDaysForLocalTourPackageTripLabel >= 0)
             <p>{!! $localTourPackage->CountDownDaysForLocalTourPackageTripLabel !!} ~ Book Now! A lifetime experience awaits...</p>
         @else
@@ -58,24 +88,31 @@
                     <p>{!! $localTourPackage->CountDownDaysForLocalTourPackagePaymentLabel !!} to payment deadline</p>
                 @endif
             </p>
+
         </div>
-            <p> <b>Tour till conducted Plan</b> ~
-                <a href="#">{{$localTourPackagePackageRangeName}}</a>
-            </p>
+        <p>You have to pay first <span style="color: dodgerblue">{{ $localTourPackage->payment_start_percent }}%</span>
+            of the whole amount for the this tour agent to get confident with your safari to get conducted </p>
+        <p> <b>Tour till conducted Plan</b> ~
+            <a
+                href="{{ route('localTourPackage.spotLocalTourPackagePlans', $localTourPackage->package_range) }}">{{ $localTourPackagePackageRangeName }}</a>
+        </p>
 
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Activities</h5>
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-bicycle" style="color: green; margin-right: 8px;"></i>
+            Activities
+        </h5>
+
         <p>These are the activities that will be included in this tour</p>
         <div class="table-responsive">
-            <table class="table" style="min-width: 600px;overflow-x: scroll">
+            <table class="table" style="min-width: 600px;overflow-x: scroll;font-size:13px">
                 <tr>
                     <th>Activity name</th>
                     <th>Activity description</th>
                 </tr>
                 @forelse($localTourActivities as $localTourActivity)
                     <tr>
-                        <td>&starf;{{ $localTourActivity->activity_name }}</td>
+                        <td>{{ $localTourActivity->activity_name }}</td>
                         <td>{{ $localTourActivity->activity_description }}</td>
                     </tr>
                 @empty
@@ -87,16 +124,20 @@
         </div>
         <br>
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">Tour
-            prices</h5>
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-dollar-sign" style="color: #28a745; margin-right: 8px;"></i>
+            Tour prices
+        </h5>
+
         <p>These are the tour prices for <a
                 href="{{ route('touristicAttraction.show', $localTourPackage->touristicAttraction->uuid) }}"
                 class="attraction-link" data-toggle="tooltip" data-placement="top"
                 data-attraction-id="{{ $localTourPackage->touristicAttraction->id }}" style="color: dodgerblue"
                 title="{{ $localTourPackage->touristicAttraction->attraction_description }}">{{ $localTourPackage->touristicAttraction->attraction_name }}</a>
         </p>
+
         <div class="table-responsive">
-            <table class="table" style="min-width: 600px">
+            <table class="table" style="min-width: 600px;font-size:13px">
                 <tr>
                     <th>Resident child</th>
                     <th>Resident adult</th>
@@ -111,13 +152,22 @@
                 </tr>
             </table>
         </div>
-        <br>
         <h5 class="card-title"
             style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Collection Stations and Their Additional Prices</h5>
+            <i class="fas fa-percent" style="margin-right: 8px;"></i>
+            Discount of <span style="color: dodgerblue">{{$localTourPackage->discount_offered}}%</span> are offered when the total number of travelers you have booked for reaches <span style="color: dodgerblue">{{$localTourPackage->number_of_people_for_discount}} people</span> or more.
+
+        </h5>
+        <br>
+        <h5 class="card-title"
+            style="font-size: 14px; font-weight: bold; border-bottom: 2px solid gainsboro; border-bottom-style: dotted">
+            <i class="fas fa-map-marker-alt" style="color: #007bff; margin-right: 8px;"></i>
+            Collection Stations and Their Additional Prices
+        </h5>
+
         <p>These amounts will be added to your tour price</p>
         <div class="table-responsive">
-            <table class="table" style="min-width: 600px">
+            <table class="table" style="min-width: 600px;font-size:13px">
                 <tr>
                     <th>Collection stop</th>
                     <th>Pick up time</th>
@@ -125,8 +175,12 @@
                 </tr>
                 @forelse($localTourCollectionStations as $localTourCollectionStation)
                     <tr>
-                        <td>&starf;{{ $localTourCollectionStation->collection_stop_name }}</td>
-                        <td>{{ date('H:i a', strtotime($localTourCollectionStation->pick_up_time)) }}</td>
+                        <td><i
+                                class="fas fa-map-marker-alt"></i>{{ $localTourCollectionStation->collection_stop_name }}
+                        </td>
+                        <td><i
+                                class="fas fa-clock"></i>{{ date('H:i a', strtotime($localTourCollectionStation->pick_up_time)) }}
+                        </td>
                         <td>T shs {{ number_format($localTourCollectionStation->collection_stop_price) }}</td>
                     </tr>
                 @empty
@@ -140,20 +194,26 @@
         <div style="display: flex;">
             <!-- First Table - Transports used -->
             <div class="table-responsive">
-                <table style="margin-right: 20px;min-width: 600px" class="table">
+                <table style="margin-right: 20px;min-width: 600px;font-size:13px" class="table">
                     <thead>
                         <tr>
-                            <th>Transports used</th>
+                            <th>
+                                <i class="fas fa-bus" style="color: #007bff; margin-right: 8px;"></i>
+                                Transports used
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($localTourPackage->LocalTourPackageTransportsLabel as $transports)
-                        <tr>
-                            <td style="list-style: none;margin-left: 0;"> <i class="{{$transports['transport_icon']}}" style="font-size:20px;color:dodgerblue"></i> {{ $transports['transport_name'] }}</td>
-                        </tr>
-                    @empty
-                    @endforelse
-                       
+                            <tr>
+                                <td style="list-style: none;margin-left: 0;"> <i
+                                        class="{{ $transports['transport_icon'] }}"
+                                        style="font-size:20px;color:dodgerblue"></i>
+                                    {{ $transports['transport_name'] }}</td>
+                            </tr>
+                        @empty
+                        @endforelse
+
                     </tbody>
                 </table>
             </div>
@@ -161,16 +221,22 @@
             <!-- Second Table - Special attention capability -->
 
             <div class="table-responsive">
-                <table style="margin-right: 20px;min-width: 600px" class="table">
+                <table style="margin-right: 20px;min-width: 600px;font-size:13px" class="table">
                     <thead>
                         <tr>
-                            <th>Safari Special Attention</th>
+                            <th>
+                                <i class="fas fa-exclamation-circle" style="color: #ff5733; margin-right: 8px;"></i>
+                                Safari Special Attention
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($localTourPackage->LocalTourPackageSpecialNeedsLabel as $specialNeeds)
                             <tr>
-                                <td style="list-style: none;margin-left: 0;"><i class="{{$specialNeeds['special_need_icon']}}" style="font-size:20px;color:dodgerblue"></i> {{$specialNeeds['special_need_name']}} </td>
+                                <td style="list-style: none;margin-left: 0;"><i
+                                        class="{{ $specialNeeds['special_need_icon'] }}"
+                                        style="font-size:20px;color:dodgerblue"></i>
+                                    {{ $specialNeeds['special_need_name'] }} </td>
                             </tr>
                         @empty
                             <tr>
@@ -182,18 +248,20 @@
             </div>
         </div>
         <div style="display: flex;">
-            <!-- First Table - Price Inclusive -->
             <div class="table-responsive">
-                <table style="margin-right: 20px;min-width: 600px" class="table">
+                <table style="margin-right: 20px;min-width: 600px;font-size:13px" class="table">
                     <thead>
                         <tr>
-                            <th>Tour Price Inclusive Items</th>
+                            <th>
+                                <i class="fas fa-tags" style="color: #007bff; margin-right: 8px;"></i>
+                                Tour Price Inclusive Items
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($localTourPackagePriceInclusiveItems as $localTourPackagePriceInclusiveItem)
                             <tr>
-                                <td>&starf;{{ $localTourPackagePriceInclusiveItem->item }}</td>
+                                <td>{{ $localTourPackagePriceInclusiveItem->item }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -206,16 +274,19 @@
 
             <!-- Second Table - Price Exclusive items-->
             <div class="table-responsive">
-                <table style="margin-right: 20px;min-width: 600px" class="table">
+                <table style="margin-right: 20px;min-width: 600px;font-size:13px" class="table">
                     <thead>
                         <tr>
-                            <th>Tour Price Exclusive Items</th>
+                            <th>
+                                <i class="fas fa-times-circle" style="color: #dc3545; margin-right: 8px;"></i>
+                                Tour Price Exclusive Items
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($localTourPackagePriceExclusiveItems as $localTourPackagePriceExclusiveItem)
                             <tr>
-                                <td>&starf;{{ $localTourPackagePriceExclusiveItem->item }}</td>
+                                <td>{{ $localTourPackagePriceExclusiveItem->item }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -228,10 +299,13 @@
         </div>
         <br>
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">What
-            to bring on this tour?</h5>
+            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
+            <i class="fas fa-briefcase" style="margin-right: 8px;"></i>
+            What to bring on this tour?
+        </h5>
+
         <div class="table-responsive">
-            <table style="margin-right: 20px;min-width: 600px" class="table">
+            <table style="margin-right: 20px;min-width: 600px;font-size:13px" class="table">
                 <thead>
                     <tr>
                         <th>Requirement</th>
@@ -241,7 +315,7 @@
                 <tbody>
                     @forelse($localTourPackageRequirements as $localTourPackageRequirement)
                         <tr>
-                            <td>&starf;{{ $localTourPackageRequirement->requirement_name }}</td>
+                            <td>{{ $localTourPackageRequirement->requirement_name }}</td>
                             <td>{{ $localTourPackageRequirement->requirement_description }}</td>
                         </tr>
                     @empty
@@ -253,19 +327,37 @@
             </table>
         </div>
         <br>
+
         <h5 class="card-title"
             style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Discount offer</h5>
-        <p>{{ $localTourPackage->discount_offered }}</p>
+            <i class="fas fa-file-alt" style="margin-right: 8px;color:dodgerblue"></i>
+            Cancellation policy
+        </h5>
+
+        <p>{{ $localTourPackage->cancellation_policy }}</p>
+        <p>Read more on <a
+                href="{{ asset('public/companyTermsAndConditions/' . $localTourPackage->tourOperator->terms_and_conditions) }}"
+                target="_blank">terms and conditions</a> of <a
+                href="{{ route('tourOperator.publicView', $localTourPackage->tourOperator->uuid) }}">{{ $localTourPackage->tourOperator->company_name }}</a>
+        </p>
+        <p>This trip cancellation deadline - <span
+                style="color:red;font-weight:bolder">{{ date('jS M Y', strtotime($localTourPackage->cancellation_due_date)) }}</span>
+        </p>
         <br>
         <h5 class="card-title"
-            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">How
-            we do handle emergencies</h5>
+            style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
+            <i class="fas fa-exclamation-triangle" style="margin-right: 8px;color:red"></i>
+            How we handle emergencies
+        </h5>
+
         <p>{{ $localTourPackage->emergency_handling }}</p>
         <br>
         <h5 class="card-title"
             style="font-size: 14px;font-weight: bold;border-bottom:2px solid gainsboro;border-bottom-style: dotted">
-            Customer satisfaction offered</h5>
+            <i class="fas fa-smile" style="margin-right: 8px;color:#ffd700"></i>
+            Customer satisfaction offered
+        </h5>
+
         @forelse($localTourPackageCustomerSatisfactions as $localTourPackageCustomerSatisfaction)
             <div class="panel panel-default">
                 <div class="panel-heading">

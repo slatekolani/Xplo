@@ -43,7 +43,9 @@ class tourTypesController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
+            'rating'=>'required',
             'tour_type_name'=>'required',
+            'tour_type_description'=>'required',
         ]);
         if ($validator->fails())
         {
@@ -99,6 +101,15 @@ class tourTypesController extends Controller
      */
     public function update(Request $request, $tourType)
     {
+        $validator=Validator::make($request->all(),[
+            'rating'=>'required',
+            'tour_type_name'=>'required',
+            'tour_type_description'=>'required',
+        ]);
+        if ($validator->fails())
+        {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
         $input=$request->all();
         $tourTypeRepo=new tourTypesRepository();
         $tour_type=$tourTypeRepo->updateTourType($input, $tourType);

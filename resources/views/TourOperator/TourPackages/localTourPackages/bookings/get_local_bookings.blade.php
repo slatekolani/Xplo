@@ -7,7 +7,13 @@
         <th>@lang('Phone number')</th>
         <th>@lang('Pick up station')</th>
         <th>@lang('Total tourists')</th>
-        <th>@lang('Tour Price (T shs)')</th>
+        <th>@lang('Tour Price Before Discount(T shs)')</th>
+        <th>@lang('Discount')</th>
+        <th>@lang('Eligible For Discount?')</th>
+        <th>@lang('Tour Price After Discount(T shs)')</th>
+        <th>@lang('Payment Mode')</th>
+        <th>@lang('Amount Paid')</th>
+        <th>@lang('Payment Progress')</th>
         <th>@lang('Accept or Reject Booking')</th>
         <th>@lang('Status')</th>
         <th>@lang('Actions')</th>
@@ -47,7 +53,13 @@
                     { data: 'phone_number', name: 'tourist_phone_number', orderable: true, searchable: false},
                     { data: 'collection_station', name: 'collection_station', orderable: true, searchable: false},
                     { data: 'total_tourists', name: 'total_tourists', orderable: true, searchable: false},
-                    { data: 'tour_price', name: 'tour_price', orderable: false, searchable: false},
+                    { data: 'tour_price', name: 'tour_price', orderable: true, searchable: false},
+                    { data: 'discount_offered', name: 'discount_offered', orderable: true, searchable: false},
+                    { data: 'discount_eligibility', name: 'discount_eligibility', orderable: true, searchable: false},
+                    { data: 'tour_price_after_discount', name: 'tour_price_after_discount', orderable: true, searchable: false},
+                    { data: 'payment_mode', name: 'payment_mode', orderable: true, searchable: true},
+                    { data: 'amount_paid', name: 'amount_paid', orderable: true, searchable: true},
+                    { data: 'payment_progress', name: 'payment_progress', orderable: true, searchable: false},
                     { data : "approve_or_un_approve_booking", "className": "text-center",
                         render: function(data, type, row, meta){
                             return  `

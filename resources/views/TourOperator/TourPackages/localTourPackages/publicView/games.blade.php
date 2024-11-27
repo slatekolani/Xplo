@@ -35,7 +35,7 @@
                         </a>
                     </div>
                 @empty
-                    <p>Whoops! No Tanzanian attraction has been published yet. Our personnel are working on it</P>
+                    <p>Whoops! No Touristic game has been mentioned yet. Our personnel are working on it</P>
                 @endforelse
             </div>
         </div>

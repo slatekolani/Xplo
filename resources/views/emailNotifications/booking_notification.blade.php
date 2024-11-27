@@ -12,7 +12,6 @@
         <li>Email Address: <a href="mailto:{{ $data['email_address'] }}">{{$data['email_address']}}</a></li>
         <li>Collection Station: {{ $data['collection_station'] }}</li>
         <li>Message: {{ $data['message'] }}</li>
-        <!-- Add other details as necessary -->
     </ul>
     <p>Please check the admin panel for more details.</p>
 </body>

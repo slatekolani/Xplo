@@ -41,7 +41,6 @@ class touristicAttractionsController extends Controller
         $regions = tanzaniaRegions::query()->where('status', '=', 1)->pluck('region_name', 'id');
         $attractionCategory = touristicAttractionCategory::query()->pluck('attraction_category', 'id');
         $years = range(date('Y'), 1900);
-        dd($years);
         return view('TouristAttraction.create')
             ->with('attractionCategory', $attractionCategory)
             ->with('regions', $regions)

@@ -177,6 +177,21 @@ class localTourPackages extends BaseModel
         }
         $localTourPackage->customerSatisfactionCategory()->sync($localTourPackageCustomerSatisfactionArray);
     }
+    public function getLocalTourPackageCustomerSatisfactionLabelAttribute()
+    {
+        $localTourPackageCustomerSatisfactionIds=DB::table('package_customer_satisfaction')->where('local_tour_package_id',$this->id)->pluck('customer_satisfaction_id');
+        $localTourPackageCustomerSatisfactions=customerSatisfactionCategory::whereIn('id',$localTourPackageCustomerSatisfactionIds)->get();
+        $customerSatisfactions=[];
+        foreach($localTourPackageCustomerSatisfactions as $localTourPackageCustomerSatisfaction)
+        {
+            $customerSatisfactions[]=
+            [
+                'customer_satisfaction_name'=>$localTourPackageCustomerSatisfaction->customer_satisfaction_name,
+                'customer_satisfaction_description'=>$localTourPackageCustomerSatisfaction->customer_satisfaction_description,
+            ];
+        }
+        return $customerSatisfactions;
+    }
     public function getLocalTourPackageReservations(array $input, Model $localTourPackage)
     {
         $localTourPackageReservationsArray=[];
@@ -190,6 +205,22 @@ class localTourPackages extends BaseModel
             }
         }
         $localTourPackage->localTourPackageReservations()->sync($localTourPackageReservationsArray);
+    }
+    public function getLocalTourPackageReservationsLabelAttribute()
+    {
+        $localTourPackageReservationIds=DB::table('local_package_reservation')->where('local_tour_package_id',$this->id)->pluck('tour_operator_reservation_id');
+        $localTourPackageReservations=tourOperatorReservation::whereIn('id',$localTourPackageReservationIds)->get();
+        $reservations=[];
+        foreach($localTourPackageReservations as $localTourPackageReservation)
+        {
+            $reservations[]=
+            [
+                'reservation_name'=>$localTourPackageReservation->reservation_name,
+                'reservation_capacity'=>$localTourPackageReservation->reservation_capacity,
+                'reservation_url'=>$localTourPackageReservation->reservation_url,
+            ];
+        }
+        return $reservations;
     }
     public function saveLocalTourPackageActivities($input,$localTourPackage)
     {

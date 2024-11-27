@@ -59,18 +59,34 @@
                 <div class="card-body" style="background-color: rgba(255,255,255,0.85); margin-top: 3px">
                     <!-- Existing review_company and review_attraction fields -->
                     <div class="form-group">
+                        {{ Form::label('title_review_company', __("Title for company review"), ['class' => 'required_asterik']) }}
+                        {{ Form::text('title_review_company', null, ['class' => 'form-control', 'autocomplete' => 'off','maxLength'=>'100', 'id' => 'title_review_company', 'required']) }}
+                        {!! $errors->first('title_review_company', '<span class="badge badge-danger">:message</span>') !!}
+                    </div>
+                    <div class="form-group">
                         {{ Form::label('review_company', __("Review Company Service (max 500 characters)"), ['class' => 'required_asterik']) }}
                         {{ Form::textarea('review_company', null, ['class' => 'form-control', 'maxlength' => '500', 'style' => 'height:150px', 'autocomplete' => 'off', 'id' => 'review_company', 'required']) }}
                         {!! $errors->first('review_company', '<span class="badge badge-danger">:message</span>') !!}
                     </div>
                     <div class="form-group">
+                        {{ Form::label('title_review_attraction', __("Title for attraction review"), ['class' => 'required_asterik']) }}
+                        {{ Form::text('title_review_attraction', null, ['class' => 'form-control', 'autocomplete' => 'off', 'maxLength'=>'100','id' => 'title_review_attraction', 'required']) }}
+                        {!! $errors->first('title_review_attraction', '<span class="badge badge-danger">:message</span>') !!}
+                    </div>
+
+                    <div class="form-group">
                         {{ Form::label('review_attraction', __("Review Attraction (max 500 characters)"), ['class' => 'required_asterik']) }}
                         {{ Form::textarea('review_attraction', null, ['class' => 'form-control', 'maxlength' => '500', 'style' => 'height:150px', 'autocomplete' => 'off', 'id' => 'review_attraction', 'required']) }}
                         {!! $errors->first('review_attraction', '<span class="badge badge-danger">:message</span>') !!}
                     </div>
+                    
+                   
                 </div>
             </div>
         </div>
+        <input class="hidden" name="tour_operator_id" value="{{$localTourBooking->tourOperator->id}}">
+        <input class="hidden" name="local_tour_package_id" value="{{$localTourBooking->localTourPackages->id}}">
+        <input class="hidden" name="local_tour_booking_id" value="{{$localTourBooking->id}}">
 
         <!-- Submit Section -->
         <div class="col-md-12">

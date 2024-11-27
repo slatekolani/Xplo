@@ -3,7 +3,7 @@
 @include('includes.validate_assets')
 @section('content')
 
-    {{ Form::model($event,['route' => ['event.update', $event->uuid], 'method'=>'put','autocomplete' => 'off',
+    {{ Form::model($event,['enctype="multipart/form-data"','route' => ['event.update', $event->uuid], 'method'=>'put','autocomplete' => 'off',
          'id' => 'update','class' => 'form-horizontal  needs-validation', 'novalidate']) }}
     {{ Form::hidden('user_id', $event->id, []) }}
     @csrf
@@ -15,6 +15,14 @@
                         <div class="col-md-12">
                             <p>{{ getLanguageBlock('lang.auth.mandatory-field') }}</p>
                             <div class="row">
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <a href="{{asset('public/eventImages/'.$event->event_image)}}">Previous Image</a>
+                                    <div class="form-group">
+                                        {{ Form::label('event_image', __("Event image"), ['class' => 'required_asterik']) }}
+                                        {{ Form::file('event_image', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'event_image', 'required']) }}
+                                        {!! $errors->first('event_image', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('event_name', __("Event name"), ['class' => 'required_asterik']) }}
@@ -34,7 +42,7 @@
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('event_date', __("Event date"), ['class' => 'required_asterik']) }}
-                                        {{ Form::date('event_date', $event->event_date, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'event_date', 'required']) }}
+                                        {{ Form::date('event_date', $event->event_date, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'event_date']) }}
                                         {!! $errors->first('event_date', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>

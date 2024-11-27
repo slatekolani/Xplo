@@ -83,32 +83,144 @@ class localTourPackageBookings extends BaseModel
     }
     public function getTourPriceLabelAttribute()
     {
-        $localTourPackageBooking=localTourPackageBookings::find($this->id);
-        $localTourPackageId=$localTourPackageBooking->local_tour_package_id;
-        $localTourPackage=localTourPackages::query()->where('id',$localTourPackageId)->first();
+        // Fetch the related Local Tour Package Booking
+        $localTourPackageBooking = localTourPackageBookings::find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        // Fetch related IDs and data
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        $tourOperatorReservation = tourOperatorReservation::find($localTourPackageBooking->reservation_id);
+    
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+    
+        // Prices from the Tour Package
+        $adultForeignerTourPrice = $localTourPackage->trip_price_adult_foreigner ?? 0;
+        $childForeignerTourPrice = $localTourPackage->trip_price_child_foreigner ?? 0;
+        $childLocalTourPrice = $localTourPackage->trip_price_child_tanzanian ?? 0;
+        $adultLocalTourPrice = $localTourPackage->trip_price_adult_tanzanian ?? 0;
+    
+        // Prices from the Reservation (fallback to 0 if null)
+        $adultForeignerReservationPrice = $tourOperatorReservation->foreigner_adult_price_reservation ?? 0;
+        $childForeignerReservationPrice = $tourOperatorReservation->foreigner_child_price_reservation ?? 0;
+        $childLocalReservationPrice = $tourOperatorReservation->resident_child_price_reservation ?? 0;
+        $adultLocalReservationPrice = $tourOperatorReservation->resident_adult_price_reservation ?? 0;
+    
+        // Traveler Counts
+        $totalForeignerChildren = $localTourPackageBooking->total_number_foreigner_child ?? 0;
+        $totalForeignerAdults = $localTourPackageBooking->total_number_foreigner_adult ?? 0;
+        $totalLocalAdults = $localTourPackageBooking->total_number_local_adult ?? 0;
+        $totalLocalChildren = $localTourPackageBooking->total_number_local_child ?? 0;
+    
+        // Collecting Station Price
+        $collectingStationPrice = $localTourPackageBooking->collectionStop->collection_stop_price ?? 0;
+    
+        // Calculate Breakdown of Tour Prices
+        $adultForeignersTourPrice = ($adultForeignerTourPrice * $totalForeignerAdults) + ($collectingStationPrice * $totalForeignerAdults);
+        $adultLocalsTourPrice = ($adultLocalTourPrice * $totalLocalAdults) + ($collectingStationPrice * $totalLocalAdults);
+        $childrenForeignersTourPrice = ($childForeignerTourPrice * $totalForeignerChildren) + ($collectingStationPrice * $totalForeignerChildren);
+        $childrenLocalsTourPrice = ($childLocalTourPrice * $totalLocalChildren) + ($collectingStationPrice * $totalLocalChildren);
 
-//        Total price of each category of people
-        $adultForeignerTourPrice= $localTourPackage->trip_price_adult_foreigner;
-        $childForeignerTourPrice= $localTourPackage->trip_price_child_foreigner;
-        $childLocalTourPrice= $localTourPackage->trip_price_child_tanzanian;
-        $adultLocalTourPrice= $localTourPackage->trip_price_adult_tanzanian;
-
-//        Total number of travellers by categories of people
-        $totalForeignerChildren=$localTourPackageBooking->total_number_foreigner_child;
-        $totalForeignerAdults=$localTourPackageBooking->total_number_foreigner_adult;
-        $totalLocalAdults=$localTourPackageBooking->total_number_local_adult;
-        $totalLocalChildren=$localTourPackageBooking->total_number_local_child;
-        $collectingStationPrice=$localTourPackageBooking->collectionStop->collection_stop_price;
-//        Breakdown of prices to be paid by each group
-        $adultForeignersTourPrice=($adultForeignerTourPrice * $totalForeignerAdults) + ($collectingStationPrice * $totalForeignerAdults);
-        $adultLocalsTourPrice=($adultLocalTourPrice * $totalLocalAdults) + ($collectingStationPrice * $totalLocalAdults);
-        $childrenForeignersTourPrice=($childForeignerTourPrice * $totalForeignerChildren) + ($collectingStationPrice * $totalForeignerChildren);
-        $childrenLocalsTourPrice=($childLocalTourPrice* $totalLocalChildren) + ($collectingStationPrice * $totalLocalChildren);
-
-//        Amount to be paid in the specific booking
-        $localTourPrice= ($adultLocalsTourPrice + $adultForeignersTourPrice + $childrenForeignersTourPrice + $childrenLocalsTourPrice);
-        return $localTourPrice;
+        // Calculate Breakdown of Reservation Prices
+        $adultForeignersReservationPrice = ($adultForeignerReservationPrice * $totalForeignerAdults);
+        $adultLocalsReservationPrice = ($adultLocalReservationPrice * $totalLocalAdults);
+        $childrenForeignersReservationPrice = ($childForeignerReservationPrice * $totalForeignerChildren);
+        $childrenLocalsReservationPrice = ($childLocalReservationPrice * $totalLocalChildren);
+    
+        // Calculate Total Prices
+        $localTourPrice = $adultLocalsTourPrice + $adultForeignersTourPrice + $childrenForeignersTourPrice + $childrenLocalsTourPrice;
+        $reservationPrice =  $adultForeignersReservationPrice + $adultLocalsReservationPrice + $childrenForeignersReservationPrice + $childrenLocalsReservationPrice;
+    
+        // Final Tour Price
+        $tourPrice = $localTourPrice + $reservationPrice;
+    
+        return $tourPrice;
     }
+    public function getDiscountedTourPriceLabelAttribute()
+    {
+        $totalTourPrice=$this->getTourPriceLabelAttribute();
+        $localTourPackageBooking = localTourPackageBookings::find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        // Fetch related IDs and data
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+        $discountPercent=$localTourPackage->discount_offered;
+        $discountedAmount=$totalTourPrice * ($discountPercent/100);
+        $amountAfterDiscounted=$totalTourPrice-$discountedAmount;
+
+        return $amountAfterDiscounted;
+    }
+    public function getPaymentModeLabelAttribute()
+    {
+        // Fetch the payment mode value
+        $paymentMode = $this->payment_mode;
+        
+        // Check if payment mode is not null
+        if (!is_null($paymentMode)) {
+            // Use a switch statement for different payment modes
+            switch ($paymentMode) {
+                case 'fullPayment':
+                    return '<span class="badge badge-success">Full Payment</span>';
+                    break;
+                case 'partialPayment':
+                    return '<span class="badge badge-warning">Partial Payment</span>';
+                    break;
+                default:
+                    return '<span class="badge badge-info">Unknown Payment Mode</span>';
+            }
+        } else {
+            return '<span class="badge badge-danger">No Option Selected</span>';
+        }
+    }
+    public function getAmountPaidLabelAttribute()
+    {
+        return '<span class="badge badge-success">Tshs 0/=</span>';
+    }
+    public function getPaymentProgressLabelAttribute()
+    {
+        return '<span class="badge badge-primary">0%</span>';
+    }
+    
+    public function getTouristEligibilityForDiscountLabelAttribute()
+    {
+        $localTourPackageBooking = localTourPackageBookings::find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        $totalForeignerChildren = $localTourPackageBooking->total_number_foreigner_child ?? 0;
+        $totalForeignerAdults = $localTourPackageBooking->total_number_foreigner_adult ?? 0;
+        $totalLocalAdults = $localTourPackageBooking->total_number_local_adult ?? 0;
+        $totalLocalChildren = $localTourPackageBooking->total_number_local_child ?? 0;
+        $totalTravellers=($totalForeignerAdults+ $totalForeignerChildren + $totalLocalAdults + $totalLocalChildren);
+
+
+        // Fetch related IDs and data
+
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+        $numberOfPeopleForDiscount=$localTourPackage->number_of_people_for_discount;
+        if($totalTravellers >= $numberOfPeopleForDiscount)
+        {
+            return '<span class="badge badge-success">Eligible for Discount</span>';
+        }
+        else
+        {
+            return '<span class="badge badge-danger">Not Eligible for Discount</span>';
+        }    
+       
+    }
+    
     public function getTotalTouristsLabelAttribute()
     {
         $localTourPackageBooking=localTourPackageBookings::find($this->id);
@@ -124,32 +236,113 @@ class localTourPackageBookings extends BaseModel
 
     public function getTourPriceForDeletedBookingLabelAttribute()
     {
-        $localTourPackageBooking=localTourPackageBookings::onlyTrashed()->find($this->id);
-        $localTourPackageBookingId=$localTourPackageBooking->local_tour_package_id;
-        $localTourPackage=localTourPackages::query()->where('id',$localTourPackageBookingId)->first();
+        $localTourPackageBooking = localTourPackageBookings::onlyTrashed()->find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        // Fetch related IDs and data
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        $tourOperatorReservation = tourOperatorReservation::find($localTourPackageBooking->reservation_id);
+    
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+    
+        // Prices from the Tour Package
+        $adultForeignerTourPrice = $localTourPackage->trip_price_adult_foreigner ?? 0;
+        $childForeignerTourPrice = $localTourPackage->trip_price_child_foreigner ?? 0;
+        $childLocalTourPrice = $localTourPackage->trip_price_child_tanzanian ?? 0;
+        $adultLocalTourPrice = $localTourPackage->trip_price_adult_tanzanian ?? 0;
+    
+        // Prices from the Reservation (fallback to 0 if null)
+        $adultForeignerReservationPrice = $tourOperatorReservation->foreigner_adult_price_reservation ?? 0;
+        $childForeignerReservationPrice = $tourOperatorReservation->foreigner_child_price_reservation ?? 0;
+        $childLocalReservationPrice = $tourOperatorReservation->resident_child_price_reservation ?? 0;
+        $adultLocalReservationPrice = $tourOperatorReservation->resident_adult_price_reservation ?? 0;
+    
+        // Traveler Counts
+        $totalForeignerChildren = $localTourPackageBooking->total_number_foreigner_child ?? 0;
+        $totalForeignerAdults = $localTourPackageBooking->total_number_foreigner_adult ?? 0;
+        $totalLocalAdults = $localTourPackageBooking->total_number_local_adult ?? 0;
+        $totalLocalChildren = $localTourPackageBooking->total_number_local_child ?? 0;
+    
+        // Collecting Station Price
+        $collectingStationPrice = $localTourPackageBooking->collectionStop->collection_stop_price ?? 0;
+    
+        // Calculate Breakdown of Tour Prices
+        $adultForeignersTourPrice = ($adultForeignerTourPrice * $totalForeignerAdults) + ($collectingStationPrice * $totalForeignerAdults);
+        $adultLocalsTourPrice = ($adultLocalTourPrice * $totalLocalAdults) + ($collectingStationPrice * $totalLocalAdults);
+        $childrenForeignersTourPrice = ($childForeignerTourPrice * $totalForeignerChildren) + ($collectingStationPrice * $totalForeignerChildren);
+        $childrenLocalsTourPrice = ($childLocalTourPrice * $totalLocalChildren) + ($collectingStationPrice * $totalLocalChildren);
 
-//        Total price of each category of people
-        $adultForeignerTourPrice= $localTourPackage->trip_price_adult_foreigner;
-        $childForeignerTourPrice= $localTourPackage->trip_price_child_foreigner;
-        $childLocalTourPrice= $localTourPackage->trip_price_child_tanzanian;
-        $adultLocalTourPrice= $localTourPackage->trip_price_adult_tanzanian;
+        // Calculate Breakdown of Reservation Prices
+        $adultForeignersReservationPrice = ($adultForeignerReservationPrice * $totalForeignerAdults);
+        $adultLocalsReservationPrice = ($adultLocalReservationPrice * $totalLocalAdults);
+        $childrenForeignersReservationPrice = ($childForeignerReservationPrice * $totalForeignerChildren);
+        $childrenLocalsReservationPrice = ($childLocalReservationPrice * $totalLocalChildren);
+    
+        // Calculate Total Prices
+        $localTourPrice = $adultLocalsTourPrice + $adultForeignersTourPrice + $childrenForeignersTourPrice + $childrenLocalsTourPrice;
+        $reservationPrice =  $adultForeignersReservationPrice + $adultLocalsReservationPrice + $childrenForeignersReservationPrice + $childrenLocalsReservationPrice;
+    
+        // Final Tour Price
+        $tourPrice = $localTourPrice + $reservationPrice;
+    
+        return $tourPrice;
+    }
 
-//        Total number of travellers by categories of people
-        $totalForeignerChildren=$localTourPackageBooking->total_number_foreigner_child;
-        $totalForeignerAdults=$localTourPackageBooking->total_number_foreigner_adult;
-        $totalLocalAdults=$localTourPackageBooking->total_number_local_adult;
-        $totalLocalChildren=$localTourPackageBooking->total_number_local_child;
-        $collectingStationPrice=$localTourPackageBooking->collectionStop->collection_stop_price;
-//        Breakdown of prices to be paid by each group
-        $adultForeignersTourPrice=($adultForeignerTourPrice * $totalForeignerAdults) + ($collectingStationPrice * $totalForeignerAdults);
-        $adultLocalsTourPrice=($adultLocalTourPrice * $totalLocalAdults) + ($collectingStationPrice * $totalLocalAdults);
-        $childrenForeignersTourPrice=($childForeignerTourPrice * $totalForeignerChildren) + ($collectingStationPrice * $totalForeignerChildren);
-        $childrenLocalsTourPrice=($childLocalTourPrice* $totalLocalChildren) + ($collectingStationPrice * $totalLocalChildren);
+    public function getDiscountedTourPriceForDeletedBookingLabelAttribute()
+    {
+        $totalTourPrice=$this->getTourPriceForDeletedBookingLabelAttribute();
+        $localTourPackageBooking = localTourPackageBookings::onlyTrashed()->find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        // Fetch related IDs and data
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+        $discountPercent=$localTourPackage->discount_offered;
+        $discountedAmount=$totalTourPrice * ($discountPercent/100);
+        $amountAfterDiscounted=$totalTourPrice-$discountedAmount;
+
+        return $amountAfterDiscounted;
+    }
 
 
-//        Amount to be paid in the specific booking
-        $localTourPrice= ($adultLocalsTourPrice + $adultForeignersTourPrice + $childrenForeignersTourPrice + $childrenLocalsTourPrice);
-        return $localTourPrice;
+    public function getDeletedTouristEligibilityForDiscountLabelAttribute()
+    {
+        $localTourPackageBooking = localTourPackageBookings::onlyTrashed()->find($this->id);
+        if (!$localTourPackageBooking) {
+            return 0; // Return 0 if booking does not exist
+        }
+    
+        $totalForeignerChildren = $localTourPackageBooking->total_number_foreigner_child ?? 0;
+        $totalForeignerAdults = $localTourPackageBooking->total_number_foreigner_adult ?? 0;
+        $totalLocalAdults = $localTourPackageBooking->total_number_local_adult ?? 0;
+        $totalLocalChildren = $localTourPackageBooking->total_number_local_child ?? 0;
+        $totalTravellers=($totalForeignerAdults+ $totalForeignerChildren + $totalLocalAdults + $totalLocalChildren);
+
+
+        // Fetch related IDs and data
+
+        $localTourPackage = localTourPackages::find($localTourPackageBooking->local_tour_package_id);
+        if (!$localTourPackage) {
+            return 0; // Return 0 if the tour package does not exist
+        }
+        $numberOfPeopleForDiscount=$localTourPackage->number_of_people_for_discount;
+        if($totalTravellers >= $numberOfPeopleForDiscount)
+        {
+            return '<span class="badge badge-success">Eligible for Discount</span>';
+        }
+        else
+        {
+            return '<span class="badge badge-danger">Not Eligible for Discount</span>';
+        }    
+       
     }
 
     public function getDeletedTotalTouristsLabelAttribute()

@@ -26,6 +26,13 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage=new localTourPackages();
         $localTourPackage->safari_name=$input['safari_name'];
         $localTourPackage->safari_description=$input['safari_description'];
+        $localTourPackage->trip_kind=$input['trip_kind'];
+        $localTourPackage->travel_age_range=$input['travel_age_range'];
+        $localTourPackage->number_of_views_expecting=$input['number_of_views_expecting'];
+        $localTourPackage->payment_start_percent=$input['payment_start_percent'];
+        $localTourPackage->cancellation_percent=$input['cancellation_percent'];
+        $localTourPackage->cancellation_due_date=$input['cancellation_due_date'];
+        $localTourPackage->cancellation_policy=$input['cancellation_policy'];
         $localTourPackage->trip_price_adult_tanzanian=$input['trip_price_adult_tanzanian'];
         $localTourPackage->trip_price_child_tanzanian=$input['trip_price_child_tanzanian'];
         $localTourPackage->trip_price_adult_foreigner=$input['trip_price_adult_foreigner'];
@@ -38,6 +45,8 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage->phone_number=$input['phone_number'];
         $localTourPackage->email_address=$input['email_address'];
         $localTourPackage->discount_offered=$input['discount_offered'];
+        $localTourPackage->number_of_people_for_discount=$input['number_of_people_for_discount'];
+        $localTourPackage->payment_start_percent_deadline=$input['payment_start_percent_deadline'];
         $localTourPackage->targeted_event=$input['targeted_event'];
         $localTourPackage->tour_package_type_name=$input['tour_package_type_name'];
         $localTourPackage->emergency_handling=$input['emergency_handling'];
@@ -81,6 +90,13 @@ class localTourPackagesRepository extends BaseRepository
     {
         $localTourPackage=localTourPackages::query()->where('uuid',$localTourPackageUuid)->first();
         $localTourPackage->safari_name=$input['safari_name'];
+        $localTourPackage->trip_kind=$input['trip_kind'];
+        $localTourPackage->travel_age_range=$input['travel_age_range'];
+        $localTourPackage->number_of_views_expecting=$input['number_of_views_expecting'];
+        $localTourPackage->payment_start_percent=$input['payment_start_percent'];
+        $localTourPackage->cancellation_percent=$input['cancellation_percent'];
+        $localTourPackage->cancellation_due_date=$input['cancellation_due_date'];
+        $localTourPackage->cancellation_policy=$input['cancellation_policy'];
         $localTourPackage->safari_description=$input['safari_description'];
         $localTourPackage->trip_price_adult_tanzanian=$input['trip_price_adult_tanzanian'];
         $localTourPackage->trip_price_child_tanzanian=$input['trip_price_child_tanzanian'];
@@ -94,6 +110,8 @@ class localTourPackagesRepository extends BaseRepository
         $localTourPackage->phone_number=$input['phone_number'];
         $localTourPackage->email_address=$input['email_address'];
         $localTourPackage->discount_offered=$input['discount_offered'];
+        $localTourPackage->number_of_people_for_discount=$input['number_of_people_for_discount'];
+        $localTourPackage->payment_start_percent_deadline=$input['payment_start_percent_deadline'];
         $localTourPackage->targeted_event=$input['targeted_event'];
         $localTourPackage->tour_package_type_name=$input['tour_package_type_name'];
         $localTourPackage->free_of_charge_age=$input['free_of_charge_age'];

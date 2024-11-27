@@ -47,6 +47,8 @@ class tourOperatorRepository extends BaseRepository
         $tourOperatorCompany->safariClass=$input['safariClass'];
         $tourOperatorCompany->agreeCustomBooking=$input['agreeCustomBooking'];
         $tourOperatorCompany->postal_code=$input['postal_code'];
+        $tourOperatorCompany->tin_number=$input['tin_number'];
+        $tourOperatorCompany->physical_location=$input['physical_location'];
         $tourOperatorCompany->users_id=auth()->user()->id;
         if($input['company_logo'])
         {
@@ -112,6 +114,8 @@ class tourOperatorRepository extends BaseRepository
         $tourOperatorCompany->agreeCustomBooking=$input['agreeCustomBooking'];
         $tourOperatorCompany->region=$input['region'];
         $tourOperatorCompany->postal_code=$input['postal_code'];
+        $tourOperatorCompany->tin_number=$input['tin_number'];
+        $tourOperatorCompany->physical_location=$input['physical_location'];
         $tourOperatorCompany->users_id=auth()->user()->id;
         $input=$request->all();
         if($request->hasFile('company_logo') && $input['company_logo'])

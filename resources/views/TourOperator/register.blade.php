@@ -50,9 +50,23 @@
                                 </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
-                                        {{ Form::label('postal_code', __("Postal code"), ['class' => 'required_asterik']) }}
+                                        {{ Form::label('postal_code', __("Postal Code"), ['class' => 'required_asterik']) }}
                                         {{ Form::number('postal_code',null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'postal_code','maxLength'=>'10', 'required']) }}
                                         {!! $errors->first('postal_code', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('tin_number', __("Tin Number"), ['class' => 'required_asterik']) }}
+                                        {{ Form::number('tin_number',null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'tin_number','maxLength'=>'8', 'required']) }}
+                                        {!! $errors->first('tin_number', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        {{ Form::label('physical_location', __("Physical Location"), ['class' => 'required_asterik']) }}
+                                        {{ Form::text('physical_location',null, ['class' => 'form-control', 'autocomplete' => 'off','placeholder'=>'NSSF Kaloleni Plaza,Ground Floor', 'id' => 'physical_location','maxLength'=>'50', 'required']) }}
+                                        {!! $errors->first('physical_location', '<span class="badge badge-danger">:message</span>') !!}
                                     </div>
                                 </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">

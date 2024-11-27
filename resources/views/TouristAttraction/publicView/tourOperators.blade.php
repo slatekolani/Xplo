@@ -94,7 +94,7 @@
                                             @if ($spottedTourOperatorList->agreeCustomBooking == 'Yes')
                                             <div class="row">
                                                 <div class="text-center">
-                                                    <a href="{{ route('customTourBookings.create', $tourOperator->uuid) }}"
+                                                    <a href="{{ route('customTourBookings.create', $spottedTourOperatorList->uuid) }}"
                                                         class="btn btn-primary btn-sm" style="margin-left: 10px">Request custom tour
                                                         &blacktriangleright;</a>
                                                 </div>

@@ -10,11 +10,16 @@
     $noTourTypeMessage=false;
     @endphp
     <div class="row" style="margin-top: 10px">
-        <div class="col-md-12">
             <div class="card">
                 <div class="card-body" style="background-color: rgba(255,255,255,0.85)">
                     <div class="row">
-                        <h3 style="color: dodgerblue">Exploration enthusiasts, Travel on {{$tourType->tour_type_name}} for an incredible memory.</h3>
+                        <div class="col-md-12">
+                            <div class="card-header bg-primary text-white">
+                                <h2 class="mb-0">{{$tourType->tour_type_name}}</h2>
+                                <p style="color:#ffd700;font-size:15px"><i>"Exploration enthusiasts, Travel on {{$tourType->tour_type_name}} for an incredible memory."</i></p>
+                            </div>
+                        </div>
+                        
                         <div class="col-md-12">
                             <div class="row">
                                 @forelse($spottedLocalTourPackages as $spottedLocalTourPackage)
@@ -97,6 +102,5 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 @endsection

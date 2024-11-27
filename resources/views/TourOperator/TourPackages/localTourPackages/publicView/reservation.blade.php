@@ -28,6 +28,13 @@
                                         <h2>{{ $localTourPackageReservation->reservation_name }}</h2>
                                         <p class="card-text mb-2">Region found: <a href="{{route('tanzaniaRegion.publicView',$localTourPackageReservation->tanzaniaRegion->uuid)}}">{{ $localTourPackageReservation->tanzaniaRegion->region_name }}</a></p>
                                         <p class="card-text mb-2">Capacity: {{ $localTourPackageReservation->reservation_capacity }}</p>
+                                        <div class="alert alert-warning">
+                                            <p style="font-size: 20px">Prices for {{$localTourPackageReservation->reservation_name}}</p>
+                                            <p>Resident Child Price: TZS {{number_format($localTourPackageReservation->resident_child_price_reservation)}} </p>
+                                            <p>Resident Adult Price: TZS {{number_format($localTourPackageReservation->resident_adult_price_reservation)}} </p>
+                                            <p>Non Resident Adult Price: TZS {{number_format($localTourPackageReservation->foreigner_adult_price_reservation)}} </p>
+                                            <p>Non Resident Child Price: TZS {{number_format($localTourPackageReservation->foreigner_child_price_reservation)}} </p>
+                                        </div>
                                         <h3>Facilities</h3>
                                         @forelse($localTourPackageReservation->tourOperatorReservationFacility as $facility)
                                             <div class="card mb-3 border-primary">
@@ -36,6 +43,7 @@
                                                     <p class="card-text">{{ $facility->facility_description }}</p>
                                                 </div>
                                             </div>
+                                            
                                         @empty
                                             <div class="card">
                                                 <div class="card-body">
@@ -92,27 +100,14 @@
 
 
                                         <div class="text-center mt-3">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="openReservationWebsite()">
+                                            <a href="{{$localTourPackageReservation->reservation_url}}" type="button" class="btn btn-primary" target="_blank">
                                                 Preview Website
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                             </div>
 
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <iframe src="{{$localTourPackageReservation->reservation_url}}" id="reservationIframe" width="100%" height="600" frameborder="0"></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
 
                             @empty

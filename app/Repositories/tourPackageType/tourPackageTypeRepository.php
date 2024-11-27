@@ -25,14 +25,31 @@ class tourPackageTypeRepository extends BaseRepository
         $tourPackageType=new tourPackageType();
         $tourPackageType->tour_package_type_name=$input['tour_package_type_name'];
         $tourPackageType->tour_package_type_description=$input['tour_package_type_description'];
+        if($input['tour_package_type_image'])
+        {
+            $file=$input['tour_package_type_image'];
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->move('public/packageTypeImage/',$filename);
+            $tourPackageType->tour_package_type_image=$filename;
+        }
         $tourPackageType->save();
     }
 
-    public function updateTourPackageType(array $input, $tourPackageTypeId)
+    public function updateTourPackageType(array $input, $tourPackageTypeId,$request)
     {
         $tourPackageType=tourPackageType::query()->where('uuid',$tourPackageTypeId)->first();
         $tourPackageType->tour_package_type_name=$input['tour_package_type_name'];
         $tourPackageType->tour_package_type_description=$input['tour_package_type_description'];
+        $input=$request->all();
+        if($request->hasFile('tour_package_type_image') && $input['tour_package_type_image'])
+        {
+            $file=$input['tour_package_type_image'];
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->move('public/tourPackageTypeImages/',$filename);
+            $tourPackageType->tour_package_type_image=$filename;
+        }
         $tourPackageType->save();
     }
 }

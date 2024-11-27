@@ -24,7 +24,6 @@ class CreateLocalTourPackageBookingsTable extends Migration
             $table->decimal('total_number_local_adult',3);
             $table->string('collection_station');
             $table->string('special_attention');
-            $table->string('reservation_id');
             $table->string('message');
             $table->unsignedBigInteger('tour_operator_id');
             $table->unsignedBigInteger('local_tour_package_id');

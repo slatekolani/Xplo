@@ -46,6 +46,7 @@ class tourPackageTypeController extends Controller
         [
             'tour_package_type_name'=>'required',
             'tour_package_type_description'=>'required|max:300',
+            'tour_package_type_image'=>'required|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:1000,max_width:1000',
         ]);
         if ($validator->fails())
         {
@@ -107,6 +108,8 @@ class tourPackageTypeController extends Controller
         [
             'tour_package_type_name'=>'required',
             'tour_package_type_description'=>'required|max:300',
+            'tour_package_type_image'=>'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:max_height:1000,max_width:1000',
+
         ]);
         if ($validator->fails())
         {
@@ -114,7 +117,7 @@ class tourPackageTypeController extends Controller
         }
         $input=$request->all();
         $tourPackageTypeRepo=new tourPackageTypeRepository();
-        $tourPackageType=$tourPackageTypeRepo->updateTourPackageType($input,$tourPackageTypeId);
+        $tourPackageType=$tourPackageTypeRepo->updateTourPackageType($input,$tourPackageTypeId,$request);
         return redirect()->route('tourPackageType.index')->with('tourPackageType',$tourPackageType)->withFlashSuccess('Tour package type update successfully');
     }
 

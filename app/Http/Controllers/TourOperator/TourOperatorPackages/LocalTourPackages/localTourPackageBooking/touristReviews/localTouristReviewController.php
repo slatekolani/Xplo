@@ -67,11 +67,13 @@ class localTouristReviewController extends Controller
     {
     $validator = Validator::make($request->all(), [
         'review_company' => 'required|max:500|string',
+        'title_review_company' => 'required|string',
+        'title_review_attraction' => 'required|string',
         'review_attraction' => 'required|max:500|string',
         'local_tour_booking_id' => 'required',
         'local_tour_package_id' => 'required',
         'tour_operator_id' => 'required',
-        'rating' => 'required|integer|min:1|max:5',
+        'rating' => 'required|numeric|min:1|max:5',
     ]);
 
     if ($validator->fails()) {
@@ -194,7 +196,7 @@ class localTouristReviewController extends Controller
                 return date('jS M Y H:i',strtotime($localTouristReview->created_at));
             })
             ->addColumn('review_message',function ($localTouristReview){
-                return $localTouristReview->review_message;
+                return $localTouristReview->review_company;
             })
             ->addColumn('approve_or_un_approve_review',function($localTouristReview){
                 $btn='<label class="switch{{$localTouristReview->status}}">
@@ -220,7 +222,7 @@ class localTouristReviewController extends Controller
                 return date('jS M Y H:i',strtotime($localTouristReview->created_at));
             })
             ->addColumn('review_message',function ($localTouristReview){
-                return $localTouristReview->review_message;
+                return $localTouristReview->review_company;
             })
             ->addColumn('approve_or_un_approve_review',function($localTouristReview){
                 $btn='<label class="switch{{$localTouristReview->status}}">
@@ -246,7 +248,7 @@ class localTouristReviewController extends Controller
                 return date('jS M Y H:i',strtotime($localTouristReview->created_at));
             })
             ->addColumn('review_message',function ($localTouristReview){
-                return $localTouristReview->review_message;
+                return $localTouristReview->review_company;
             })
             ->addColumn('approve_or_un_approve_review',function($localTouristReview){
                 $btn='<label class="switch{{$localTouristReview->status}}">
@@ -272,7 +274,7 @@ class localTouristReviewController extends Controller
                 return date('jS M Y H:i',strtotime($localTouristReview->created_at));
             })
             ->addColumn('review_message',function ($localTouristReview){
-                return $localTouristReview->review_message;
+                return $localTouristReview->review_company;
             })
             ->addColumn('approve_or_un_approve_review',function($localTouristReview){
                 $btn='<label class="switch{{$localTouristReview->status}}">

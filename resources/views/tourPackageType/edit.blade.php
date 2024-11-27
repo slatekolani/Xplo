@@ -3,7 +3,7 @@
 @include('includes.validate_assets')
 @section('content')
 
-    {{ Form::model($tourPackageType,['route' => ['tourPackageType.update', $tourPackageType->uuid], 'method'=>'put','autocomplete' => 'off',
+    {{ Form::model($tourPackageType,['enctype="multipart/form-data"','route' => ['tourPackageType.update', $tourPackageType->uuid], 'method'=>'put','autocomplete' => 'off',
          'id' => 'update','class' => 'form-horizontal  needs-validation', 'novalidate']) }}
     {{ Form::hidden('user_id', $tourPackageType->id, []) }}
     @csrf
@@ -15,6 +15,14 @@
                         <div class="col-md-12">
                             <p>{{ getLanguageBlock('lang.auth.mandatory-field') }}</p>
                             <div class="row">
+                                <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <a href="{{asset('public/packageTypeImage/'.$tourPackageType->tour_package_type_image)}}" target="_blank">Previous Image</a>
+                                    <div class="form-group">
+                                        {{ Form::label('tour_package_type_image', __("Tour package type image"), ['class' => 'required_asterik']) }}
+                                        {{ Form::file('tour_package_type_image', null, ['class' => 'form-control', 'autocomplete' => 'off', 'id' => 'tour_package_type_image']) }}
+                                        {!! $errors->first('tour_package_type_image', '<span class="badge badge-danger">:message</span>') !!}
+                                    </div>
+                                </div>
                                 <div class="col-xs-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group">
                                         {{ Form::label('tour_package_type_name', __("Tour package type name"), ['class' => 'required_asterik']) }}

@@ -1,7 +1,7 @@
 <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
     <div class="container-fluid region-details">
         <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-primary text-white heading2">
                 <h2 class="mb-0"> {{ $tanzaniaRegion->region_name }}</h2>
                 <p style="color:#ffd700;font-size:15px"><i>"{{$tanzaniaRegion->region_description }}"</i></p>
             </div>
@@ -12,7 +12,7 @@
                     <div class="col-md-12">
                         @php
                             $images = explode(',', $tanzaniaRegion->region_icon_image);
-                            $featuredImage = $images[0] ?? null; // Use the first image as featured
+                            $featuredImage = $images[0] ?? null; 
                         @endphp
                         @if($featuredImage)
                             <div class="featured-image-wrapper text-center">

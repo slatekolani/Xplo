@@ -5,6 +5,7 @@ namespace App\Http\Controllers\TourOperator\TourOperatorPackages\LocalTourPackag
 use App\Http\Controllers\Controller;
 use App\Models\BaseModel\Traits\BookingSmsTrait;
 use App\Models\specialNeed\specialNeed;
+use App\Models\tanzaniaRegions\tanzaniaRegions;
 use App\Models\TourOperator\reservations\tourOperatorReservation;
 use App\Models\TourOperator\tourOperator;
 use App\Models\TourOperator\TourPackages\LocalTourPackages\LocalTourPackageBookings\localTourPackageBookings;
@@ -77,8 +78,11 @@ class localTourPackageBookingController extends Controller
             'total_number_foreigner_adult' => 'required|numeric|max:999',
             'total_number_local_adult' => 'required|numeric|max:999',
             'collection_station' => 'required',
+            'payment_mode'=>'required',
             'special_attention' => 'nullable',
             'reservation_id' => 'nullable',
+            'accept_terms' => 'required',
+            'payment_agreement' => 'required',
             'message' => 'required|string|max:100',
             'total_free_of_charge_children'=>'required|numeric',
             'tour_operator_id' => 'required|numeric',
@@ -100,38 +104,47 @@ class localTourPackageBookingController extends Controller
         $localTourPackageBooking=localTourPackageBookings::query()->where('uuid',$localTourPackageBookingUuid)->first();
         $localTourPackageReservationIds=DB::table('local_package_reservation')->where('local_tour_package_id',$localTourPackageBooking->localTourPackages->id)->pluck('tour_operator_reservation_id');
         $localTourPackageReservations=tourOperatorReservation::query()->whereIn('id',$localTourPackageReservationIds)->get();
+        $tanzaniaRegions=tanzaniaRegions::query()->where('status','=',1)->pluck('region_name','id');
         return view('TourOperator.TourPackages.localTourPackages.paymentDetails.invoices.preview')
+            ->with('tanzaniaRegions',$tanzaniaRegions)
             ->with('localTourPackageBooking',$localTourPackageBooking)
             ->with('localTourPackageReservations',$localTourPackageReservations);
     }
     public function printInvoice($localTourPackageBookingUuid)
-    {
-        $localTourPackageBooking = localTourPackageBookings::query()->where('uuid', $localTourPackageBookingUuid)->first();
-        $localTourPackageReservationIds = DB::table('local_package_reservation')->where('local_tour_package_id', $localTourPackageBooking->localTourPackages->id)->pluck('tour_operator_reservation_id');
-        $localTourPackageReservations = tourOperatorReservation::query()->whereIn('id', $localTourPackageReservationIds)->get();
+{
+    $localTourPackageBooking = localTourPackageBookings::with([
+        'tourOperator',
+        'localTourPackages.touristicAttraction',
+        'tourOperatorReservation',
+        'collectionStop'
+    ])->where('uuid', $localTourPackageBookingUuid)->firstOrFail();
 
-        if (!$localTourPackageBooking) {
-            abort(404);
-        }
+    $tanzaniaRegions = cache()->remember('tanzania_regions', 60*24, function() {
+        return tanzaniaRegions::where('status', 1)->pluck('region_name', 'id');
+    });
 
-        // Instantiate mPDF
-        $mpdf = new Mpdf([
-            'tempDir' => sys_get_temp_dir(), // Set temporary directory
-            'default_font' => 'lato', // Set default font
-        ]);
+    // Configure mPDF with default fonts instead of Lato
+    $mpdf = new Mpdf([
+        'tempDir' => storage_path('tmp'),
+        'format' => 'A4',
+        'margin_left' => 15,
+        'margin_right' => 15,
+        'margin_top' => 16,
+        'margin_bottom' => 16,
+        'margin_header' => 9,
+        'margin_footer' => 9,
+        'default_font' => 'dejavusans',
+    ]);
 
-        // Render HTML content
-        $html = view('TourOperator.TourPackages.localTourPackages.paymentDetails.invoices.printable', [
-            'localTourPackageBooking' => $localTourPackageBooking,
-            'localTourPackageReservations' => $localTourPackageReservations
-        ])->render();
+    $html = view('TourOperator.TourPackages.localTourPackages.paymentDetails.invoices.printable', compact(
+        'localTourPackageBooking',
+        'tanzaniaRegions'
+    ))->render();
 
-        // Load HTML content into mPDF
-        $mpdf->WriteHTML($html);
-
-        // Output the PDF
-        $mpdf->Output('Local Tour Invoice.pdf', 'I');
-    }
+    $mpdf->WriteHTML($html);
+    
+    return $mpdf->Output('Tour Invoice.pdf', 'I');
+}
 
     /**
      * Display the specified resource.
@@ -160,14 +173,23 @@ class localTourPackageBookingController extends Controller
      */
     public function edit($localTourPackageBookingUuid)
     {
+        
         $localTourPackageBooking=localTourPackageBookings::query()->with('localTourPackages')->where('uuid',$localTourPackageBookingUuid)->first();
+        $package_range=['','Quarterly Plan (3 Months)','Semi-Annual Plan (6 Months)','Tri-Annual Plan (9 Months)','Annual Plan (12 Months)'];
+        $localTourPackage=localTourPackages::query()->with('tourOperator','tourPackageType','tanzaniaAndWorldEvent','touristicAttraction')->where('uuid',$localTourPackageBooking->localTourPackages->uuid)->first();
+        $localTourPackagePackageRangeId = $localTourPackage->package_range;
+        $localTourPackagePackageRangeName = $package_range[$localTourPackagePackageRangeId] ?? 'Unknown Plan';
         $localTourCollectionStations=localTourPackageCollectionStops::query()->where('local_tour_package_id',$localTourPackageBooking->local_tour_package_id)->get();
         $safariAreaPreferenceReservationsIds=DB::table('reservation_attractions')->where('touristic_attraction_id',$localTourPackageBooking->localTourpackages->touristicAttraction->id)->pluck('tour_operator_reservation_id');
         $safariAreaPreferenceReservations=tourOperatorReservation::query()->whereIn('id',$safariAreaPreferenceReservationsIds)->get();
         $localTourPackageSupportedSpecialNeedIds=DB::table('local_package_special_need')->where('local_tour_package_id',$localTourPackageBooking->localTourPackages->id)->pluck('special_need_id');
         $localTourPackageSupportedSpecialNeeds=specialNeed::query()->whereIn('id',$localTourPackageSupportedSpecialNeedIds)->pluck('special_need_name');
+        $localTourPackageReservationsIds=DB::table('local_package_reservation')->where('local_tour_package_id',$localTourPackage->id)->pluck('tour_operator_reservation_id');
+        $localTourPackageReservations=tourOperatorReservation::with('localTourPackage')->whereIn('id',$localTourPackageReservationsIds)->get();
         return view('TourOperator.TourPackages.localTourPackages.bookings.edit')
             ->with('safariAreaPreferenceReservations',$safariAreaPreferenceReservations)
+            ->with('localTourPackageReservations',$localTourPackageReservations)
+            ->with('localTourPackagePackageRangeName',$localTourPackagePackageRangeName)
             ->with('localTourCollectionStations',$localTourCollectionStations)
             ->with('localTourPackageSupportedSpecialNeeds',$localTourPackageSupportedSpecialNeeds)
             ->with('localTourPackageBooking',$localTourPackageBooking);
@@ -194,9 +216,11 @@ class localTourPackageBookingController extends Controller
                 'collection_station' => 'required',
                 'special_attention' => 'nullable',
                 'reservation_id' => 'nullable',
+                'accept_terms' => 'required',
+                'payment_mode' => 'required',
+                'payment_agreement' => 'required',
                 'message' => 'required|string|max:100',
                 'tour_operator_id' => 'required|numeric',
-                'discount'=>'required|numeric',
                 'total_free_of_charge_children'=>'required|numeric',
                 'local_tour_package_id' => 'required|numeric',
             ]);
@@ -255,7 +279,7 @@ class localTourPackageBookingController extends Controller
 
     public function getLocalTourBookings($localTourPackageId)
     {
-        $localTourPackageBooking=localTourPackageBookings::query()->where('local_tour_package_id',$localTourPackageId)->orderBy('id','DESC')->get();
+        $localTourPackageBooking=localTourPackageBookings::query()->where('local_tour_package_id',$localTourPackageId)->with('localTourPackages')->orderBy('id','DESC')->get();
         return DataTables::of($localTourPackageBooking)
             ->addColumn('booking_date_and_time',function ($localTourPackageBooking)
             {
@@ -282,7 +306,25 @@ class localTourPackageBookingController extends Controller
                 return $localTourPackageBooking->totalTouristsLabel;
             })
             ->addColumn('tour_price',function ($localTourPackageBooking){
-                return (number_format($localTourPackageBooking->tourPriceLabel));
+                return '<span class="badge badge-primary">Tshs ' . number_format($localTourPackageBooking->tourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('discount_offered',function ($localTourPackageBooking){
+                return  $localTourPackageBooking->localTourPackages->discount_offered .'%';
+            })
+            ->addColumn('discount_eligibility',function ($localTourPackageBooking){
+                return $localTourPackageBooking->TouristEligibilityForDiscountLabel;
+            })
+            ->addColumn('tour_price_after_discount',function ($localTourPackageBooking){
+                return '<span class="badge badge-primary">Tshs ' . number_format($localTourPackageBooking->DiscountedTourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('payment_mode',function ($localTourPackageBooking){
+                return $localTourPackageBooking->paymentModeLabel;
+            })
+            ->addColumn('amount_paid',function ($localTourPackageBooking){
+                return $localTourPackageBooking->AmountPaidLabel;
+            })
+            ->addColumn('payment_progress',function ($localTourPackageBooking){
+                return $localTourPackageBooking->PaymentProgressLabel;
             })
             ->addColumn('approve_or_un_approve_booking',function($localTourPackageBooking){
                 $btn='<label class="switch{{$localTourPackageBooking->status}}">
@@ -297,7 +339,7 @@ class localTourPackageBookingController extends Controller
             ->addColumn('actions',function ($localTourPackageBooking){
                 return $localTourPackageBooking->localBookingButtonActionLabel;
             })
-            ->rawColumns(['tour_price','booking_status','actions','approve_or_un_approve_booking'])
+            ->rawColumns(['tour_price','amount_paid','payment_progress','booking_status','payment_mode','discount_eligibility','tour_price_after_discount','actions','approve_or_un_approve_booking'])
             ->make(true);
     }
     public function getApprovedLocalTourBookings($localTourPackageId)
@@ -329,7 +371,25 @@ class localTourPackageBookingController extends Controller
                 return $approvedLocalTourBookings->totalTouristsLabel;
             })
             ->addColumn('tour_price',function ($approvedLocalTourBookings){
-                return (number_format($approvedLocalTourBookings->tourPriceLabel));
+                return '<span class="badge badge-primary">Tshs ' . number_format($approvedLocalTourBookings->tourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('discount_offered',function ($approvedLocalTourBookings){
+                return  $approvedLocalTourBookings->localTourPackages->discount_offered .'%';
+            })
+            ->addColumn('discount_eligibility',function ($approvedLocalTourBookings){
+                return $approvedLocalTourBookings->TouristEligibilityForDiscountLabel;
+            })
+            ->addColumn('tour_price_after_discount',function ($approvedLocalTourBookings){
+                return '<span class="badge badge-primary">Tshs ' . number_format($approvedLocalTourBookings->DiscountedTourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('payment_mode',function ($approvedLocalTourBookings){
+                return $approvedLocalTourBookings->paymentModeLabel;
+            })
+            ->addColumn('amount_paid',function ($approvedLocalTourBookings){
+                return $approvedLocalTourBookings->AmountPaidLabel;
+            })
+            ->addColumn('payment_progress',function ($approvedLocalTourBookings){
+                return $approvedLocalTourBookings->PaymentProgressLabel;
             })
             ->addColumn('approve_or_un_approve_booking',function($approvedLocalTourBookings){
                 $btn='<label class="switch{{$approvedLocalTourBookings->status}}">
@@ -344,7 +404,7 @@ class localTourPackageBookingController extends Controller
             ->addColumn('actions',function ($approvedLocalTourBookings){
                 return $approvedLocalTourBookings->localBookingButtonActionLabel;
             })
-            ->rawColumns(['tour_price','booking_status','actions','approve_or_un_approve_booking'])
+            ->rawColumns(['tour_price','amount_paid','payment_progress','booking_status','payment_mode','discount_eligibility','tour_price_after_discount','actions','approve_or_un_approve_booking'])
             ->make(true);
     }
     public function getUnapprovedLocalTourBookings($localTourPackageId)
@@ -376,7 +436,25 @@ class localTourPackageBookingController extends Controller
                 return $unapprovedLocalTourBookings->totalTouristsLabel;
             })
             ->addColumn('tour_price',function ($unapprovedLocalTourBookings){
-                return (number_format($unapprovedLocalTourBookings->tourPriceLabel));
+                return '<span class="badge badge-primary">Tshs ' . number_format($unapprovedLocalTourBookings->tourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('discount_offered',function ($unapprovedLocalTourBookings){
+                return  $unapprovedLocalTourBookings->localTourPackages->discount_offered .'%';
+            })
+            ->addColumn('discount_eligibility',function ($unapprovedLocalTourBookings){
+                return $unapprovedLocalTourBookings->TouristEligibilityForDiscountLabel;
+            })
+            ->addColumn('tour_price_after_discount',function ($unapprovedLocalTourBookings){
+                return '<span class="badge badge-primary">Tshs ' . number_format($unapprovedLocalTourBookings->DiscountedTourPriceLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('payment_mode',function ($unapprovedLocalTourBookings){
+                return $unapprovedLocalTourBookings->paymentModeLabel;
+            })
+            ->addColumn('amount_paid',function ($unapprovedLocalTourBookings){
+                return $unapprovedLocalTourBookings->AmountPaidLabel;
+            })
+            ->addColumn('payment_progress',function ($unapprovedLocalTourBookings){
+                return $unapprovedLocalTourBookings->PaymentProgressLabel;
             })
             ->addColumn('approve_or_un_approve_booking',function($unapprovedLocalTourBookings){
                 $btn='<label class="switch{{$unapprovedLocalTourBookings->status}}">
@@ -391,7 +469,7 @@ class localTourPackageBookingController extends Controller
             ->addColumn('actions',function ($unapprovedLocalTourBookings){
                 return $unapprovedLocalTourBookings->localBookingButtonActionLabel;
             })
-            ->rawColumns(['tour_price','booking_status','actions','approve_or_un_approve_booking'])
+            ->rawColumns(['tour_price','amount_paid','payment_progress','booking_status','payment_mode','discount_eligibility','tour_price_after_discount','actions','approve_or_un_approve_booking'])
             ->make(true);
     }
     public function getDeletedLocalTourBookings($localTourPackageId)
@@ -423,7 +501,25 @@ class localTourPackageBookingController extends Controller
                 return $deletedLocalTourBookings->DeletedTotalTouristsLabel;
             })
             ->addColumn('tour_price',function ($deletedLocalTourBookings){
-                return (number_format($deletedLocalTourBookings->TourPriceForDeletedBookingLabel));
+                return '<span class="badge badge-primary">Tshs ' . number_format($deletedLocalTourBookings->TourPriceForDeletedBookingLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('discount_offered',function ($deletedLocalTourBookings){
+                return  $deletedLocalTourBookings->localTourPackages->discount_offered .'%';
+            })
+            ->addColumn('discount_eligibility',function ($deletedLocalTourBookings){
+                return $deletedLocalTourBookings->DeletedTouristEligibilityForDiscountLabel;
+            })
+            ->addColumn('tour_price_after_discount',function ($deletedLocalTourBookings){
+                return '<span class="badge badge-primary">Tshs ' . number_format($deletedLocalTourBookings->DiscountedTourPriceForDeletedBookingLabel, 2) . ' /=</span>';
+            })
+            ->addColumn('payment_mode',function ($deletedLocalTourBookings){
+                return $deletedLocalTourBookings->paymentModeLabel;
+            })
+            ->addColumn('amount_paid',function ($deletedLocalTourBookings){
+                return $deletedLocalTourBookings->AmountPaidLabel;
+            })
+            ->addColumn('payment_progress',function ($deletedLocalTourBookings){
+                return $deletedLocalTourBookings->PaymentProgressLabel;
             })
 
             ->addColumn('booking_status',function($deletedLocalTourBookings){
@@ -432,7 +528,7 @@ class localTourPackageBookingController extends Controller
             ->addColumn('actions',function ($deletedLocalTourBookings){
                 return $deletedLocalTourBookings->deletedLocalBookingButtonActionLabel;
             })
-            ->rawColumns(['tour_price','booking_status','actions'])
+            ->rawColumns(['tour_price','amount_paid','payment_progress','booking_status','payment_mode','discount_eligibility','tour_price_after_discount','actions','approve_or_un_approve_booking'])
             ->make(true);
     }
 }
